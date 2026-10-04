@@ -12,13 +12,17 @@ export interface Product {
   name: string;
   category: ProductCategory;
   subcategory: string;
+  brand: string;
+  sku: string;
+  priceMZN: number; // Preço de venda em Meticais (MT)
+  stockQty: number; // Quantidade física em stock
   description: string;
   highlights: string[];
   specs: Record<string, string>;
   inStock: boolean;
   stockStatus: 'Em Stock' | 'Sob Encomenda' | 'Últimas Unidades';
   image: string;
-  priceRef?: string; // Preço indicativo ou sob consulta
+  priceRef?: string;
   popular?: boolean;
   warranty: string;
   datasheetAvailable: boolean;

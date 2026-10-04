@@ -25,18 +25,21 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
   if (!isOpen) return null;
 
   const totalItemCount = items.reduce((acc, curr) => acc + curr.quantity, 0);
+  const totalAmountMZN = items.reduce((acc, curr) => acc + (curr.product.priceMZN || 0) * curr.quantity, 0);
 
   const handleWhatsAppCheckout = () => {
-    let text = `*SOLICITAÇÃO DE COTAÇÃO - ITENS SELECIONADOS*\n`;
-    text += `Olá TechSol! Gostaria de receber uma cotação para os seguintes equipamentos Dahua:\n\n`;
+    let text = `*SOLICITAÇÃO DE COTAÇÃO - TECHSOL SU LDA*\n`;
+    text += `Olá TechSol! Gostaria de receber uma cotação para os seguintes equipamentos Dahua / Segurança:\n\n`;
 
     items.forEach((item, index) => {
+      const lineTotal = (item.product.priceMZN || 0) * item.quantity;
       text += `${index + 1}. *[${item.product.model}]* ${item.product.name}\n`;
-      text += `   • Quantidade: ${item.quantity} un.\n`;
-      text += `   • Categoria: ${item.product.subcategory}\n\n`;
+      text += `   • Quantidade: ${item.quantity} un. x ${item.product.priceMZN.toLocaleString('pt-MZ')} MT = ${lineTotal.toLocaleString('pt-MZ')} MT\n`;
+      text += `   • Marca/Cat: ${item.product.brand} · ${item.product.subcategory}\n\n`;
     });
 
-    text += `Por favor, informem-me disponibilidade de pronta entrega, valor unitário e condições para fornecimento. Obrigado!`;
+    text += `💰 *Subtotal Estimado:* ${totalAmountMZN.toLocaleString('pt-MZ')} MT\n\n`;
+    text += `Por favor, confirmem disponibilidade de pronta entrega no Showroom da Av. Josina Machel e prazo de despacho. Obrigado!`;
 
     const encoded = encodeURIComponent(text);
     window.open(`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encoded}`, '_blank');
@@ -89,8 +92,11 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
                       <h4 className="text-sm font-semibold text-white leading-snug">
                         {item.product.name}
                       </h4>
-                      <div className="text-[11px] text-slate-400 mt-0.5">
-                        {item.product.subcategory}
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-xs font-mono font-bold text-white">
+                          {item.product.priceMZN.toLocaleString('pt-MZ')} MT
+                        </span>
+                        <span className="text-[10px] text-slate-500">· {item.product.brand}</span>
                       </div>
                     </div>
                     <button
@@ -132,6 +138,14 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
           {/* Footer Actions */}
           {items.length > 0 && (
             <div className="p-6 border-t border-slate-800 bg-slate-950/80 space-y-3">
+              {/* Subtotal block */}
+              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between">
+                <span className="text-xs text-slate-300 font-medium">Subtotal Estimado (MT):</span>
+                <span className="text-lg font-extrabold text-white font-mono tabular-nums">
+                  {totalAmountMZN.toLocaleString('pt-MZ', { maximumFractionDigits: 2 })} <span className="text-xs text-red-500">MT</span>
+                </span>
+              </div>
+
               <button
                 onClick={handleWhatsAppCheckout}
                 className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-950 transition-colors"

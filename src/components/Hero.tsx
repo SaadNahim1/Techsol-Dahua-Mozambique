@@ -158,7 +158,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-5">
             <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
               <img
-                src="/src/assets/images/hero_dahua_security_1791138982019.jpg"
+                src="/images/hero_dahua_security_1791138982019.jpg"
                 alt="Central de Monitoramento e Câmeras Dahua de Alta Performance"
                 className="w-full h-80 sm:h-96 object-cover object-center"
                 referrerPolicy="no-referrer"

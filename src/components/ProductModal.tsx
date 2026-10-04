@@ -70,14 +70,36 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
           {/* Right Column: Information & Actions */}
           <div className="md:col-span-7">
-            <div className="text-xs uppercase font-mono text-red-500 font-bold tracking-wider">
-              {product.model}
+            <div className="flex items-center gap-2">
+              <span className="text-xs uppercase font-mono text-red-500 font-bold tracking-wider">
+                {product.model}
+              </span>
+              <span className="text-[10px] uppercase font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
+                {product.brand}
+              </span>
             </div>
             <h3 className="mt-1 text-xl sm:text-2xl font-bold text-white">
               {product.name}
             </h3>
             <div className="mt-1 text-xs text-slate-400">
               Categoria: <span className="text-slate-300">{product.subcategory}</span>
+            </div>
+
+            {/* Price Box */}
+            <div className="mt-3 p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] uppercase text-slate-400 font-semibold block">Preço de Tabela B2B</span>
+                <span className="text-xl font-extrabold text-white font-mono tabular-nums">
+                  {new Intl.NumberFormat('pt-MZ', { maximumFractionDigits: 2 }).format(product.priceMZN)}{' '}
+                  <span className="text-sm font-bold text-red-500">MT</span>
+                </span>
+              </div>
+              <div className="text-right">
+                <span className={`text-xs font-mono font-bold block ${product.stockQty > 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                  {product.stockQty > 0 ? `${product.stockQty} em armazém` : 'Sob Encomenda'}
+                </span>
+                <span className="text-[10px] text-slate-500">Pronta entrega em Maputo</span>
+              </div>
             </div>
 
             <p className="mt-3 text-sm text-slate-300 leading-relaxed">

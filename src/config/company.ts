@@ -17,7 +17,7 @@ export interface CompanyConfig {
 }
 
 export const COMPANY_CONFIG: CompanyConfig = {
-  name: 'TechSol Segurança Eletrônica',
+  name: 'TECHSOL SU LDA',
   distributorTitle: 'Distribuidor Autorizado Dahua Technology',
   email: 'vendatechsol@gmail.com',
   whatsappNumber: '258878300082', // +258 87 830 0082

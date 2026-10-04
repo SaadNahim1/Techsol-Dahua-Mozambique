@@ -42,6 +42,12 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
   onOpenQuoteForm,
 }) => {
   const [stockOnly, setStockOnly] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState<string>('todas');
+
+  const brands = useMemo(() => {
+    const list = Array.from(new Set(PRODUCTS.map((p) => p.brand).filter(Boolean)));
+    return ['todas', ...list];
+  }, []);
 
   // Category Benefits Map to fulfill explicit user requirement:
   // "Para cada categoria, liste exemplos de produtos específicos com descrições breves e destaque os benefícios de serem distribuidores oficiais da Dahua."
@@ -121,6 +127,10 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
       if (selectedCategory !== 'todos' && item.category !== selectedCategory) {
         return false;
       }
+      // Brand filter
+      if (selectedBrand !== 'todas' && item.brand !== selectedBrand) {
+        return false;
+      }
       // Stock filter
       if (stockOnly && !item.inStock) {
         return false;
@@ -131,13 +141,14 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
         const matchesName = item.name.toLowerCase().includes(query);
         const matchesModel = item.model.toLowerCase().includes(query);
         const matchesSubcat = item.subcategory.toLowerCase().includes(query);
+        const matchesBrand = (item.brand || '').toLowerCase().includes(query);
         const matchesDesc = item.description.toLowerCase().includes(query);
         const matchesHighlights = item.highlights.some((h) => h.toLowerCase().includes(query));
-        return matchesName || matchesModel || matchesSubcat || matchesDesc || matchesHighlights;
+        return matchesName || matchesModel || matchesSubcat || matchesBrand || matchesDesc || matchesHighlights;
       }
       return true;
     });
-  }, [selectedCategory, stockOnly, searchQuery]);
+  }, [selectedCategory, selectedBrand, stockOnly, searchQuery]);
 
   const activeBenefits = selectedCategory !== 'todos' ? categoryBenefits[selectedCategory] : null;
 
@@ -226,6 +237,24 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
               <span>Apenas em Stock</span>
             </button>
           </div>
+        </div>
+
+        {/* Brand Filter Bar */}
+        <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
+          <span className="text-slate-400 font-medium shrink-0">Filtrar por Marca:</span>
+          {brands.map((b) => (
+            <button
+              key={b}
+              onClick={() => setSelectedBrand(b)}
+              className={`px-2.5 py-1 rounded-md transition-colors capitalize whitespace-nowrap ${
+                selectedBrand === b
+                  ? 'bg-slate-200 text-slate-900 font-bold'
+                  : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+              }`}
+            >
+              {b === 'todas' ? 'Todas as Marcas' : b}
+            </button>
+          ))}
         </div>
 
         {/* Friendly Banner for Custom Catalog / Specific Models */}
@@ -338,9 +367,15 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
 
                       {/* Content */}
                       <div className="p-5">
-                        <div className="text-[11px] font-medium text-slate-400">
-                          {product.subcategory}
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <span className="text-[11px] font-medium text-slate-400">
+                            {product.subcategory}
+                          </span>
+                          <span className="text-[10px] uppercase font-bold text-red-400 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/60">
+                            {product.brand}
+                          </span>
                         </div>
+
                         <h3 className="mt-1 text-base font-bold text-white leading-snug group-hover:text-red-400 transition-colors">
                           {product.name}
                         </h3>
@@ -349,7 +384,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                         </p>
 
                         {/* Quick Spec Highlights */}
-                        <div className="mt-4 flex flex-wrap gap-1.5">
+                        <div className="mt-3 flex flex-wrap gap-1.5">
                           {product.highlights.slice(0, 3).map((hl, idx) => (
                             <span
                               key={idx}
@@ -358,6 +393,26 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                               {hl}
                             </span>
                           ))}
+                        </div>
+
+                        {/* Real Price in Meticais (MT) and Stock from Techsol SU LDA inventory */}
+                        <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-end justify-between">
+                          <div>
+                            <div className="text-[10px] uppercase font-semibold text-slate-400">
+                              Preço de Tabela B2B
+                            </div>
+                            <div className="text-lg font-extrabold text-white font-mono tabular-nums leading-tight">
+                              {new Intl.NumberFormat('pt-MZ', { maximumFractionDigits: 2 }).format(product.priceMZN)}{' '}
+                              <span className="text-xs font-bold text-red-500">MT</span>
+                            </div>
+                          </div>
+
+                          <div className="text-right">
+                            <div className={`text-[11px] font-mono font-bold ${product.stockQty > 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                              {product.stockQty > 0 ? `${product.stockQty} un. em stock` : 'Sob Encomenda'}
+                            </div>
+                            <div className="text-[9px] text-slate-500">Showroom Maputo</div>
+                          </div>
                         </div>
                       </div>
                     </div>
