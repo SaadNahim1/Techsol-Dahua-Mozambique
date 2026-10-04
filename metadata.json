@@ -1,0 +1,6 @@
+{
+  "name": "TechSol Segurança - Distribuidor Dahua",
+  "description": "Distribuidor oficial de segurança eletrônica Dahua Technology: CFTV, Cerca Elétrica, Sistemas de Alarme e Controlo de Acesso. Catálogo profissional e cotações rápidas via WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
