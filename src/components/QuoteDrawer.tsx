@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QuoteItem } from '../types';
 import { COMPANY_CONFIG } from '../config/company';
-import { X, Trash2, Plus, Minus, MessageCircle, FileText, ShoppingBag } from 'lucide-react';
+import { X, Trash2, Plus, Minus, MessageCircle, ShoppingBag, Truck, MapPin } from 'lucide-react';
 
 interface QuoteDrawerProps {
   isOpen: boolean;
@@ -20,26 +20,36 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
   onUpdateQuantity,
   onRemoveItem,
   onClearQuote,
-  onGoToQuoteForm,
 }) => {
+  const [deliveryType, setDeliveryType] = useState<'levantamento' | 'entrega'>('levantamento');
+  const [customerName, setCustomerName] = useState('');
+  const [customerLocation, setCustomerLocation] = useState('');
+
   if (!isOpen) return null;
 
   const totalItemCount = items.reduce((acc, curr) => acc + curr.quantity, 0);
   const totalAmountMZN = items.reduce((acc, curr) => acc + (curr.product.priceMZN || 0) * curr.quantity, 0);
 
   const handleWhatsAppCheckout = () => {
-    let text = `*SOLICITAÇÃO DE COTAÇÃO - TECHSOL SU LDA*\n`;
-    text += `Olá TECHSOL! Gostaria de receber uma cotação para os seguintes equipamentos:\n\n`;
+    let text = `*NOVO PEDIDO / COTAÇÃO - TECHSOL SU LDA*\n`;
+    if (customerName.trim()) {
+      text += `👤 *Cliente:* ${customerName.trim()}\n`;
+    }
+    text += `🚚 *Método:* ${
+      deliveryType === 'levantamento'
+        ? 'Levantamento no Showroom (Av. Josina Machel 923, Maputo)'
+        : `Entrega / Envio (${customerLocation.trim() || 'A definir'})`
+    }\n\n`;
 
+    text += `📦 *Itens do Pedido:*\n`;
     items.forEach((item, index) => {
       const lineTotal = (item.product.priceMZN || 0) * item.quantity;
-      text += `${index + 1}. *[${item.product.model}]* ${item.product.name}\n`;
-      text += `   • Quantidade: ${item.quantity} un. x ${item.product.priceMZN.toLocaleString('pt-MZ')} MT = ${lineTotal.toLocaleString('pt-MZ')} MT\n`;
-      text += `   • Marca: ${item.product.brand}\n\n`;
+      text += `${index + 1}. *${item.product.name}* [${item.product.model}]\n`;
+      text += `   • ${item.quantity} un. x ${item.product.priceMZN.toLocaleString('pt-MZ')} MT = *${lineTotal.toLocaleString('pt-MZ')} MT*\n`;
     });
 
-    text += `💰 *Subtotal Estimado:* ${totalAmountMZN.toLocaleString('pt-MZ')} MT\n\n`;
-    text += `Por favor, confirmem disponibilidade de pronta entrega na Av. Josina Machel 923. Obrigado!`;
+    text += `\n💰 *VALOR TOTAL: ${totalAmountMZN.toLocaleString('pt-MZ')} MT*\n\n`;
+    text += `Por favor, confirmem a disponibilidade para separação imediata dos produtos. Obrigado!`;
 
     const encoded = encodeURIComponent(text);
     window.open(`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encoded}`, '_blank');
@@ -52,130 +62,181 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
         onClick={onClose}
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
         <div className="w-screen max-w-md bg-white border-l border-slate-200 shadow-2xl flex flex-col">
           {/* Header */}
-          <div className="p-4 border-b border-slate-200 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-red-600" />
-              <h3 className="text-sm font-bold text-slate-900">Lista de Cotação</h3>
-              <span className="px-2 py-0.5 rounded-full bg-slate-100 text-xs font-mono font-bold text-slate-700">
-                {totalItemCount} {totalItemCount === 1 ? 'item' : 'itens'}
-              </span>
+          <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-600 text-white shadow-xs">
+                <ShoppingBag className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 leading-none">Sua Sacola</h3>
+                <span className="text-[11px] text-slate-500 font-medium">
+                  {totalItemCount} {totalItemCount === 1 ? 'item selecionado' : 'itens selecionados'}
+                </span>
+              </div>
             </div>
+
             <button
               onClick={onClose}
-              className="p-1 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-200 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Body */}
+          {/* Body: Items List */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {items.length === 0 ? (
-              <div className="py-20 text-center text-slate-400 text-xs">
-                <ShoppingBag className="mx-auto w-10 h-10 text-slate-300 mb-2" />
-                <p className="font-semibold text-slate-700">Sua lista está vazia</p>
+              <div className="py-24 text-center text-slate-400 text-xs">
+                <ShoppingBag className="mx-auto w-12 h-12 text-slate-300 mb-3" />
+                <p className="font-bold text-slate-700 text-sm">Sua sacola está vazia</p>
                 <p className="mt-1 text-slate-500">
-                  Adicione produtos no catálogo para montar seu pedido.
+                  Navegue pelo catálogo e clique em "+ Adicionar" nos produtos desejados.
                 </p>
               </div>
             ) : (
-              items.map((item) => (
-                <div
-                  key={item.product.id}
-                  className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-2.5"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="font-mono text-[11px] font-bold text-red-600">
-                        {item.product.model}
+              items.map((item) => {
+                const lineTotal = (item.product.priceMZN || 0) * item.quantity;
+
+                return (
+                  <div
+                    key={item.product.id}
+                    className="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center gap-3"
+                  >
+                    <img
+                      src={item.product.image}
+                      alt={item.product.name}
+                      className="w-14 h-14 object-cover rounded-xl bg-white border border-slate-200 shrink-0"
+                    />
+
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[10px] font-mono font-bold text-red-600 truncate">
+                        {item.product.model} · {item.product.brand}
                       </div>
-                      <h4 className="text-xs font-bold text-slate-900 leading-snug">
+                      <h4 className="text-xs font-bold text-slate-900 truncate leading-snug">
                         {item.product.name}
                       </h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs font-mono font-bold text-slate-900">
-                          {item.product.priceMZN.toLocaleString('pt-MZ')} MT
-                        </span>
-                        <span className="text-[10px] text-slate-500">· {item.product.brand}</span>
+                      <div className="text-xs font-extrabold text-slate-900 font-mono mt-0.5">
+                        {lineTotal.toLocaleString('pt-MZ')} <span className="text-[10px] text-slate-500">MT</span>
                       </div>
                     </div>
-                    <button
-                      onClick={() => onRemoveItem(item.product.id)}
-                      className="text-slate-400 hover:text-red-600 p-1"
-                      title="Remover"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
 
-                  {/* Quantity Stepper */}
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-200 text-xs">
-                    <span className="text-slate-500 font-medium">Quantidade:</span>
-                    <div className="flex items-center gap-2 bg-white rounded-lg border border-slate-300 px-2 py-0.5">
+                    {/* Stepper */}
+                    <div className="flex flex-col items-end gap-1 shrink-0">
                       <button
-                        onClick={() => onUpdateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
-                        className="p-0.5 text-slate-500 hover:text-slate-900"
-                        disabled={item.quantity <= 1}
+                        onClick={() => onRemoveItem(item.product.id)}
+                        className="text-slate-400 hover:text-red-600 p-1"
+                        title="Remover"
                       >
-                        <Minus className="w-3 h-3" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
-                      <span className="w-6 text-center font-mono font-bold text-slate-900">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
-                        className="p-0.5 text-slate-500 hover:text-slate-900"
-                      >
-                        <Plus className="w-3 h-3" />
-                      </button>
+
+                      <div className="flex items-center gap-1.5 bg-white rounded-lg border border-slate-200 p-0.5">
+                        <button
+                          onClick={() => onUpdateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
+                          className="w-6 h-6 flex items-center justify-center rounded text-slate-700 hover:bg-slate-100 font-bold text-xs"
+                          disabled={item.quantity <= 1}
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="w-5 text-center font-mono text-xs font-bold text-slate-900">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
+                          className="w-6 h-6 flex items-center justify-center rounded text-slate-700 hover:bg-slate-100 font-bold text-xs"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
 
-          {/* Footer Actions */}
+          {/* Footer Checkout Actions */}
           {items.length > 0 && (
-            <div className="p-4 border-t border-slate-200 bg-white space-y-2.5">
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-700">Subtotal Estimado:</span>
-                <span className="text-base font-extrabold text-red-600 font-mono">
-                  {totalAmountMZN.toLocaleString('pt-MZ')} MT
-                </span>
+            <div className="p-4 border-t border-slate-200 bg-white space-y-3">
+              {/* Delivery / Pickup Choice */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
+                  Como prefere receber?
+                </label>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setDeliveryType('levantamento')}
+                    className={`py-2 px-2.5 rounded-xl border flex items-center justify-center gap-1.5 font-bold transition-all ${
+                      deliveryType === 'levantamento'
+                        ? 'bg-red-50 border-red-600 text-red-700'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>Na Loja (Maputo)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setDeliveryType('entrega')}
+                    className={`py-2 px-2.5 rounded-xl border flex items-center justify-center gap-1.5 font-bold transition-all ${
+                      deliveryType === 'entrega'
+                        ? 'bg-red-50 border-red-600 text-red-700'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <Truck className="w-3.5 h-3.5" />
+                    <span>Entrega / Província</span>
+                  </button>
+                </div>
               </div>
 
-              <button
-                onClick={handleWhatsAppCheckout}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Pedir Cotação no WhatsApp</span>
-              </button>
+              {/* Optional Name & Location input */}
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  placeholder="Seu Nome (opcional)"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-red-600"
+                />
+                <input
+                  type="text"
+                  placeholder="Cidade / Bairro"
+                  value={customerLocation}
+                  onChange={(e) => setCustomerLocation(e.target.value)}
+                  className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-red-600"
+                />
+              </div>
 
-              <button
-                onClick={() => {
-                  onClose();
-                  onGoToQuoteForm();
-                }}
-                className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors"
-              >
-                <FileText className="w-4 h-4" />
-                <span>Formulário Formal</span>
-              </button>
-
-              <div className="flex items-center justify-between pt-1 text-[11px] text-slate-400">
+              {/* Subtotal */}
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase font-semibold text-slate-500 block">Total do Pedido</span>
+                  <span className="text-lg font-extrabold text-slate-900 font-mono">
+                    {totalAmountMZN.toLocaleString('pt-MZ')} <span className="text-xs text-red-600">MT</span>
+                  </span>
+                </div>
                 <button
                   onClick={onClearQuote}
-                  className="hover:text-red-600"
+                  className="text-[11px] text-slate-400 hover:text-red-600 underline"
                 >
-                  Limpar lista
+                  Limpar sacola
                 </button>
-                <span>Av. Josina Machel 923</span>
               </div>
+
+              {/* Big WhatsApp Order Button */}
+              <button
+                onClick={handleWhatsAppCheckout}
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all active:scale-95"
+              >
+                <MessageCircle className="w-5 h-5" />
+                <span>Finalizar Pedido no WhatsApp</span>
+              </button>
             </div>
           )}
         </div>

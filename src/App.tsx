@@ -15,7 +15,9 @@ import { QuoteFormSection } from './components/QuoteFormSection';
 import { ProductModal } from './components/ProductModal';
 import { QuoteDrawer } from './components/QuoteDrawer';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
+import { StickyCartBar } from './components/StickyCartBar';
 import { Footer } from './components/Footer';
+import { COMPANY_CONFIG } from './config/company';
 
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>('todos');
@@ -24,8 +26,10 @@ export default function App() {
   const [activeProductModal, setActiveProductModal] = useState<Product | null>(null);
   const [isQuoteDrawerOpen, setIsQuoteDrawerOpen] = useState(false);
 
-  // Set of product IDs currently in quote
-  const quoteItemIds = new Set(quoteItems.map((i) => i.product.id));
+  const getItemQuantity = (productId: string): number => {
+    const item = quoteItems.find((i) => i.product.id === productId);
+    return item ? item.quantity : 0;
+  };
 
   const handleAddToQuote = (product: Product) => {
     setQuoteItems((prev) => {
@@ -98,9 +102,30 @@ export default function App() {
     }
   };
 
+  const handleQuickWhatsAppCheckout = () => {
+    if (quoteItems.length === 0) return;
+
+    const totalAmountMZN = quoteItems.reduce((acc, curr) => acc + (curr.product.priceMZN || 0) * curr.quantity, 0);
+
+    let text = `*PEDIDO DIRETO - TECHSOL SU LDA*\n`;
+    text += `Olá TECHSOL! Gostaria de fazer o pedido dos seguintes equipamentos:\n\n`;
+
+    quoteItems.forEach((item, index) => {
+      const lineTotal = (item.product.priceMZN || 0) * item.quantity;
+      text += `${index + 1}. *${item.product.name}* [${item.product.model}]\n`;
+      text += `   • ${item.quantity} un. x ${item.product.priceMZN.toLocaleString('pt-MZ')} MT = *${lineTotal.toLocaleString('pt-MZ')} MT*\n`;
+    });
+
+    text += `\n💰 *Total: ${totalAmountMZN.toLocaleString('pt-MZ')} MT*\n\n`;
+    text += `Por favor, confirmem para levantamento na Av. Josina Machel 923 ou entrega. Obrigado!`;
+
+    const encoded = encodeURIComponent(text);
+    window.open(`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encoded}`, '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-white text-slate-800 flex flex-col font-sans selection:bg-red-600 selection:text-white">
-      {/* 3-Zone Top Navigation */}
+      {/* Top Navigation */}
       <Navbar
         quoteCount={quoteItems.reduce((acc, curr) => acc + curr.quantity, 0)}
         onOpenQuoteDrawer={() => setIsQuoteDrawerOpen(true)}
@@ -109,8 +134,8 @@ export default function App() {
       />
 
       {/* Main Content */}
-      <main className="flex-1">
-        {/* Hero Banner with Search and Credentials */}
+      <main className={`flex-1 ${quoteItems.length > 0 ? 'pb-24' : ''}`}>
+        {/* Clean Hero Store Banner */}
         <Hero
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -119,22 +144,20 @@ export default function App() {
           onSelectCategory={handleSelectCategory}
         />
 
-        {/* Structured Product Catalog with Category Benefits */}
+        {/* Store Catalog with Steppers & Category Icons */}
         <CatalogSection
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           onAddToQuote={handleAddToQuote}
-          quoteItemIds={quoteItemIds}
+          onUpdateQuantity={handleUpdateQuantity}
+          getItemQuantity={getItemQuantity}
           onOpenProductModal={(product) => setActiveProductModal(product)}
           onOpenQuoteForm={handleScrollToQuoteForm}
         />
 
-        {/* Dedicated "Sobre Nós" and "Por que escolher Dahua" Section */}
-        <AboutSection />
-
-        {/* Interactive Security Kit Builder */}
+        {/* Quick Kits */}
         <SecurityKitBuilder
           onAddProductsToQuote={handleAddMultipleToQuote}
           onOpenQuoteForm={handleScrollToQuoteForm}
@@ -143,7 +166,10 @@ export default function App() {
         {/* Showroom & Provinces Shipping & Payment Methods */}
         <ShowroomLocationSection />
 
-        {/* Comprehensive Quick Quote Form with WhatsApp & Email Submission */}
+        {/* About TechSol Dahua */}
+        <AboutSection />
+
+        {/* Quick Formal Quote Form */}
         <QuoteFormSection
           selectedQuoteItems={quoteItems}
           onRemoveItem={handleRemoveItem}
@@ -155,10 +181,10 @@ export default function App() {
         product={activeProductModal}
         onClose={() => setActiveProductModal(null)}
         onAddToQuote={handleAddToQuote}
-        isInQuote={activeProductModal ? quoteItemIds.has(activeProductModal.id) : false}
+        isInQuote={activeProductModal ? getItemQuantity(activeProductModal.id) > 0 : false}
       />
 
-      {/* Quote Drawer Slide-out */}
+      {/* Store Cart Drawer */}
       <QuoteDrawer
         isOpen={isQuoteDrawerOpen}
         onClose={() => setIsQuoteDrawerOpen(false)}
@@ -169,10 +195,17 @@ export default function App() {
         onGoToQuoteForm={handleScrollToQuoteForm}
       />
 
+      {/* Sticky Bottom Cart Bar (Appears when items are in cart) */}
+      <StickyCartBar
+        items={quoteItems}
+        onOpenDrawer={() => setIsQuoteDrawerOpen(true)}
+        onQuickWhatsApp={handleQuickWhatsAppCheckout}
+      />
+
       {/* Floating WhatsApp Action Button */}
       <WhatsAppFloatingButton />
 
-      {/* Complete Footer */}
+      {/* Footer */}
       <Footer onSelectCategory={handleSelectCategory} />
     </div>
   );
