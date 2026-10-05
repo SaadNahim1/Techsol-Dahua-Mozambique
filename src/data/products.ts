@@ -1,6 +1,65 @@
 import { Product } from '../types';
 
-export const PRODUCTS: Product[] = [
+export const PRODUCT_IMAGE_MAP = {
+  nvr_xvr: '/src/assets/images/dahua_nvr_recorder_1791199205765.jpg',
+  eyeball_dome: '/src/assets/images/dahua_eyeball_camera_1791199217793.jpg',
+  bullet: '/src/assets/images/cctv_bullet_camera_1791138995032.jpg',
+  nemtek_energizer: '/src/assets/images/nemtek_energizer_box_1791199227687.jpg',
+  electric_fence: '/src/assets/images/electric_fence_system_1791139007327.jpg',
+  gate_motor: '/src/assets/images/centurion_gate_motor_1791199239040.jpg',
+  access_control: '/src/assets/images/access_control_terminal_1791139020331.jpg',
+  wd_purple: '/src/assets/images/wd_purple_hdd_1791199248813.jpg',
+};
+
+function getProductReferenceImage(p: { id: string; model: string; name: string; category: string; subcategory: string }): string {
+  const m = p.model.toLowerCase();
+  const n = p.name.toLowerCase();
+  const s = p.subcategory.toLowerCase();
+
+  // 1. Hard drives WD Purple
+  if (m.includes('wd') || n.includes('purple') || n.includes('disco') || s.includes('armazenamento')) {
+    return PRODUCT_IMAGE_MAP.wd_purple;
+  }
+  // 2. Gate Motors (Centurion, Gemini)
+  if (s.includes('motor') || n.includes('centurion') || n.includes('gemini') || m.includes('d5') || m.includes('gemini') || n.includes('portão')) {
+    return PRODUCT_IMAGE_MAP.gate_motor;
+  }
+  // 3. Nemtek Energizers (Wizord, Merlin, Druid)
+  if (n.includes('eletrificador') || n.includes('wizord') || n.includes('merlin') || n.includes('druid') || m.includes('wiz') || m.includes('stealth')) {
+    return PRODUCT_IMAGE_MAP.nemtek_energizer;
+  }
+  // 4. Fence materials / accessories
+  if (p.category === 'cerca_eletrica') {
+    return PRODUCT_IMAGE_MAP.electric_fence;
+  }
+  // 5. NVR & XVR Recorders
+  if (m.includes('nvr') || m.includes('xvr') || n.includes('gravador') || s.includes('gravador')) {
+    return PRODUCT_IMAGE_MAP.nvr_xvr;
+  }
+  // 6. Eyeball / Dome / PTZ Cameras
+  if (m.includes('hdw') || n.includes('eyeball') || n.includes('dome') || s.includes('dome') || s.includes('eyeball') || m.includes('ptz') || m.includes('sd49')) {
+    return PRODUCT_IMAGE_MAP.eyeball_dome;
+  }
+  // 7. Bullet Cameras
+  if (m.includes('hfw') || n.includes('bullet') || s.includes('bullet') || m.includes('ipc-hfw') || m.includes('hac-hfw')) {
+    return PRODUCT_IMAGE_MAP.bullet;
+  }
+  // 8. Access control & Biometrics
+  if (p.category === 'controle_acesso' || s.includes('facial') || s.includes('biometr') || n.includes('reconhecimento') || n.includes('mb20') || n.includes('fechadura')) {
+    return PRODUCT_IMAGE_MAP.access_control;
+  }
+  // 9. Alarm kits
+  if (p.category === 'alarmes') {
+    return PRODUCT_IMAGE_MAP.nvr_xvr;
+  }
+  // 10. Default CCTV fallback
+  if (p.category === 'cctv') {
+    return PRODUCT_IMAGE_MAP.bullet;
+  }
+  return PRODUCT_IMAGE_MAP.nvr_xvr;
+}
+
+const RAW_PRODUCTS: Product[] = [
   // ==========================================
   // 1. CCTV & VIDEOVIGILÂNCIA DAHUA (IP & HDCVI)
   // ==========================================
@@ -1077,6 +1136,11 @@ export const PRODUCTS: Product[] = [
     datasheetAvailable: true,
   }
 ];
+
+export const PRODUCTS: Product[] = RAW_PRODUCTS.map((prod) => ({
+  ...prod,
+  image: getProductReferenceImage(prod),
+}));
 
 export const CATEGORIES_META = [
   {

@@ -108,6 +108,7 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
                     <img
                       src={item.product.image}
                       alt={item.product.name}
+                      referrerPolicy="no-referrer"
                       className="w-14 h-14 object-cover rounded-xl bg-white border border-slate-200 shrink-0"
                     />
 

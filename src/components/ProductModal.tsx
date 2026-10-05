@@ -51,6 +51,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               <img
                 src={product.image}
                 alt={product.name}
+                referrerPolicy="no-referrer"
                 className="w-full h-56 object-cover object-center rounded-lg"
               />
             </div>
