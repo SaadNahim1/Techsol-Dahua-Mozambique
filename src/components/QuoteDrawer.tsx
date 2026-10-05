@@ -109,6 +109,10 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
                       src={item.product.image}
                       alt={item.product.name}
                       referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.style.display = 'none';
+                      }}
                       className="w-14 h-14 object-cover rounded-xl bg-white border border-slate-200 shrink-0"
                     />
 

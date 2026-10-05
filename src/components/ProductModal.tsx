@@ -52,6 +52,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 src={product.image}
                 alt={product.name}
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  target.style.display = 'none';
+                }}
                 className="w-full h-56 object-cover object-center rounded-lg"
               />
             </div>

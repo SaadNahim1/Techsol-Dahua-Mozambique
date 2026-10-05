@@ -201,6 +201,10 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                           alt={product.name}
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover object-center rounded-lg transition-transform duration-200 group-hover:scale-105"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            target.style.display = 'none';
+                          }}
                         />
                         <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-white/95 border border-slate-200 text-[10px] font-mono font-bold text-slate-800 shadow-xs">
                           {product.brand}

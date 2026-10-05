@@ -1,14 +1,14 @@
 import { Product } from '../types';
 
 export const PRODUCT_IMAGE_MAP = {
-  nvr_xvr: '/src/assets/images/dahua_nvr_recorder_1791199205765.jpg',
-  eyeball_dome: '/src/assets/images/dahua_eyeball_camera_1791199217793.jpg',
-  bullet: '/src/assets/images/cctv_bullet_camera_1791138995032.jpg',
-  nemtek_energizer: '/src/assets/images/nemtek_energizer_box_1791199227687.jpg',
-  electric_fence: '/src/assets/images/electric_fence_system_1791139007327.jpg',
-  gate_motor: '/src/assets/images/centurion_gate_motor_1791199239040.jpg',
-  access_control: '/src/assets/images/access_control_terminal_1791139020331.jpg',
-  wd_purple: '/src/assets/images/wd_purple_hdd_1791199248813.jpg',
+  nvr_xvr: '/images/nvr.jpg',
+  eyeball_dome: '/images/dome.jpg',
+  bullet: '/images/bullet.jpg',
+  nemtek_energizer: '/images/energizer.jpg',
+  electric_fence: '/images/fence.jpg',
+  gate_motor: '/images/gate_motor.jpg',
+  access_control: '/images/access.jpg',
+  wd_purple: '/images/hdd.jpg',
 };
 
 function getProductReferenceImage(p: { id: string; model: string; name: string; category: string; subcategory: string }): string {
