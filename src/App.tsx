@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { ProductCategory, Product, QuoteItem } from './types';
+import { ProductCategory, Product } from './types';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { CatalogSection } from './components/CatalogSection';
@@ -18,67 +18,26 @@ import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { StickyCartBar } from './components/StickyCartBar';
 import { Footer } from './components/Footer';
 import { COMPANY_CONFIG } from './config/company';
+import { useCart } from './hooks/useCart';
 
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>('todos');
   const [searchQuery, setSearchQuery] = useState('');
-  const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [activeProductModal, setActiveProductModal] = useState<Product | null>(null);
   const [isQuoteDrawerOpen, setIsQuoteDrawerOpen] = useState(false);
 
-  const getItemQuantity = (productId: string): number => {
-    const item = quoteItems.find((i) => i.product.id === productId);
-    return item ? item.quantity : 0;
-  };
-
-  const handleAddToQuote = (product: Product) => {
-    setQuoteItems((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { product, quantity: 1 }];
-    });
-  };
-
-  const handleAddMultipleToQuote = (products: Product[]) => {
-    setQuoteItems((prev) => {
-      let current = [...prev];
-      products.forEach((prod) => {
-        const idx = current.findIndex((item) => item.product.id === prod.id);
-        if (idx >= 0) {
-          current[idx] = { ...current[idx], quantity: current[idx].quantity + 1 };
-        } else {
-          current.push({ product: prod, quantity: 1 });
-        }
-      });
-      return current;
-    });
-  };
-
-  const handleUpdateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveItem(productId);
-      return;
-    }
-    setQuoteItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
-    );
-  };
-
-  const handleRemoveItem = (productId: string) => {
-    setQuoteItems((prev) => prev.filter((item) => item.product.id !== productId));
-  };
-
-  const handleClearQuote = () => {
-    setQuoteItems([]);
-  };
+  // Dedicated, robust cart persistence layer
+  const {
+    items: quoteItems,
+    totalCount: quoteCount,
+    totalAmountMZN,
+    getItemQuantity,
+    addToCart: handleAddToQuote,
+    addMultipleToCart: handleAddMultipleToQuote,
+    updateQuantity: handleUpdateQuantity,
+    removeFromCart: handleRemoveItem,
+    clearCart: handleClearQuote,
+  } = useCart();
 
   const handleSelectCategory = (category: string) => {
     setSelectedCategory(category as ProductCategory);
@@ -105,8 +64,6 @@ export default function App() {
   const handleQuickWhatsAppCheckout = () => {
     if (quoteItems.length === 0) return;
 
-    const totalAmountMZN = quoteItems.reduce((acc, curr) => acc + (curr.product.priceMZN || 0) * curr.quantity, 0);
-
     let text = `*PEDIDO DIRETO - TECHSOL SU LDA*\n`;
     text += `Olá TECHSOL! Gostaria de fazer o pedido dos seguintes equipamentos:\n\n`;
 
@@ -127,7 +84,7 @@ export default function App() {
     <div className="min-h-screen bg-white text-slate-800 flex flex-col font-sans selection:bg-red-600 selection:text-white">
       {/* Top Navigation */}
       <Navbar
-        quoteCount={quoteItems.reduce((acc, curr) => acc + curr.quantity, 0)}
+        quoteCount={quoteCount}
         onOpenQuoteDrawer={() => setIsQuoteDrawerOpen(true)}
         onOpenQuoteForm={handleScrollToQuoteForm}
         onSelectCategory={handleSelectCategory}

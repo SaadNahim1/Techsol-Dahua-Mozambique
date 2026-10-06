@@ -23,8 +23,9 @@ export const StickyCartBar: React.FC<StickyCartBarProps> = ({
       <div className="mx-auto max-w-5xl flex items-center justify-between gap-3">
         {/* Total Summary */}
         <button
+          type="button"
           onClick={onOpenDrawer}
-          className="flex items-center gap-3 text-left group"
+          className="flex items-center gap-3 text-left group cursor-pointer"
         >
           <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-red-600 text-white shadow-xs">
             <ShoppingBag className="w-5 h-5" />
@@ -46,15 +47,17 @@ export const StickyCartBar: React.FC<StickyCartBarProps> = ({
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={onOpenDrawer}
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors cursor-pointer"
           >
             <span>Ver Detalhes</span>
           </button>
 
           <button
+            type="button"
             onClick={onQuickWhatsApp}
-            className="flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95"
+            className="flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4" />
             <span>Pedir no WhatsApp</span>

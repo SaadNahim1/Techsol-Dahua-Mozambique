@@ -18,12 +18,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Catálogo', href: '#catalogo', onClick: () => onSelectCategory('todos') },
+    { label: 'Início', href: '#', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
+    { label: 'Loja & Catálogo', href: '#catalogo', onClick: () => onSelectCategory('todos') },
     { label: 'Simulador de Kits', href: '#kit-builder' },
-    { label: 'Cercas Elétricas', href: '#catalogo', onClick: () => onSelectCategory('cerca_eletrica') },
-    { label: 'Alarmes', href: '#catalogo', onClick: () => onSelectCategory('alarmes') },
-    { label: 'Acesso & Motores', href: '#catalogo', onClick: () => onSelectCategory('controle_acesso') },
+    { label: 'Sobre Nós', href: '#sobre-nos' },
     { label: 'Showroom Maputo', href: '#localizacao' },
+    { label: 'Cotação Formal', href: '#orcamento' },
   ];
 
   return (
@@ -75,8 +75,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
 
           <button
+            type="button"
             onClick={onOpenQuoteDrawer}
-            className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-xs transition-colors"
+            className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
             aria-label="Abrir lista de cotação"
           >
             <ShoppingBag className="w-4 h-4" />
@@ -90,8 +91,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Mobile hamburger */}
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+            className="lg:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>

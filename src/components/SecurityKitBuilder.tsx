@@ -246,16 +246,18 @@ export const SecurityKitBuilder: React.FC<SecurityKitBuilderProps> = ({
 
             <div className="pt-3 space-y-2">
               <button
+                type="button"
                 onClick={handleWhatsAppKit}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Pedir Cotação deste Kit no WhatsApp</span>
               </button>
 
               <button
+                type="button"
                 onClick={handleAddAllToQuote}
-                className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs transition-colors"
+                className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs transition-colors cursor-pointer"
               >
                 {kitAddedFeedback ? (
                   <>

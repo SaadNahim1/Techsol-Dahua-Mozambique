@@ -227,8 +227,13 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
                   </span>
                 </div>
                 <button
-                  onClick={onClearQuote}
-                  className="text-[11px] text-slate-400 hover:text-red-600 underline"
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm('Tem certeza que deseja esvaziar toda a sua sacola?')) {
+                      onClearQuote();
+                    }
+                  }}
+                  className="text-[11px] text-slate-400 hover:text-red-600 underline cursor-pointer p-1"
                 >
                   Limpar sacola
                 </button>
