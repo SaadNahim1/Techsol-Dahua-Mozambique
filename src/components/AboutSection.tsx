@@ -21,7 +21,7 @@ export const AboutSection: React.FC = () => {
             Distribuidor Autorizado Dahua Technology em Moçambique
           </h2>
           <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-            A <strong>TECHSOL SU LDA</strong> é o parceiro de confiança de grandes instituições como o <strong>Moza Banco</strong>, empresas de segurança armada como a <strong>Burglar Alert</strong> e clubes de referência como o <strong>Maputo Padel Club</strong>. Atuamos com fornecimento grossista e retalhista na <strong>Avenida Josina Machel, 923 em Maputo</strong>, abastecendo técnicos e empresas de todas as províncias de Moçambique.
+            A <strong>TECHSOL SU LDA</strong> é o parceiro de confiança de grandes instituições como o <strong>Moza Banco</strong> e complexos esportivos de prestígio como o <strong>Maputo Padel Club</strong>. Atuamos com fornecimento grossista e retalhista na <strong>Avenida Josina Machel, 923 em Maputo</strong>, abastecendo técnicos e empresas de todas as províncias de Moçambique.
           </p>
         </div>
 

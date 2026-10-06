@@ -4,15 +4,22 @@ import {
   Star, 
   CheckCircle2, 
   Building2, 
-  Wrench, 
   MapPin, 
   Award,
   ArrowRight,
-  Landmark,
-  Trophy,
-  BellRing
+  Handshake,
+  Check
 } from 'lucide-react';
 import { COMPANY_CONFIG } from '../config/company';
+import { 
+  MozaBancoLogo, 
+  MaputoPadelClubLogo,
+  DahuaLogo,
+  NemtekLogo,
+  CenturionLogo,
+  WDPurpleLogo,
+  ZKTecoLogo
+} from './ClientBrandLogos';
 
 interface TrustAndTestimonialsSectionProps {
   onOpenQuoteForm?: () => void;
@@ -21,97 +28,81 @@ interface TrustAndTestimonialsSectionProps {
 export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionProps> = ({
   onOpenQuoteForm,
 }) => {
-  // Real Corporate Clients in Mozambique
-  const corporateClients = [
+  // Real Mozambique Corporate Partners & Clients (Moza Banco & Maputo Padel Club)
+  const trustedPartners = [
     {
+      id: 'moza-banco',
       name: 'Moza Banco',
-      category: 'Setor Bancário & Financeiro',
-      desc: 'Segurança bancária, CFTV Dahua com IA e controle de acessos para agências e caixas automáticos.',
+      segment: 'Setor Bancário & Instituições Financeiras',
       tag: 'Cliente Institucional',
-      icon: Landmark,
-      color: 'from-amber-600/20 to-amber-900/10 border-amber-500/30 text-amber-400',
+      logo: MozaBancoLogo,
+      technology: 'CFTV Dahua Inteligente, NVRs 4K e Acesso Biométrico',
+      highlight: 'Homologação bancária rigorosa para rede de agências e caixas automáticos (ATMs) em Moçambique.',
+      accent: 'border-amber-500/40 from-amber-950/40 to-slate-900 text-amber-400',
     },
     {
-      name: 'Burglar Alert Moçambique',
-      category: 'Segurança Privada & Monitoramento 24/7',
-      desc: 'Centrais de alarme, proteção perimetral com eletrificadores Nemtek e videovigilância de alta resolução.',
-      tag: 'Empresa de Monitoramento',
-      icon: BellRing,
-      color: 'from-red-600/20 to-red-900/10 border-red-500/30 text-red-400',
-    },
-    {
+      id: 'maputo-padel-club',
       name: 'Maputo Padel Club',
-      category: 'Complexo Esportivo & Lazer',
-      desc: 'Câmeras IP Full-Color 24h, segurança perimetral e automação de portões para atletas e membros.',
-      tag: 'Clube & Eventos',
-      icon: Trophy,
-      color: 'from-emerald-600/20 to-emerald-900/10 border-emerald-500/30 text-emerald-400',
+      segment: 'Complexo Esportivo & Lazer de Alto Nível',
+      tag: 'Complexo & Eventos',
+      logo: MaputoPadelClubLogo,
+      technology: 'Câmeras IP Full-Color 4K 24h e Motores Centurion D5',
+      highlight: 'Monitoramento em tempo real com visão noturna colorida e automação ultra-rápida de portões para membros.',
+      accent: 'border-emerald-500/40 from-emerald-950/40 to-slate-900 text-emerald-400',
     },
   ];
 
-  // Official Manufacturing Partners
-  const partners = [
+  // Official Technology Manufacturing Partners
+  const technologyPartners = [
     {
       name: 'Dahua Technology',
       role: 'Distribuidor Oficial Moçambique',
-      desc: 'CFTV, Inteligência Artificial, Terminais Faciais e Alarmes',
+      desc: 'CFTV IP, Inteligência Artificial WizSense, Terminais Faciais e Alarmes',
       badge: 'Garantia Oficial 3 Anos',
+      logo: DahuaLogo,
     },
     {
       name: 'Nemtek South Africa',
       role: 'Parceiro Perimetral Oficial',
-      desc: 'Eletrificadores Wizord e Druid, arames de alta segurança e sirenes',
+      desc: 'Eletrificadores Wizord e Druid, arames de alta segurança e sirenes 30W',
       badge: 'Qualidade Sul-Africana',
+      logo: NemtekLogo,
     },
     {
       name: 'Centurion Systems',
       role: 'Distribuição Autorizada',
-      desc: 'Motores de portão deslizantes D5 Smart, comandos Nova e automação',
+      desc: 'Motores deslizantes D5 Smart rápidos, cremalheiras e comandos Nova',
       badge: 'Líder em Automação',
+      logo: CenturionLogo,
     },
     {
       name: 'Western Digital Purple',
       role: 'Armazenamento de Vigilância 24/7',
-      desc: 'Discos rígidos HDD dedicados para NVRs e XVRs sem perda de frames',
+      desc: 'Discos rígidos HDD dedicados para gravação contínua sem perda de frames',
       badge: 'Garantia Direta WD',
+      logo: WDPurpleLogo,
     },
     {
       name: 'ZKTeco',
       role: 'Infraestrutura & Bastidores',
-      desc: 'Racks 6U e 9U de parede com fechadura e biometrias industriais',
+      desc: 'Racks 6U e 9U de parede com chave e terminais biométricos',
       badge: 'Padrão 19 Polegadas',
-    },
-    {
-      name: 'Gemini Automation',
-      role: 'Automação de Portões',
-      desc: 'Sistemas deslizantes e motores para condomínios residenciais',
-      badge: 'Alta Durabilidade',
+      logo: ZKTecoLogo,
     },
   ];
 
-  // Verified Customer Testimonials with real clients
+  // Verified Customer Testimonials
   const testimonials = [
     {
-      name: 'Moza Banco',
+      name: 'Moza Banco S.A.',
       role: 'Departamento de Segurança Patrimonial & Infraestruturas',
-      company: 'Moza Banco S.A.',
+      company: 'Moza Banco',
       city: 'Maputo (Rede Nacional de Agências)',
       avatar: 'MB',
       rating: 5,
       text: 'A TECHSOL é fornecedora chave de equipamentos Dahua para os nossos projetos de videovigilância e controle de acessos em Moçambique. Câmeras com inteligência artificial, gravação contínua sem falhas em discos WD Purple e pronta entrega de equipamentos homologados com faturação fiscal e 3 anos de garantia oficial.',
       verified: 'Instituição Bancária Verificada',
       highlight: 'Segurança Bancária de Alta Confiança',
-    },
-    {
-      name: 'Burglar Alert Moçambique',
-      role: 'Direção de Operações & Resposta Rápida',
-      company: 'Burglar Alert Segurança Eletrônica',
-      city: 'Maputo & Matola',
-      avatar: 'BA',
-      rating: 5,
-      text: 'Como uma das maiores empresas de monitoramento 24h e resposta armada em Moçambique, a confiabilidade dos equipamentos perimetrais é inegociável. Os eletrificadores Nemtek, centrais de alarme e câmeras Dahua fornecidos pela TECHSOL garantem que a nossa central receba disparos precisos sem falsos alarmes, com assistência técnica imediata no armazém da Av. Josina Machel.',
-      verified: 'Empresa de Segurança 24/7',
-      highlight: 'Operações Críticas & Resposta Armada',
     },
     {
       name: 'Maputo Padel Club',
@@ -123,6 +114,17 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
       text: 'Equipamos o Maputo Padel Club com câmeras Dahua Full-Color 4K e automação de acessos com motores fornecidos pela TECHSOL para proteger os nossos atletas, membros e eventos noturnos. A qualidade de imagem colorida à noite e a rapidez dos motores de portão superaram as nossas expectativas.',
       verified: 'Complexo Esportivo & Lazer',
       highlight: 'Monitoramento 4K & Automação de Acessos',
+    },
+    {
+      name: 'Eng. Mário Macuácua',
+      role: 'Diretor Técnico de Projetos & Obras',
+      company: 'Engenharia & Segurança Predial',
+      city: 'Maputo · Polana Caniço',
+      avatar: 'MM',
+      rating: 5,
+      text: 'A TECHSOL é o nosso principal distribuidor de câmeras Dahua e eletrificadores Nemtek em Maputo. A pronta entrega de gravadores NVR e bobinas de arame inox permitiu-nos entregar a segurança perimetral com total rigor de prazos. Faturação transparente com NUIT e equipamentos 100% originais.',
+      verified: 'Projetos de Engenharia',
+      highlight: 'Grandes Obras & Infraestrutura',
     },
     {
       name: 'Alberto Cossa',
@@ -155,91 +157,116 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
         {/* Section Header */}
         <div className="max-w-3xl space-y-2 mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider">
-            <Award className="w-3.5 h-3.5" />
-            <span>Grandes Clientes & Marcas Oficiais</span>
+            <Handshake className="w-3.5 h-3.5" />
+            <span>Nossos Parceiros de Confiança · Our Trusted Partners</span>
           </div>
 
           <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-            A Escolha de <span className="text-red-500">Líderes de Mercado</span> em Moçambique
+            Grandes Marcas e Instituições que <span className="text-red-500">Confiam na TECHSOL</span>
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Desde grandes instituições financeiras como o <strong>Moza Banco</strong>, empresas de resposta armada como a <strong>Burglar Alert</strong>, até complexos de prestígio como o <strong>Maputo Padel Club</strong> — a TECHSOL é a referência em tecnologia e equipamentos de segurança.
+            Fornecemos infraestrutura tecnológica e sistemas de segurança eletrônica de alto desempenho para as organizações mais exigentes de Moçambique.
           </p>
         </div>
 
-        {/* 1. Real Corporate Clients Showcase Strip */}
+        {/* 1. VISUAL 'OUR TRUSTED PARTNERS' GRID (Moza Banco & Maputo Padel Club) */}
         <div className="mb-14 sm:mb-16">
-          <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-red-400" />
-            <span>Empresas & Instituições que Confiam no Fornecimento da TECHSOL</span>
+          <div className="flex items-center justify-between mb-5">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-red-400" />
+              <span>Clientes & Parceiros Corporativos em Destaque</span>
+            </div>
+            <span className="hidden sm:inline-block text-[11px] font-mono text-emerald-400 font-semibold">
+              ✓ Fornecimento Ativo Homologado
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            {corporateClients.map((client) => {
-              const IconComponent = client.icon;
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {trustedPartners.map((partner) => {
+              const LogoComp = partner.logo;
 
               return (
                 <div
-                  key={client.name}
-                  className={`p-6 rounded-3xl bg-gradient-to-br ${client.color} border backdrop-blur-md transition-all hover:scale-[1.01]`}
+                  key={partner.id}
+                  className={`p-6 sm:p-7 rounded-3xl bg-gradient-to-br ${partner.accent} border backdrop-blur-md shadow-lg transition-all hover:scale-[1.01] hover:border-white/30 flex flex-col justify-between`}
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 border border-white/20 text-white shadow-sm">
-                      <IconComponent className="w-6 h-6" />
+                  <div>
+                    {/* Visual Logo Container with Dark Shield */}
+                    <div className="p-4 rounded-2xl bg-slate-950/80 border border-white/10 flex items-center justify-between gap-3 mb-5 shadow-inner">
+                      <div className="flex items-center justify-start flex-1">
+                        <LogoComp className="h-9 sm:h-10 w-auto max-w-[200px]" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-white/10 border border-white/20 text-white shrink-0">
+                        {partner.tag}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-white">
-                      {client.tag}
-                    </span>
+
+                    <h3 className="text-lg sm:text-xl font-black text-white">
+                      {partner.name}
+                    </h3>
+                    <div className="text-xs font-semibold text-slate-300 mt-0.5 mb-2.5">
+                      {partner.segment}
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                      {partner.highlight}
+                    </p>
                   </div>
 
-                  <h3 className="text-lg font-black text-white">
-                    {client.name}
-                  </h3>
-                  <div className="text-xs font-semibold text-slate-300 mt-0.5 mb-2">
-                    {client.category}
+                  <div className="pt-4 border-t border-white/10 space-y-2">
+                    <div className="text-[11px] font-mono text-slate-400">
+                      <strong className="text-slate-200">Equipamentos:</strong> {partner.technology}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-400">
+                      <Check className="w-3.5 h-3.5 shrink-0" />
+                      <span>Parceria Ativa em Moçambique</span>
+                    </div>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {client.desc}
-                  </p>
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* 2. Official Brands & Partner Grid */}
+        {/* 2. Official Technology Manufacturing Partners Grid */}
         <div className="mb-14 sm:mb-16">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Marcas Oficiais com Garantia Direta de Fábrica</span>
+            <span>Fabricantes Oficiais com Distribuição e Garantia de Fábrica</span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {partners.map((partner) => (
-              <div
-                key={partner.name}
-                className="p-4 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 transition-all flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="text-xs font-mono font-bold text-red-400 truncate">
-                    {partner.role}
-                  </div>
-                  <h4 className="text-sm font-extrabold text-white mt-1 group-hover:text-red-400 transition-colors">
-                    {partner.name}
-                  </h4>
-                  <p className="mt-1 text-[11px] text-slate-400 leading-snug line-clamp-2">
-                    {partner.desc}
-                  </p>
-                </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+            {technologyPartners.map((item) => {
+              const PartnerLogo = item.logo;
 
-                <div className="mt-3 pt-2 border-t border-slate-700/60">
-                  <span className="text-[10px] font-semibold text-emerald-400 block truncate">
-                    ✓ {partner.badge}
-                  </span>
+              return (
+                <div
+                  key={item.name}
+                  className="p-4 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 transition-all flex flex-col justify-between group"
+                >
+                  <div>
+                    {/* Partner Logo */}
+                    <div className="h-10 flex items-center mb-2">
+                      <PartnerLogo className="h-6 w-auto max-w-full" />
+                    </div>
+
+                    <div className="text-[11px] font-mono font-bold text-red-400 truncate">
+                      {item.role}
+                    </div>
+                    <p className="mt-1 text-[11px] text-slate-400 leading-snug line-clamp-2">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  <div className="mt-3 pt-2 border-t border-slate-700/60">
+                    <span className="text-[10px] font-semibold text-emerald-400 block truncate">
+                      ✓ {item.badge}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -324,7 +351,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
                   </div>
 
                   <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-[10px] font-bold text-emerald-400 shrink-0">
-                    <CheckCircle2 className="w-3 h-3" />
+                    <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>{item.verified}</span>
                   </span>
                 </div>
