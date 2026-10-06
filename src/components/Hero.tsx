@@ -55,34 +55,34 @@ export const Hero: React.FC<HeroProps> = ({
             {/* Top Credibility Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider">
               <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-              <span>Distribuidor Oficial Dahua Technology · Moçambique</span>
+              <span>100% · 100% Feliz · 100% Moçambicana</span>
             </div>
 
             {/* Dominant Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-              Segurança Eletrônica com <span className="text-red-500">Pronta Entrega</span> e 3 Anos de Garantia.
+              Segurança Eletrônica: 100%, <span className="text-red-500">100% Feliz</span>, 100% Moçambicana.
             </h1>
 
             {/* Sub-headline */}
             <p className="text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed max-w-2xl">
               Abastecemos instaladores credenciados, empresas de segurança e condomínios com sistemas originais 
-              <strong> Dahua, Nemtek e Centurion</strong>. Armazém físico na <em>Av. Josina Machel 923, Maputo</em>, 
-              com preços de tabela em Meticais, suporte técnico e faturação com NUIT.
+              <strong> Dahua, Nemtek e Centurion</strong>. Sede e armazém próprio na <em>Av. Josina Machel 923, Maputo</em>, 
+              com suporte técnico especializado e faturação formal com NUIT.
             </p>
 
             {/* Value Indicators (Unboxed Clean Typography) */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs font-medium text-slate-300">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>3 Anos Garantia Dahua</span>
+                <span>100% Moçambicana</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Preços Diretos em MT</span>
+                <span>100% Feliz</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Faturação com NUIT</span>
+                <span>100% Original</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -90,11 +90,11 @@ export const Hero: React.FC<HeroProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Envio Provincial Rápido</span>
+                <span>Faturação com NUIT</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Desconto p/ Técnicos</span>
+                <span>Suporte & Parceria Técnica</span>
               </div>
             </div>
 
@@ -163,8 +163,8 @@ export const Hero: React.FC<HeroProps> = ({
                   <div className="text-[10px] text-slate-400 mt-1 uppercase font-semibold">Modelos Físicos</div>
                 </div>
                 <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60">
-                  <div className="text-lg font-black text-red-400 font-mono leading-none">3 ANOS</div>
-                  <div className="text-[10px] text-slate-400 mt-1 uppercase font-semibold">Garantia Dahua</div>
+                  <div className="text-lg font-black text-red-400 font-mono leading-none">B2B & B2C</div>
+                  <div className="text-[10px] text-slate-400 mt-1 uppercase font-semibold">Tabela Revenda</div>
                 </div>
                 <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60">
                   <div className="text-lg font-black text-emerald-400 font-mono leading-none">100%</div>
