@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { QuoteItem } from '../types';
 import { COMPANY_CONFIG } from '../config/company';
+import { getCustomProductImages } from '../utils/customImages';
 import { X, Trash2, Plus, Minus, MessageCircle, ShoppingBag, Truck, MapPin } from 'lucide-react';
 
 interface QuoteDrawerProps {
@@ -99,6 +100,8 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
             ) : (
               items.map((item) => {
                 const lineTotal = (item.product.priceMZN || 0) * item.quantity;
+                const customImg = getCustomProductImages()[item.product.id];
+                const itemImage = customImg || item.product.image;
 
                 return (
                   <div
@@ -106,7 +109,7 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
                     className="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center gap-3"
                   >
                     <img
-                      src={item.product.image}
+                      src={itemImage}
                       alt={item.product.name}
                       referrerPolicy="no-referrer"
                       onError={(e) => {

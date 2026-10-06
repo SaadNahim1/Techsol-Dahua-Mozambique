@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Product, ProductCategory } from '../types';
 import { PRODUCTS, CATEGORIES_META } from '../data/products';
 import { COMPANY_CONFIG } from '../config/company';
+import { getCustomProductImages } from '../utils/customImages';
 import { 
   Search, 
   Plus, 
@@ -44,6 +45,15 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
 }) => {
   const [stockOnly, setStockOnly] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<string>('todas');
+  const [customImages, setCustomImages] = useState<Record<string, string>>(() => getCustomProductImages());
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setCustomImages(getCustomProductImages());
+    };
+    window.addEventListener('techsol_images_updated', handleUpdate);
+    return () => window.removeEventListener('techsol_images_updated', handleUpdate);
+  }, []);
 
   // Compute brands dynamically available in the currently selected category
   const availableBrands = useMemo(() => {
@@ -234,6 +244,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
               {filteredProducts.map((product) => {
                 const qty = getItemQuantity(product.id);
+                const itemImage = customImages[product.id] || product.image;
 
                 return (
                   <div
@@ -247,7 +258,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                         className="relative aspect-square rounded-xl overflow-hidden bg-slate-50 p-2 border border-slate-100 mb-3 cursor-pointer"
                       >
                         <img
-                          src={product.image}
+                          src={itemImage}
                           alt={product.name}
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover object-center rounded-lg transition-transform duration-200 group-hover:scale-105"

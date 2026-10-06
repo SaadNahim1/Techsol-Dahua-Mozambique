@@ -11,6 +11,7 @@ import { CatalogSection } from './components/CatalogSection';
 import { AboutSection } from './components/AboutSection';
 import { SecurityKitBuilder } from './components/SecurityKitBuilder';
 import { ShowroomLocationSection } from './components/ShowroomLocationSection';
+import { TrustAndTestimonialsSection } from './components/TrustAndTestimonialsSection';
 import { QuoteFormSection } from './components/QuoteFormSection';
 import { ProductModal } from './components/ProductModal';
 import { QuoteDrawer } from './components/QuoteDrawer';
@@ -117,6 +118,11 @@ export default function App() {
         {/* Quick Kits */}
         <SecurityKitBuilder
           onAddProductsToQuote={handleAddMultipleToQuote}
+          onOpenQuoteForm={handleScrollToQuoteForm}
+        />
+
+        {/* Partners & Real Customer Testimonials */}
+        <TrustAndTestimonialsSection
           onOpenQuoteForm={handleScrollToQuoteForm}
         />
 

@@ -1,14 +1,30 @@
 import { Product } from '../types';
 
 export const PRODUCT_IMAGE_MAP = {
+  nvr_16p: '/images/nvr_16p.jpg',
   nvr_xvr: '/images/nvr.jpg',
+  xvr_wizsense: '/images/xvr_wizsense.jpg',
+  cam_hfw1439: '/images/cam_hfw1439.jpg',
+  cam_hdbw1439: '/images/cam_hdbw1439.jpg',
+  cam_ptz: '/images/cam_ptz.jpg',
   eyeball_dome: '/images/dome.jpg',
   bullet: '/images/bullet.jpg',
+  intercom: '/images/intercom_ktw02.jpg',
+  facial_terminal: '/images/facial_asi6214s.jpg',
+  airshield_alarm: '/images/alarm_airshield.jpg',
   nemtek_energizer: '/images/energizer.jpg',
   electric_fence: '/images/fence.jpg',
-  gate_motor: '/images/gate_motor.jpg',
+  wire_spool: '/images/wire_spool.jpg',
+  siren: '/images/siren.jpg',
+  gate_motor: '/images/centurion_d5.jpg',
+  remote_control: '/images/remote.jpg',
+  power_supply: '/images/power_supply.jpg',
+  cat6_cable: '/images/cable_cat6.jpg',
   access_control: '/images/access.jpg',
   wd_purple: '/images/hdd.jpg',
+  ups: '/images/ups_dahua.png',
+  rack_6u: '/images/rack_zkteco.jpg',
+  rack_9u: '/images/rack_9u.jpg',
 };
 
 function getProductReferenceImage(p: { id: string; model: string; name: string; category: string; subcategory: string }): string {
@@ -16,47 +32,107 @@ function getProductReferenceImage(p: { id: string; model: string; name: string; 
   const n = p.name.toLowerCase();
   const s = p.subcategory.toLowerCase();
 
-  // 1. Hard drives WD Purple
+  // 1. Bastidor Rack 9U de Parede
+  if (m.includes('r9u') || n.includes('9u')) {
+    return PRODUCT_IMAGE_MAP.rack_9u;
+  }
+  // 2. Bastidor Rack 6U de Parede
+  if (m.includes('r6u') || n.includes('6u') || n.includes('rack') || n.includes('bastidor') || s.includes('bastidores') || n.includes('gabinete')) {
+    return PRODUCT_IMAGE_MAP.rack_6u;
+  }
+  // 3. UPS / No-break Dahua 1000VA
+  if (m.includes('ups') || m.includes('pfm3350') || m.includes('pfm350') || n.includes('ups') || n.includes('no-break')) {
+    return PRODUCT_IMAGE_MAP.ups;
+  }
+  // 4. PTZ Speed Dome Camera (Dahua SD3D416NB)
+  if (m.includes('sd3d') || m.includes('sd49') || n.includes('speed dome') || n.includes('ptz')) {
+    return PRODUCT_IMAGE_MAP.cam_ptz;
+  }
+  // 5. Video Intercom Doorbell Kit (Dahua KTW02)
+  if (m.includes('ktw02') || n.includes('videoporteiro') || n.includes('intercom')) {
+    return PRODUCT_IMAGE_MAP.intercom;
+  }
+  // 6. Facial Recognition Terminal (Dahua ASI6214S)
+  if (m.includes('asi6214') || n.includes('facial') || n.includes('asi6214s')) {
+    return PRODUCT_IMAGE_MAP.facial_terminal;
+  }
+  // 7. AirShield Alarm Kit (Dahua ARC3800)
+  if (m.includes('arc3800') || n.includes('airshield')) {
+    return PRODUCT_IMAGE_MAP.airshield_alarm;
+  }
+  // 8. Bullet 4MP / 2MP Smart Dual Light Dahua (HFW1439, HFW1239, HFW1209, HFW1509)
+  if (m.includes('hfw1439') || m.includes('hfw1239') || m.includes('hfw1209') || m.includes('hfw1509')) {
+    return PRODUCT_IMAGE_MAP.cam_hfw1439;
+  }
+  // 9. Dome / Turret 4MP Smart Dual Light Dahua (HDBW1439, HDW1209, HDW1439)
+  if (m.includes('hdbw1439') || m.includes('hdw1209') || m.includes('hdw1439')) {
+    return PRODUCT_IMAGE_MAP.cam_hdbw1439;
+  }
+  // 10. XVR WizSense 4K Dahua (XVR5108, XVR1B16, XVR1B04)
+  if (m.includes('xvr5108') || m.includes('xvr1b')) {
+    return PRODUCT_IMAGE_MAP.xvr_wizsense;
+  }
+  // 11. NVR 16P / 8P / 4P PoE 4K Dahua (NVR2216, NVR2108, NVR2104)
+  if (m.includes('nvr2216') || m.includes('nvr2108') || m.includes('nvr2104') || m.includes('nvr')) {
+    return PRODUCT_IMAGE_MAP.nvr_16p;
+  }
+  // 12. Network Cables Cat6 / Coaxial
+  if (m.includes('pfm920') || m.includes('pfm922') || m.includes('pfm941') || n.includes('cabo') || n.includes('cat6') || s.includes('cabos')) {
+    return PRODUCT_IMAGE_MAP.cat6_cable;
+  }
+  // 13. Power Supply Box
+  if (m.includes('pfm344') || n.includes('fonte') || s.includes('fontes')) {
+    return PRODUCT_IMAGE_MAP.power_supply;
+  }
+  // 14. Remote controls
+  if (n.includes('comando') || n.includes('remoto') || m.includes('remote') || m.includes('nova')) {
+    return PRODUCT_IMAGE_MAP.remote_control;
+  }
+  // 15. Sirens
+  if (n.includes('sirene') || m.includes('sr-30') || m.includes('siren')) {
+    return PRODUCT_IMAGE_MAP.siren;
+  }
+  // 16. Aluminum wire spools
+  if (n.includes('arame') || n.includes('bobina') || m.includes('ew-al')) {
+    return PRODUCT_IMAGE_MAP.wire_spool;
+  }
+  // 17. Hard drives WD Purple
   if (m.includes('wd') || n.includes('purple') || n.includes('disco') || s.includes('armazenamento')) {
     return PRODUCT_IMAGE_MAP.wd_purple;
   }
-  // 2. Gate Motors (Centurion, Gemini)
+  // 18. Gate Motors (Centurion D5 Smart, Gemini)
   if (s.includes('motor') || n.includes('centurion') || n.includes('gemini') || m.includes('d5') || m.includes('gemini') || n.includes('portão')) {
     return PRODUCT_IMAGE_MAP.gate_motor;
   }
-  // 3. Nemtek Energizers (Wizord, Merlin, Druid)
+  // 19. Nemtek Energizers (Wizord, Merlin, Druid)
   if (n.includes('eletrificador') || n.includes('wizord') || n.includes('merlin') || n.includes('druid') || m.includes('wiz') || m.includes('stealth')) {
     return PRODUCT_IMAGE_MAP.nemtek_energizer;
   }
-  // 4. Fence materials / accessories
+  // 20. Fence materials / accessories
   if (p.category === 'cerca_eletrica') {
     return PRODUCT_IMAGE_MAP.electric_fence;
   }
-  // 5. NVR & XVR Recorders
-  if (m.includes('nvr') || m.includes('xvr') || n.includes('gravador') || s.includes('gravador')) {
-    return PRODUCT_IMAGE_MAP.nvr_xvr;
+  // 21. Eyeball / Dome / PTZ Cameras Fallback
+  if (m.includes('hdw') || n.includes('eyeball') || n.includes('dome') || s.includes('dome') || s.includes('eyeball')) {
+    return PRODUCT_IMAGE_MAP.cam_hdbw1439;
   }
-  // 6. Eyeball / Dome / PTZ Cameras
-  if (m.includes('hdw') || n.includes('eyeball') || n.includes('dome') || s.includes('dome') || s.includes('eyeball') || m.includes('ptz') || m.includes('sd49')) {
-    return PRODUCT_IMAGE_MAP.eyeball_dome;
+  // 22. Bullet Cameras Fallback
+  if (m.includes('hfw') || n.includes('bullet') || s.includes('bullet')) {
+    return PRODUCT_IMAGE_MAP.cam_hfw1439;
   }
-  // 7. Bullet Cameras
-  if (m.includes('hfw') || n.includes('bullet') || s.includes('bullet') || m.includes('ipc-hfw') || m.includes('hac-hfw')) {
-    return PRODUCT_IMAGE_MAP.bullet;
-  }
-  // 8. Access control & Biometrics
+  // 23. Access control & Biometrics
   if (p.category === 'controle_acesso' || s.includes('facial') || s.includes('biometr') || n.includes('reconhecimento') || n.includes('mb20') || n.includes('fechadura')) {
     return PRODUCT_IMAGE_MAP.access_control;
   }
-  // 9. Alarm kits
+  // 24. Alarm kits
   if (p.category === 'alarmes') {
-    return PRODUCT_IMAGE_MAP.nvr_xvr;
+    return PRODUCT_IMAGE_MAP.airshield_alarm;
   }
-  // 10. Default CCTV fallback
+  // 25. Default CCTV fallback
   if (p.category === 'cctv') {
-    return PRODUCT_IMAGE_MAP.bullet;
+    return PRODUCT_IMAGE_MAP.cam_hfw1439;
   }
-  return PRODUCT_IMAGE_MAP.nvr_xvr;
+  return PRODUCT_IMAGE_MAP.nvr_16p;
 }
 
 const RAW_PRODUCTS: Product[] = [

@@ -21,7 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Início', href: '#', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
     { label: 'Loja & Catálogo', href: '#catalogo', onClick: () => onSelectCategory('todos') },
     { label: 'Simulador de Kits', href: '#kit-builder' },
-    { label: 'Sobre Nós', href: '#sobre-nos' },
+    { label: 'Parceiros & Depoimentos', href: '#parceiros-depoimentos' },
     { label: 'Showroom Maputo', href: '#localizacao' },
     { label: 'Cotação Formal', href: '#orcamento' },
   ];
