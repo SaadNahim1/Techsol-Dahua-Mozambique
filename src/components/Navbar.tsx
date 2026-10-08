@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { MessageCircle, ShoppingBag, Menu, X, Phone } from 'lucide-react';
 import { COMPANY_CONFIG } from '../config/company';
+import { TechsolLogo } from './TechsolLogo';
 
 interface NavbarProps {
   quoteCount: number;
   onOpenQuoteDrawer: () => void;
   onOpenQuoteForm: () => void;
   onSelectCategory: (category: string) => void;
+  onOpenAdminPanel?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -14,8 +16,35 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenQuoteDrawer,
   onOpenQuoteForm,
   onSelectCategory,
+  onOpenAdminPanel,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const logoClickCountRef = useRef(0);
+  const logoClickTimerRef = useRef<number | null>(null);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    logoClickCountRef.current += 1;
+
+    if (logoClickTimerRef.current) {
+      window.clearTimeout(logoClickTimerRef.current);
+    }
+
+    if (logoClickCountRef.current >= 3) {
+      logoClickCountRef.current = 0;
+      if (onOpenAdminPanel) {
+        onOpenAdminPanel();
+      }
+      return;
+    }
+
+    logoClickTimerRef.current = window.setTimeout(() => {
+      if (logoClickCountRef.current === 1) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      logoClickCountRef.current = 0;
+    }, 650);
+  };
 
   const navLinks = [
     { label: 'Início', href: '#', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
@@ -28,21 +57,16 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand wordmark */}
-        <div className="flex items-center gap-3">
-          <a href="#" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-600 text-white font-black text-xl shadow-xs">
-              T
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-slate-900 leading-none">
-                TECHSOL <span className="text-red-600 font-extrabold">SU LDA</span>
-              </span>
-              <span className="text-[10px] tracking-wider uppercase text-slate-500 font-semibold mt-1">
-                Distribuidor Dahua Moçambique
-              </span>
-            </div>
+      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Brand Logo (Triple-click opens PIN-protected Admin Panel) */}
+        <div className="flex items-center">
+          <a
+            href="#"
+            onClick={handleLogoClick}
+            className="flex items-center py-1 select-none"
+            aria-label="TECHSOL SU LDA - Início"
+          >
+            <TechsolLogo className="h-11 sm:h-12" />
           </a>
         </div>
 

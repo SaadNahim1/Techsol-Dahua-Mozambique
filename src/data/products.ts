@@ -22,6 +22,8 @@ export const PRODUCT_IMAGE_MAP = {
   intercom: '/images/intercom_ktw02.jpg',
   facial_terminal: '/images/facial_asi6214s.jpg',
   biometric_keypad: '/images/biometric_keypad.jpg',
+  access_control: '/images/access.jpg',
+  turnstile_dahua: '/images/turnstile_dahua.jpg',
   magnetic_lock: '/images/magnetic_lock.jpg',
   rfid_card: '/images/rfid_card.jpg',
   airshield_alarm: '/images/alarm_airshield.jpg',
@@ -32,15 +34,19 @@ export const PRODUCT_IMAGE_MAP = {
   wire_spool: '/images/wire_spool.jpg',
   siren: '/images/siren.jpg',
   gate_motor: '/images/centurion_d5.jpg',
+  gate_motor_d10: '/images/gate_motor.jpg',
   remote_control: '/images/remote.jpg',
   battery_12v: '/images/battery_12v.jpg',
   power_supply: '/images/power_supply.jpg',
   cat6_cable: '/images/cable_cat6.jpg',
+  cable_coaxial: '/images/cable_coaxial.jpg',
+  bnc_dc_connectors: '/images/bnc_dc_connectors.jpg',
+  junction_box: '/images/junction_box.jpg',
   cable_hdmi: '/images/cable_hdmi.jpg',
+  monitor_dahua: '/images/monitor_dahua.jpg',
   switch_poe: '/images/switch_poe.jpg',
   ceiling_ap: '/images/ceiling_ap.jpg',
   router_wifi: '/images/router_wifi.jpg',
-  access_control: '/images/access.jpg',
   wd_purple: '/images/hdd.jpg',
   ups: '/images/ups_dahua.png',
   rack_6u: '/images/rack_zkteco.jpg',
@@ -52,101 +58,207 @@ export function getProductReferenceImage(p: { id: string; model: string; name: s
   const n = p.name.toLowerCase();
   const s = p.subcategory.toLowerCase();
 
+  // 1. Monitors (must come before HDMI cables & cameras!)
+  if (s.includes('monitor') || n.includes('monitor') || m.includes('lm19') || m.includes('lm22') || m.includes('lm32')) {
+    return PRODUCT_IMAGE_MAP.monitor_dahua;
+  }
+
+  // 2. Video Intercom Doorbell Kits & Touch Screens (must come before batteries!)
+  if (['ktw02', 'kta02', 'ktp03', 'sd7', 'videoporteiro', 'intercom'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    return PRODUCT_IMAGE_MAP.intercom;
+  }
+
+  // 3. Solar PTZ & Battery Solar Cameras
+  if (n.includes('solar') || s.includes('solar') || m.includes('hb8c') || n.includes('hb8c') || m.includes('eb3') || m.includes('eb8')) {
+    return PRODUCT_IMAGE_MAP.solar_cam;
+  }
+
+  // 4. NVRs (PoE and Non-PoE) - MUST COME BEFORE WIFI CAMERAS & HDMI!
+  if (n.includes('nvr') || m.includes('nvr') || s.includes('nvr')) {
+    if (['-16p', '-8p', '-4p', 'poe'].some(k => m.includes(k) || n.includes(k))) {
+      return PRODUCT_IMAGE_MAP.nvr_16p;
+    }
+    return PRODUCT_IMAGE_MAP.nvr_xvr;
+  }
+
+  // 5. XVRs / DVRs
+  if (n.includes('xvr') || m.includes('xvr') || s.includes('xvr') || s.includes('dvr')) {
+    return PRODUCT_IMAGE_MAP.xvr_wizsense;
+  }
+
+  // 6. Smart Wi-Fi / Consumer Cameras - MUST COME BEFORE BATTERY & ROUTER!
+  if ([
+    'ch3', 'ct3', 'rh3', 'rt3', 'rp3', 'cp3', 'cb1', 'cb2', 'c6n', 'h6c',
+    'h3a', 'h3d', 'c3a', 'f3d', 'h3c', 'h4 3mp', 'poe h4', 'h3 5mp', 'h5',
+    'lc1c', 'lc3', 'h8c', 'h9c', 'spy camera'
+  ].some(k => n.includes(k) || m.includes(k)) || (n.includes('camera') && (n.includes('wi-fi') || n.includes('wifi'))) || s.includes('camera wi-fi')) {
+    return PRODUCT_IMAGE_MAP.wifi_smart_cam;
+  }
+
+  // 7. UPS / No-break (must come before Power Supplies!)
+  if (s.includes('ups') || m.includes('pfm3350') || n.includes('uninterruptible') || ((m.includes('ups') || n.includes('ups')) && !n.includes('power supply') && !m.includes('ps412v'))) {
+    return PRODUCT_IMAGE_MAP.ups;
+  }
+
+  // 8. Power Supplies (12V PSU boxes and adapters)
+  if (n.includes('power supply') || n.includes('fonte') || s.includes('fonte') || m.includes('ps412v') || m.includes('pfm344') || m.includes('pfm302')) {
+    return PRODUCT_IMAGE_MAP.power_supply;
+  }
+
+  // 9. Batteries (12V SLA Backup Batteries)
   if (n.includes('battery') || n.includes('bateria') || n.includes('7.2a') || n.includes('7ah')) {
     return PRODUCT_IMAGE_MAP.battery_12v;
   }
-  if (n.includes('power supply') || n.includes('fonte') || m.includes('ps412v') || m.includes('pfm344') || m.includes('pfm302')) {
-    return PRODUCT_IMAGE_MAP.power_supply;
-  }
-  if (m.includes('ups') || s.includes('ups') || (n.includes('ups') && !n.includes('power supply'))) {
-    return PRODUCT_IMAGE_MAP.ups;
-  }
-  if (n.includes('hdmi') || m.includes('hdmi')) {
+
+  // 10. HDMI Cables
+  if (n.includes('hdmi') || m.includes('hdmi') || s.includes('hdmi')) {
     return PRODUCT_IMAGE_MAP.cable_hdmi;
   }
-  if (['card', 'cartao', 'cartão', 'tag', 'keyfob', 's50'].some(k => n.includes(k) || m.includes(k))) {
+
+  // 11. Tripod Turnstiles (Catracas)
+  if (n.includes('turnstile') || s.includes('turnstile') || m.includes('asgg')) {
+    return PRODUCT_IMAGE_MAP.turnstile_dahua;
+  }
+
+  // 12. Facial Recognition Terminals
+  if (['asi6214', 'asi3204', 'facial', 'face recognition'].some(k => n.includes(k) || m.includes(k))) {
+    return PRODUCT_IMAGE_MAP.facial_terminal;
+  }
+
+  // 13. Biometric Keypad & Access / Time Attendance Terminals (MUST COME BEFORE RFID CARD!)
+  if (['asi1212', 'asa2212', 'asa1222', 'standalone', 'attendance', 'fingerprint'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    if (m.includes('asa2212') || m.includes('asi1212')) {
+      return PRODUCT_IMAGE_MAP.access_control;
+    }
+    return PRODUCT_IMAGE_MAP.biometric_keypad;
+  }
+
+  // 14. RFID IC Cards & Keyfobs
+  if (['ic card', 'cartao', 'cartão', 'keyfob', 's50', 'abs003'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
     return PRODUCT_IMAGE_MAP.rfid_card;
   }
+
+  // 15. Door Closers & Magnetic Locks
   if (['lock', 'fechadura', 'magnetic', 'eletroiman', 'asf280', 'door closer', 'dc80120'].some(k => n.includes(k) || m.includes(k))) {
     return PRODUCT_IMAGE_MAP.magnetic_lock;
   }
-  if (['smoke', 'heat detector', 'fumo', 'incendio', 'incêndio', '1320', '1500'].some(k => n.includes(k) || m.includes(k))) {
+
+  // 16. Smoke & Fire Detectors
+  if (['smoke', 'heat detector', 'fumo', 'incendio', 'incêndio', 'fire alarm', 'hy-1320', 'hy-1500'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
     return PRODUCT_IMAGE_MAP.smoke_detector;
   }
+
+  // 17. PIR Motion & Door Reed Detectors
   if (['pir detector', 'ard2231', 'ard333', 'door detector', 'contacto magnetico'].some(k => n.includes(k) || m.includes(k))) {
     return PRODUCT_IMAGE_MAP.pir_detector;
   }
-  if (['arc3800', 'ara13', 'airshield', 'central de alarme'].some(k => n.includes(k) || m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.airshield_alarm;
-  }
-  if (['ktw02', 'kta02', 'ktp03', 'videoporteiro', 'intercom'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
-    return PRODUCT_IMAGE_MAP.intercom;
-  }
-  if (n.includes('solar') || m.includes('hb8c') || n.includes('hb8c')) {
-    return PRODUCT_IMAGE_MAP.solar_cam;
-  }
-  if (['ch3', 'ct3', 'rh3', 'rt3', 'cb2', 'h3a', 'h3d', 'c3a', 'h4 3mp', 'h3 5mp', 'lc1c', 'h8c'].some(k => n.includes(k) || m.includes(k)) || 
-      (n.includes('camera') && (n.includes('wi-fi') || n.includes('wifi')))) {
-    return PRODUCT_IMAGE_MAP.wifi_smart_cam;
-  }
-  if (['ptz', 'speed dome', 'sd3d', 'sd49', 'sdt'].some(k => n.includes(k) || m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.cam_ptz;
-  }
-  if (['dome', 'eyeball', 'turret', 'hdbw', 'hdw'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
-    return PRODUCT_IMAGE_MAP.cam_hdbw1439;
-  }
-  if (['bullet', 'hfw'].some(k => n.includes(k) || m.includes(k) || s.includes(k)) || n.includes('camera') || s.includes('camera')) {
-    return PRODUCT_IMAGE_MAP.cam_hfw1439;
-  }
-  if (n.includes('xvr') || m.includes('xvr') || s.includes('xvr')) {
-    return PRODUCT_IMAGE_MAP.xvr_wizsense;
-  }
-  if (n.includes('nvr') || m.includes('nvr') || s.includes('nvr')) {
-    return PRODUCT_IMAGE_MAP.nvr_16p;
-  }
-  if (m.includes('r9u') || n.includes('9u')) {
-    return PRODUCT_IMAGE_MAP.rack_9u;
-  }
-  if (n.includes('rack') || m.includes('rack') || s.includes('bastidor') || n.includes('bastidor')) {
-    return PRODUCT_IMAGE_MAP.rack_6u;
-  }
-  if (['u7-lr', 'u7-outdoor', 'ap3000', 'ap de teto', 'celing mount', 'i29', 'o4-kit', 'o8 tenda', 'wbc5'].some(k => n.includes(k) || m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.ceiling_ap;
-  }
-  if (['router', 'wi-fi', 'wifi', 'mesh', 'tx12', 'rx12', 'tx2', 'a23', 'a9', 'n301', '4g03', '4g08', '5g01', 'mr403', 'dh-n3', 'ax15', 'ax30'].some(k => n.includes(k) || m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.router_wifi;
-  }
-  if (n.includes('switch') || s.includes('switch') || ['teg', 'tef', 'pfs', 'cs4228', 'sg10'].some(k => m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.switch_poe;
-  }
-  if (n.includes('purple') || n.includes('disco') || s.includes('hdd')) {
-    return PRODUCT_IMAGE_MAP.wd_purple;
-  }
-  if (['asi1212', 'asa2212', 'standalone', 'attendance', 'fingerprint'].some(k => n.includes(k) || m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.biometric_keypad;
-  }
-  if (['asi6214', 'asi3204', 'facial'].some(k => n.includes(k) || m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.facial_terminal;
-  }
-  if (n.includes('comando') || n.includes('remoto') || m.includes('nova')) {
-    return PRODUCT_IMAGE_MAP.remote_control;
-  }
-  if (['motor de portao', 'd5', 'd10', 'gemini'].some(k => n.includes(k) || m.includes(k))) {
-    return PRODUCT_IMAGE_MAP.gate_motor;
-  }
-  if (n.includes('sirene') || n.includes('siren') || m.includes('sr-30')) {
+
+  // 18. Sirens (Dahua Wireless Sirens & Nemtek Sirens)
+  if (['sirene', 'siren', 'sr-30', 'ara12', 'ara13'].some(k => n.includes(k) || m.includes(k))) {
     return PRODUCT_IMAGE_MAP.siren;
   }
-  if (n.includes('arame') || n.includes('wire') || m.includes('ew-al') || m.includes('ew-ss')) {
+
+  // 19. AirShield Alarm Hub & Kits
+  if (['arc3800', 'airshield', 'alarm hub', 'alarm kit', 'central de alarme'].some(k => n.includes(k) || m.includes(k))) {
+    return PRODUCT_IMAGE_MAP.airshield_alarm;
+  }
+
+  // 20. PTZ Speed Dome & Positioning Cameras
+  if (['ptz', 'speed dome', 'sd3d', 'sd49', 'sdt', 'epc245', 'eca7b', 'esd41'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    return PRODUCT_IMAGE_MAP.cam_ptz;
+  }
+
+  // 21. Dome / Eyeball / Turret Cameras
+  if (['dome', 'eyeball', 'turret', 'hdbw', 'hdw'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    if (m.includes('hdw') && !m.includes('hdbw')) {
+      return PRODUCT_IMAGE_MAP.eyeball_dome;
+    }
+    return PRODUCT_IMAGE_MAP.cam_hdbw1439;
+  }
+
+  // 22. Bullet & Splicing Cameras
+  if (['bullet', 'hfw', 'pdw5849', 'tpc-aebf', 'me1239'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    if (m.includes('hac-hfw') || m.includes('me1239') || m.includes('tpc-aebf')) {
+      return PRODUCT_IMAGE_MAP.bullet;
+    }
+    return PRODUCT_IMAGE_MAP.cam_hfw1439;
+  }
+
+  // 23. Bastidor Rack 9U
+  if (m.includes('r9u') || n.includes('9u') || m.includes('9u4d')) {
+    return PRODUCT_IMAGE_MAP.rack_9u;
+  }
+
+  // 24. Bastidor Rack 6U, 12U, 18U, 42U
+  if ((n.includes('rack') || m.includes('rack') || s.includes('bastidor') || n.includes('bastidor')) && !s.includes('fence')) {
+    return PRODUCT_IMAGE_MAP.rack_6u;
+  }
+
+  // 25. Ceiling Mount Access Points & Wireless Bridges / CPE
+  if (['u7-lr', 'u7-outdoor', 'ap3000', 'ap de teto', 'celing mount', 'i29', 'o4-kit', 'o8 tenda', 'wbc5', 'cpe'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    return PRODUCT_IMAGE_MAP.ceiling_ap;
+  }
+
+  // 26. Routers Wi-Fi, Mesh & 4G/5G
+  if (['router', 'wi-fi', 'wifi', 'mesh', 'tx12', 'rx12', 'tx2', 'a23', 'a9', 'n301', '4g03', '4g08', '5g01', 'mr403', 'dh-n3', 'ax15', 'ax30', 'mx3', 'mw3', 'mw6', 'ac650', '3wr4g'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    return PRODUCT_IMAGE_MAP.router_wifi;
+  }
+
+  // 27. Switches PoE e Rede
+  if (n.includes('switch') || s.includes('switch') || ['teg', 'tef', 'pfs', 's3220', 's3228', 'cs4228', 'sg10'].some(k => m.includes(k))) {
+    return PRODUCT_IMAGE_MAP.switch_poe;
+  }
+
+  // 28. Discos WD Purple
+  if (n.includes('purple') || n.includes('disco') || s.includes('hdd') || m.includes('wd10') || m.includes('wd20') || m.includes('wd40')) {
+    return PRODUCT_IMAGE_MAP.wd_purple;
+  }
+
+  // 29. Remote Controls & Receivers
+  if (n.includes('comando') || n.includes('remoto') || n.includes('centurion nova') || m.includes('centurion nova')) {
+    return PRODUCT_IMAGE_MAP.remote_control;
+  }
+
+  // 30. Gate Motors
+  if (['motor de portao', 'd5 evo', 'd10 smart', 'sliding gate', 'gemini'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
+    if (m.includes('d10') || n.includes('d10')) {
+      return PRODUCT_IMAGE_MAP.gate_motor_d10;
+    }
+    return PRODUCT_IMAGE_MAP.gate_motor;
+  }
+
+  // 31. Wire Spools (Arame)
+  if (n.includes('arame') || (n.includes('wire') && (m.includes('ew-al') || m.includes('ew-ss')))) {
     return PRODUCT_IMAGE_MAP.wire_spool;
   }
-  if (['eletrificador', 'wizord', 'druid', 'merlin'].some(k => n.includes(k) || m.includes(k))) {
+
+  // 32. Nemtek Energizers
+  if (['eletrificador', 'energizer', 'wizord', 'druid', 'merlin', 'e-m18', 'e-wiz'].some(k => n.includes(k) || m.includes(k))) {
     return PRODUCT_IMAGE_MAP.nemtek_energizer;
   }
-  if (s.includes('cerca') || s.includes('fence')) {
+
+  // 33. Electric Fence general (Tubes, Brackets, Warning Signs)
+  if (s.includes('cerca') || s.includes('fence') || m.includes('esqj') || m.includes('ea-wrs')) {
     return PRODUCT_IMAGE_MAP.electric_fence;
   }
-  if (n.includes('cabo') || n.includes('cat6') || m.includes('pfm92')) {
+
+  // 34. Coaxial Cable
+  if (n.includes('coaxial') || s.includes('coxial') || m.includes('rg59')) {
+    return PRODUCT_IMAGE_MAP.cable_coaxial;
+  }
+
+  // 35. BNC & DC Connectors
+  if (n.includes('bnc') || m.includes('bnc') || m.includes('pfm979-dcp') || (n.includes('connector') && !n.includes('rj45') && !n.includes('cat6'))) {
+    return PRODUCT_IMAGE_MAP.bnc_dc_connectors;
+  }
+
+  // 36. Junction Box
+  if (n.includes('junction box') || s.includes('junction box') || m.includes('pfa12a')) {
+    return PRODUCT_IMAGE_MAP.junction_box;
+  }
+
+  // 37. Network Cables Cat6 & RJ45 Connectors
+  if (n.includes('cabo') || n.includes('cat6') || m.includes('pfm92') || m.includes('pfm972') || m.includes('pfm976-631')) {
     return PRODUCT_IMAGE_MAP.cat6_cable;
   }
 
@@ -210,7 +322,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "dhi-nvr2216-16p-4ks3",
@@ -964,7 +1076,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/cam_ptz.jpg"
   },
   {
     "id": "dh-epc245u-ptz-ir",
@@ -1196,7 +1308,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/wifi_smart_cam.jpg"
   },
   {
     "id": "cb2",
@@ -1225,7 +1337,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/battery_12v.jpg"
+    "image": "/images/wifi_smart_cam.jpg"
   },
   {
     "id": "ezviz-smart-integration-cb1",
@@ -1254,7 +1366,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/battery_12v.jpg"
+    "image": "/images/wifi_smart_cam.jpg"
   },
   {
     "id": "ezviz-cs-h3c",
@@ -1399,7 +1511,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "dh-wbc5-45ac-03s",
@@ -1457,7 +1569,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/wifi_smart_cam.jpg"
   },
   {
     "id": "h8c-3mp-4g",
@@ -1689,7 +1801,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/bullet.jpg"
   },
   {
     "id": "pfs4206-4p-96",
@@ -1805,7 +1917,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "ds-3wr4g3n",
@@ -1921,7 +2033,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/cam_ptz.jpg"
   },
   {
     "id": "ezviz-lc3-ai-powerd",
@@ -2211,7 +2323,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/smoke_detector.jpg"
+    "image": "/images/router_wifi.jpg"
   },
   {
     "id": "cpe-o4-kit",
@@ -2385,7 +2497,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/battery_12v.jpg"
+    "image": "/images/intercom_ktw02.jpg"
   },
   {
     "id": "dhi-nvr2108hs-4ks3",
@@ -2414,7 +2526,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "dhi-nvr2108hs-8p-4ks3",
@@ -2472,7 +2584,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/cable_hdmi.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "pc-hdbw3849f-as-il",
@@ -2675,7 +2787,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/smoke_detector.jpg"
+    "image": "/images/router_wifi.jpg"
   },
   {
     "id": "ax1500-tx2l-pro-tenda",
@@ -2704,7 +2816,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/smoke_detector.jpg"
+    "image": "/images/router_wifi.jpg"
   },
   {
     "id": "mw3-2-pack-ac1200-tenda",
@@ -3052,7 +3164,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/rfid_card.jpg"
+    "image": "/images/access.jpg"
   },
   {
     "id": "dhi-asgg121f",
@@ -3081,7 +3193,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/turnstile_dahua.jpg"
   },
   {
     "id": "mx3-2-pack-tenda",
@@ -3110,7 +3222,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia do Fabricante",
     "datasheetAvailable": true,
-    "image": "/images/smoke_detector.jpg"
+    "image": "/images/router_wifi.jpg"
   },
   {
     "id": "dh-ax15m",
@@ -3139,7 +3251,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/smoke_detector.jpg"
+    "image": "/images/router_wifi.jpg"
   },
   {
     "id": "dh-ax30",
@@ -3458,7 +3570,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "dhi-nvr2116hs-4ks3",
@@ -3487,7 +3599,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "dh-xvr1b16-i-t",
@@ -3574,7 +3686,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/monitor_dahua.jpg"
   },
   {
     "id": "dh-ipc-hfw1239tl1-a-il",
@@ -3661,7 +3773,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/bullet.jpg"
   },
   {
     "id": "dh-hac-hdw1209tlqp-a-led",
@@ -3690,7 +3802,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hdbw1439.jpg"
+    "image": "/images/dome.jpg"
   },
   {
     "id": "dh-hac-me1239thp-a-pv",
@@ -3719,7 +3831,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/bullet.jpg"
   },
   {
     "id": "dh-h3d-3f",
@@ -3777,7 +3889,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "dh-h3a",
@@ -3835,7 +3947,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/wifi_smart_cam.jpg"
   },
   {
     "id": "dh-c3a",
@@ -3893,7 +4005,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/nvr_16p.jpg"
+    "image": "/images/nvr.jpg"
   },
   {
     "id": "dh-pfm344d-4ch-en",
@@ -4125,7 +4237,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hdbw1439.jpg"
+    "image": "/images/dome.jpg"
   },
   {
     "id": "dh-ipc-hdw2449t-s-pro",
@@ -4154,7 +4266,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hdbw1439.jpg"
+    "image": "/images/dome.jpg"
   },
   {
     "id": "dh-hac-hfw1509cp-a-led",
@@ -4183,7 +4295,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/bullet.jpg"
   },
   {
     "id": "dh-hac-hdw1509tlqp-a-led",
@@ -4212,7 +4324,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hdbw1439.jpg"
+    "image": "/images/dome.jpg"
   },
   {
     "id": "dh-pfs3005-5gt",
@@ -4386,7 +4498,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/bnc_dc_connectors.jpg"
   },
   {
     "id": "dhi-asi1212m-p",
@@ -4415,7 +4527,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/rfid_card.jpg"
+    "image": "/images/access.jpg"
   },
   {
     "id": "dh-pfm976-631",
@@ -4473,7 +4585,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/cable_coaxial.jpg"
   },
   {
     "id": "dh-pfm979-dcp",
@@ -4502,7 +4614,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/bnc_dc_connectors.jpg"
   },
   {
     "id": "dhi-asf280b-v1",
@@ -4589,7 +4701,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cable_hdmi.jpg"
+    "image": "/images/monitor_dahua.jpg"
   },
   {
     "id": "dhi-lm32-f200",
@@ -4618,7 +4730,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cable_hdmi.jpg"
+    "image": "/images/monitor_dahua.jpg"
   },
   {
     "id": "dhi-asa1222e-s",
@@ -4676,7 +4788,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hfw1439.jpg"
+    "image": "/images/junction_box.jpg"
   },
   {
     "id": "dh-s3220-16gt-190",
@@ -5024,7 +5136,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/alarm_airshield.jpg"
+    "image": "/images/siren.jpg"
   },
   {
     "id": "dhi-asf280zl-v1",
@@ -5140,7 +5252,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Nemtek",
     "datasheetAvailable": true,
-    "image": "/images/rack_zkteco.jpg"
+    "image": "/images/fence.jpg"
   },
   {
     "id": "ew-ss12-316-7",
@@ -5198,7 +5310,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Centurion",
     "datasheetAvailable": true,
-    "image": "/images/centurion_d5.jpg"
+    "image": "/images/gate_motor.jpg"
   },
   {
     "id": "d5-evo-smart-12v-dc-sliding-doors",
@@ -5372,7 +5484,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/power_supply.jpg"
+    "image": "/images/ups_dahua.png"
   },
   {
     "id": "wd10purx-78",

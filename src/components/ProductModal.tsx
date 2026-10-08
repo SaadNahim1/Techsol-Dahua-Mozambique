@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../types';
-import { X, ShieldCheck, Check, MessageCircle, Plus, Camera, Upload, RotateCcw, Image as ImageIcon } from 'lucide-react';
+import { X, ShieldCheck, Check, MessageCircle, Plus, Bell, BellRing, Mail } from 'lucide-react';
 import { COMPANY_CONFIG } from '../config/company';
-import { saveCustomProductImage, removeCustomProductImage } from '../utils/customImages';
+import { getCustomProductImages } from '../utils/customImages';
+import {
+  getProductPriceAlert,
+  subscribeToPriceAlert,
+  unsubscribeFromPriceAlert,
+  PriceAlertSubscription,
+} from '../utils/priceAlerts';
 
 interface ProductModalProps {
   product: Product | null;
@@ -17,13 +23,58 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   onAddToQuote,
   isInQuote,
 }) => {
-  const [isEditingPhoto, setIsEditingPhoto] = useState(false);
-  const [photoUrlInput, setPhotoUrlInput] = useState('');
-  const [currentDisplayImage, setCurrentDisplayImage] = useState<string | null>(null);
+  // Price Alert state
+  const [alertEmail, setAlertEmail] = useState('');
+  const [existingAlert, setExistingAlert] = useState<PriceAlertSubscription | undefined>(undefined);
+  const [showAlertForm, setShowAlertForm] = useState(false);
+  const [alertSuccessMessage, setAlertSuccessMessage] = useState(false);
+  const [alertError, setAlertError] = useState('');
+
+  useEffect(() => {
+    if (product) {
+      const saved = getProductPriceAlert(product.id);
+      setExistingAlert(saved);
+      setAlertEmail(saved?.email || '');
+      setShowAlertForm(false);
+      setAlertSuccessMessage(false);
+      setAlertError('');
+    }
+  }, [product]);
 
   if (!product) return null;
 
-  const displayImage = currentDisplayImage || product.image;
+  const customImages = getCustomProductImages();
+  const displayImage = customImages[product.id] || product.image;
+
+  const handlePriceAlertSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = alertEmail.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!trimmed || !emailRegex.test(trimmed)) {
+      setAlertError('Por favor, insira um endereço de e-mail válido.');
+      return;
+    }
+
+    setAlertError('');
+    const sub = subscribeToPriceAlert({
+      productId: product.id,
+      productModel: product.model,
+      productName: product.name,
+      email: trimmed,
+      subscribedPriceMZN: product.priceMZN,
+    });
+    setExistingAlert(sub);
+    setShowAlertForm(false);
+    setAlertSuccessMessage(true);
+    setTimeout(() => setAlertSuccessMessage(false), 4000);
+  };
+
+  const handleRemovePriceAlert = () => {
+    unsubscribeFromPriceAlert(product.id);
+    setExistingAlert(undefined);
+    setAlertEmail('');
+    setAlertSuccessMessage(false);
+  };
 
   const handleWhatsAppInquiry = () => {
     const text = encodeURIComponent(
@@ -34,36 +85,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
       `Por favor, informem-me se têm em estoque na Av. Josina Machel 923.`
     );
     window.open(`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${text}`, '_blank');
-  };
-
-  const handleSavePhotoUrl = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!photoUrlInput.trim()) return;
-    saveCustomProductImage(product.id, photoUrlInput.trim());
-    setCurrentDisplayImage(photoUrlInput.trim());
-    setIsEditingPhoto(false);
-    setPhotoUrlInput('');
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        saveCustomProductImage(product.id, reader.result);
-        setCurrentDisplayImage(reader.result);
-        setIsEditingPhoto(false);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleResetPhoto = () => {
-    removeCustomProductImage(product.id);
-    setCurrentDisplayImage(null);
-    setIsEditingPhoto(false);
   };
 
   return (
@@ -88,7 +109,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             <div className="relative rounded-xl overflow-hidden bg-slate-100 border border-slate-200 aspect-square flex items-center justify-center">
               <img
                 src={displayImage}
-                alt={product.name}
+                alt={`${product.name} - ${product.brand} (${product.model})`}
                 referrerPolicy="no-referrer"
                 onError={(e) => {
                   const target = e.currentTarget;
@@ -98,72 +119,12 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 }}
                 className="w-full h-full object-cover object-center"
               />
-
-              {/* Photo Edit Trigger Button */}
-              <button
-                type="button"
-                onClick={() => setIsEditingPhoto(!isEditingPhoto)}
-                className="absolute bottom-2 right-2 p-1.5 rounded-lg bg-black/70 hover:bg-black/90 text-white text-[11px] font-medium flex items-center gap-1 shadow-md transition-all cursor-pointer"
-                title="Trocar ou enviar foto real deste produto"
-              >
-                <Camera className="w-3.5 h-3.5" />
-                <span>Foto Real</span>
-              </button>
-            </div>
-
-            {/* Photo Editor Inline Panel */}
-            {isEditingPhoto && (
-              <div className="mt-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2 animate-in fade-in">
-                <div className="font-bold text-slate-800 flex items-center justify-between">
-                  <span>Atualizar Foto do Produto</span>
-                  <button
-                    type="button"
-                    onClick={() => setIsEditingPhoto(false)}
-                    className="text-slate-400 hover:text-slate-700"
-                  >
-                    ✕
-                  </button>
+              {product.isPromo && (
+                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-red-600 text-white text-[11px] font-extrabold uppercase tracking-wider shadow-md">
+                  {product.promoLabel || 'PROMOÇÃO'}
                 </div>
-
-                <form onSubmit={handleSavePhotoUrl} className="space-y-2">
-                  <input
-                    type="url"
-                    placeholder="Cole o link da foto (URL)..."
-                    value={photoUrlInput}
-                    onChange={(e) => setPhotoUrlInput(e.target.value)}
-                    className="w-full px-2.5 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-red-600"
-                  />
-                  <div className="flex gap-1.5">
-                    <button
-                      type="submit"
-                      className="flex-1 py-1 px-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs"
-                    >
-                      Salvar Link
-                    </button>
-                    <label className="py-1 px-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold rounded-lg text-xs flex items-center gap-1 cursor-pointer">
-                      <Upload className="w-3 h-3" />
-                      <span>Ficheiro</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileUpload}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                </form>
-
-                {currentDisplayImage && (
-                  <button
-                    type="button"
-                    onClick={handleResetPhoto}
-                    className="w-full text-center text-[10px] text-slate-500 hover:text-red-600 underline pt-1 block"
-                  >
-                    Restaurar foto padrão de fábrica
-                  </button>
-                )}
-              </div>
-            )}
+              )}
+            </div>
 
             <div className="mt-3 p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5 text-xs text-slate-600">
               <div className="flex items-center gap-1.5 font-semibold text-slate-800">
@@ -179,13 +140,18 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
           {/* Right Column: Info & Action */}
           <div className="md:col-span-7 space-y-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs uppercase font-mono text-red-600 font-bold tracking-wider">
                 {product.model}
               </span>
               <span className="text-[10px] uppercase font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
                 {product.brand}
               </span>
+              {product.isPromo && (
+                <span className="text-[10px] uppercase font-extrabold text-white bg-red-600 px-2 py-0.5 rounded">
+                  {product.promoLabel || 'PROMOÇÃO'}
+                </span>
+              )}
             </div>
 
             <h3 className="text-lg font-bold text-slate-900 leading-snug">
@@ -193,15 +159,127 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             </h3>
 
             {/* Price Box */}
-            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-2">
               <div>
-                <span className="text-[10px] uppercase text-slate-500 font-semibold block">Preço de Tabela B2B</span>
-                <span className="text-xl font-extrabold text-red-600 font-mono">
-                  {new Intl.NumberFormat('pt-MZ').format(product.priceMZN)} <span className="text-xs">MT</span>
+                <span className="text-[10px] uppercase text-slate-500 font-semibold block">
+                  {product.isPromo ? 'Preço Promocional B2B' : 'Preço de Tabela B2B'}
                 </span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xl font-extrabold text-red-600 font-mono">
+                    {new Intl.NumberFormat('pt-MZ').format(product.priceMZN)} <span className="text-xs">MT</span>
+                  </span>
+                  {product.isPromo && product.originalPriceMZN && (
+                    <span className="text-xs font-mono text-slate-400 line-through">
+                      {new Intl.NumberFormat('pt-MZ').format(product.originalPriceMZN)} MT
+                    </span>
+                  )}
+                </div>
               </div>
-              <span className="text-xs text-slate-500">Impostos inclusos</span>
+              <div className="flex flex-col items-end gap-1">
+                <span className="text-[11px] text-slate-500">Impostos inclusos</span>
+                {!existingAlert && !showAlertForm && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAlertForm(true)}
+                    className="inline-flex items-center gap-1.5 text-[11px] font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <Bell className="w-3.5 h-3.5" />
+                    <span>Avise-me se o preço mudar</span>
+                  </button>
+                )}
+              </div>
             </div>
+
+            {/* Price Notification Widget */}
+            {(showAlertForm || existingAlert) && (
+              <div className="p-3 rounded-xl bg-slate-50/90 border border-slate-200 space-y-2 animate-in fade-in duration-150">
+                {existingAlert && !showAlertForm ? (
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-2">
+                      <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-700 shrink-0 mt-0.5">
+                        <BellRing className="w-4 h-4" />
+                      </div>
+                      <div className="text-xs">
+                        <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                          <span>Alerta de Preço Ativo</span>
+                          {alertSuccessMessage && (
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">
+                              Registado!
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-slate-600 mt-0.5">
+                          Enviaremos notificações de baixa de preço ou promoção para{' '}
+                          <span className="font-semibold text-slate-800">{existingAlert.email}</span>.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 text-[11px]">
+                      <button
+                        type="button"
+                        onClick={() => setShowAlertForm(true)}
+                        className="text-slate-600 hover:text-slate-900 font-semibold underline cursor-pointer"
+                      >
+                        Alterar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleRemovePriceAlert}
+                        className="text-slate-400 hover:text-red-600 underline cursor-pointer"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <form onSubmit={handlePriceAlertSubmit} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                        <Bell className="w-3.5 h-3.5 text-red-600" />
+                        <span>Receber Alerta de Alteração de Preço</span>
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAlertForm(false);
+                          setAlertError('');
+                        }}
+                        className="text-[11px] text-slate-400 hover:text-slate-700 cursor-pointer"
+                      >
+                        Fechar
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Insira o seu e-mail para ser avisado sempre que o modelo{' '}
+                      <strong className="text-slate-700">{product.model}</strong> tiver redução de preço ou campanha especial.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <div className="relative flex-1">
+                        <Mail className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                        <input
+                          type="email"
+                          required
+                          placeholder="seu.email@empresa.co.mz"
+                          value={alertEmail}
+                          onChange={(e) => {
+                            setAlertEmail(e.target.value);
+                            if (alertError) setAlertError('');
+                          }}
+                          className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-red-600"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className="py-1.5 px-3.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs transition-colors cursor-pointer shrink-0"
+                      >
+                        Ativar Alerta
+                      </button>
+                    </div>
+                    {alertError && <p className="text-[11px] text-red-600 font-medium">{alertError}</p>}
+                  </form>
+                )}
+              </div>
+            )}
 
             <p className="text-xs text-slate-600 leading-relaxed">
               {product.description}

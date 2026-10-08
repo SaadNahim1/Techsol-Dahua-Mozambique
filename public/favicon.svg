@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 220" fill="none">
+  <rect width="210" height="220" rx="36" fill="#FFFFFF" />
+  <g transform="translate(8, 6)">
+    <!-- Red Shield Outline -->
+    <path
+      d="M84 36 C100 28, 108 18, 114 12 C122 20, 145 36, 184 44 C188 85, 184 126, 168 158"
+      stroke="#D31118"
+      stroke-width="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <path
+      d="M42 62 C36 112, 54 168, 114 202 C136 188, 152 174, 162 160"
+      stroke="#D31118"
+      stroke-width="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <!-- Black Eagle Top Wing -->
+    <path
+      d="M22 4 C48 30, 106 42, 144 68 C164 83, 170 105, 166 130 C154 106, 126 88, 88 74 C54 61, 32 48, 20 26 C16 16, 18 8, 22 4 Z"
+      fill="#0A0A0A"
+    />
+    <!-- Black Eagle Lower Head & Beak -->
+    <path
+      d="M50 68 C72 78, 102 88, 128 104 C156 121, 174 146, 172 178 C170 186, 167 193, 163 198 C161 182, 150 168, 132 162 C116 157, 98 156, 82 146 C60 132, 52 104, 50 68 Z"
+      fill="#0A0A0A"
+    />
+    <!-- Camera Eye -->
+    <circle cx="118" cy="122" r="24" fill="#FFFFFF" />
+    <circle cx="118" cy="122" r="17" fill="#0A0A0A" />
+    <circle cx="118" cy="122" r="12" fill="#FFFFFF" />
+    <circle cx="118" cy="122" r="9.5" fill="#D31118" />
+    <circle cx="121" cy="119" r="2.5" fill="#FFFFFF" />
+  </g>
+</svg>

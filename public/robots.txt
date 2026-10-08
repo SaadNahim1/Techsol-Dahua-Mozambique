@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://techsol-dahua-mozambique.vercel.app/sitemap.xml

@@ -1,12 +1,36 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ShieldCheck, Mail, Phone, MapPin, MessageCircle, ArrowUp } from 'lucide-react';
 import { COMPANY_CONFIG } from '../config/company';
+import { TechsolLogo } from './TechsolLogo';
 
 interface FooterProps {
   onSelectCategory: (category: string) => void;
+  onOpenAdminPanel?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
+export const Footer: React.FC<FooterProps> = ({ onSelectCategory, onOpenAdminPanel }) => {
+  const logoClickCountRef = useRef(0);
+  const logoClickTimerRef = useRef<number | null>(null);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    logoClickCountRef.current += 1;
+    if (logoClickTimerRef.current) {
+      window.clearTimeout(logoClickTimerRef.current);
+    }
+    if (logoClickCountRef.current >= 3) {
+      logoClickCountRef.current = 0;
+      if (onOpenAdminPanel) onOpenAdminPanel();
+      return;
+    }
+    logoClickTimerRef.current = window.setTimeout(() => {
+      if (logoClickCountRef.current === 1) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      logoClickCountRef.current = 0;
+    }, 650);
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -17,14 +41,9 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-600 text-white font-black text-sm">
-                T
-              </div>
-              <span className="text-base font-bold text-slate-900">
-                TECHSOL <span className="text-red-600">SU LDA</span>
-              </span>
-            </div>
+            <a href="#" onClick={handleLogoClick} className="inline-block select-none">
+              <TechsolLogo className="h-12" />
+            </a>
             <p className="text-xs leading-relaxed text-slate-600">
               Distribuidor oficial autorizado Dahua Technology em Moçambique. Fornecimento de CFTV, cercas elétricas Nemtek, alarmes sem fios e controlo de acesso.
             </p>
@@ -115,7 +134,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
           {/* Contacts */}
           <div className="space-y-2.5">
             <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-              Contato Direto
+              Contacto Direto
             </h4>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">

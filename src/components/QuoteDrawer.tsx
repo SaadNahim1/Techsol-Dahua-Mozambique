@@ -25,6 +25,7 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
   const [deliveryType, setDeliveryType] = useState<'levantamento' | 'entrega'>('levantamento');
   const [customerName, setCustomerName] = useState('');
   const [customerLocation, setCustomerLocation] = useState('');
+  const [confirmClear, setConfirmClear] = useState(false);
 
   if (!isOpen) return null;
 
@@ -110,7 +111,7 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
                   >
                     <img
                       src={itemImage}
-                      alt={item.product.name}
+                      alt={`${item.product.name} - ${item.product.brand} (${item.product.model})`}
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         const target = e.currentTarget;
@@ -229,27 +230,51 @@ export const QuoteDrawer: React.FC<QuoteDrawerProps> = ({
                     {totalAmountMZN.toLocaleString('pt-MZ')} <span className="text-xs text-red-600">MT</span>
                   </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (window.confirm('Tem certeza que deseja esvaziar toda a sua sacola?')) {
-                      onClearQuote();
-                    }
-                  }}
-                  className="text-[11px] text-slate-400 hover:text-red-600 underline cursor-pointer p-1"
-                >
-                  Limpar sacola
-                </button>
+                {confirmClear ? (
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onClearQuote();
+                        setConfirmClear(false);
+                      }}
+                      className="text-[11px] font-bold text-white bg-red-600 hover:bg-red-700 px-2 py-1 rounded-md cursor-pointer"
+                    >
+                      Confirmar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmClear(false)}
+                      className="text-[11px] text-slate-500 hover:text-slate-800 px-1.5 py-1 cursor-pointer"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmClear(true)}
+                    className="text-[11px] text-slate-400 hover:text-red-600 underline cursor-pointer p-1"
+                  >
+                    Limpar sacola
+                  </button>
+                )}
               </div>
 
-              {/* Big WhatsApp Order Button */}
-              <button
-                onClick={handleWhatsAppCheckout}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all active:scale-95"
-              >
-                <MessageCircle className="w-5 h-5" />
-                <span>Finalizar Pedido no WhatsApp</span>
-              </button>
+              {/* WhatsApp Order Button & Official Quote Note */}
+              <div className="space-y-1.5">
+                <button
+                  type="button"
+                  onClick={handleWhatsAppCheckout}
+                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer active:scale-95"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span>Finalizar Pedido no WhatsApp</span>
+                </button>
+                <p className="text-[11px] text-center text-slate-500">
+                  A cotação oficial / fatura proforma da empresa será enviada pelo WhatsApp após o envio do pedido.
+                </p>
+              </div>
             </div>
           )}
         </div>

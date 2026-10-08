@@ -47,7 +47,7 @@ export const AboutSection: React.FC = () => {
             <Cpu className="w-6 h-6 text-red-600 mb-2" />
             <h3 className="text-sm font-bold text-slate-900">Tecnologia Inteligente</h3>
             <p className="text-xs text-slate-600 mt-1">
-              Câmeras com Inteligência Artificial WizSense, visão noturna Full-Color e detecção de viaturas.
+              Câmeras com Inteligência Artificial WizSense, visão noturna Full-Color e deteção de viaturas.
             </p>
           </div>
 

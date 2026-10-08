@@ -60,7 +60,7 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* Dominant Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-              Segurança Eletrônica: 100%, <span className="text-red-500">100% Feliz</span>, 100% Moçambicana.
+              Segurança Eletrónica: 100%, <span className="text-red-500">100% Feliz</span>, 100% Moçambicana.
             </h1>
 
             {/* Sub-headline */}
@@ -140,7 +140,7 @@ export const Hero: React.FC<HeroProps> = ({
               <div className="relative aspect-16/10 rounded-2xl overflow-hidden bg-slate-900 border border-slate-700">
                 <img
                   src="/images/hero_dahua_security_1791138982019.jpg"
-                  alt="Showroom e Distribuição Oficial TECHSOL SU LDA Dahua"
+                  alt="Showroom e Distribuição Oficial TECHSOL SU LDA — Equipamentos de Segurança Eletrónica Dahua Technology em Maputo, Moçambique"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                 />

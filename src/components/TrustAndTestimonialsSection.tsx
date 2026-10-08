@@ -100,7 +100,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
       city: 'Maputo (Rede Nacional de Agências)',
       avatar: 'MB',
       rating: 5,
-      text: 'A TECHSOL é fornecedora chave de equipamentos Dahua para os nossos projetos de videovigilância e controle de acessos em Moçambique. Câmeras com inteligência artificial, gravação contínua sem falhas em discos WD Purple e pronta entrega de equipamentos homologados com faturação fiscal e 3 anos de garantia oficial.',
+      text: 'A TECHSOL é fornecedora chave de equipamentos Dahua para os nossos projetos de videovigilância e controlo de acessos em Moçambique. Câmeras com inteligência artificial, gravação contínua sem falhas em discos WD Purple e pronta entrega de equipamentos homologados com faturação fiscal e 3 anos de garantia oficial.',
       verified: 'Instituição Bancária Verificada',
       highlight: 'Segurança Bancária de Alta Confiança',
     },
@@ -129,11 +129,11 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
     {
       name: 'Alberto Cossa',
       role: 'Técnico Instalador Credenciado',
-      company: 'Cossa Soluções Eletrônicas',
+      company: 'Cossa Soluções Eletrónicas',
       city: 'Matola · Fomento',
       avatar: 'AC',
       rating: 5,
-      text: 'Trabalho como instalador autônomo há 8 anos. O desconto que a TECHSOL pratica no balcão da Av. Josina Machel 923 para técnicos credenciados é imbatível. Sempre que preciso de assistência ou troca imediata com a garantia oficial de 3 anos, o atendimento é direto e sem burocracia.',
+      text: 'Trabalho como instalador autónomo há 8 anos. O desconto que a TECHSOL pratica no balcão da Av. Josina Machel 923 para técnicos credenciados é imbatível. Sempre que preciso de assistência ou troca imediata com a garantia oficial de 3 anos, o atendimento é direto e sem burocracia.',
       verified: 'Instalador Certificado',
       highlight: 'Margem Real para Técnicos Parceiros',
     },
@@ -166,7 +166,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
           </h2>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Fornecemos infraestrutura tecnológica e sistemas de segurança eletrônica de alto desempenho para as organizações mais exigentes de Moçambique.
+            Fornecemos infraestrutura tecnológica e sistemas de segurança eletrónica de alto desempenho para as organizações mais exigentes de Moçambique.
           </p>
         </div>
 

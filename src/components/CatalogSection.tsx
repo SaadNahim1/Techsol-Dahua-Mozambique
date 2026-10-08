@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Product, ProductCategory } from '../types';
-import { PRODUCTS, CATEGORIES_META } from '../data/products';
+import { CATEGORIES_META } from '../data/products';
 import { COMPANY_CONFIG } from '../config/company';
 import { getCustomProductImages } from '../utils/customImages';
+import { getActiveCatalogProducts } from '../utils/catalogSync';
 import { 
   Search, 
   Plus, 
@@ -10,7 +11,8 @@ import {
   MessageCircle, 
   Info,
   Sparkles,
-  RotateCcw
+  RotateCcw,
+  Tag
 } from 'lucide-react';
 
 interface CatalogSectionProps {
@@ -44,25 +46,39 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
   onOpenProductModal,
 }) => {
   const [stockOnly, setStockOnly] = useState(false);
+  const [promoOnly, setPromoOnly] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<string>('todas');
   const [customImages, setCustomImages] = useState<Record<string, string>>(() => getCustomProductImages());
+  const [catalogProducts, setCatalogProducts] = useState<Product[]>(() => getActiveCatalogProducts());
 
   useEffect(() => {
     const handleUpdate = () => {
       setCustomImages(getCustomProductImages());
     };
+    const handleCatalogUpdate = () => {
+      setCatalogProducts(getActiveCatalogProducts());
+    };
     window.addEventListener('techsol_images_updated', handleUpdate);
-    return () => window.removeEventListener('techsol_images_updated', handleUpdate);
+    window.addEventListener('techsol_catalog_updated', handleCatalogUpdate);
+    return () => {
+      window.removeEventListener('techsol_images_updated', handleUpdate);
+      window.removeEventListener('techsol_catalog_updated', handleCatalogUpdate);
+    };
   }, []);
+
+  const promoCount = useMemo(
+    () => catalogProducts.filter((p) => p.isPromo).length,
+    [catalogProducts]
+  );
 
   // Compute brands dynamically available in the currently selected category
   const availableBrands = useMemo(() => {
     const list = selectedCategory === 'todos'
-      ? PRODUCTS
-      : PRODUCTS.filter((p) => p.category === selectedCategory);
+      ? catalogProducts
+      : catalogProducts.filter((p) => p.category === selectedCategory);
     const unique = Array.from(new Set(list.map((p) => p.brand).filter(Boolean)));
     return ['todas', ...unique];
-  }, [selectedCategory]);
+  }, [selectedCategory, catalogProducts]);
 
   // If the currently selected brand doesn't exist in the new category, auto-reset to 'todas'
   useEffect(() => {
@@ -88,12 +104,13 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
   const handleResetAllFilters = () => {
     setSelectedBrand('todas');
     setStockOnly(false);
+    setPromoOnly(false);
     onSearchChange('');
     onSelectCategory('todos');
   };
 
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((item) => {
+    return catalogProducts.filter((item) => {
       // 1. Category check
       if (selectedCategory !== 'todos' && item.category !== selectedCategory) {
         return false;
@@ -106,7 +123,11 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
       if (stockOnly && !item.inStock) {
         return false;
       }
-      // 4. Accent-insensitive Search
+      // 4. Promo check
+      if (promoOnly && !item.isPromo) {
+        return false;
+      }
+      // 5. Accent-insensitive Search
       const query = normalizeText(searchQuery);
       if (query) {
         const matchesName = normalizeText(item.name).includes(query);
@@ -119,11 +140,14 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
       }
       return true;
     });
-  }, [selectedCategory, selectedBrand, stockOnly, searchQuery]);
+  }, [catalogProducts, selectedCategory, selectedBrand, stockOnly, promoOnly, searchQuery]);
 
   return (
     <section id="catalogo" className="py-8 sm:py-12 bg-white border-b border-slate-200 scroll-mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="sr-only">
+          Catálogo de Equipamentos de Segurança Eletrónica Dahua, Nemtek e Centurion em Moçambique
+        </h2>
         
         {/* Category Navigation Pills (Sticky / Horizontal Scroll) */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
@@ -187,6 +211,21 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
               )}
             </div>
 
+            {promoCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setPromoOnly(!promoOnly)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg border transition-colors whitespace-nowrap cursor-pointer ${
+                  promoOnly
+                    ? 'bg-red-600 text-white border-red-600'
+                    : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
+                }`}
+              >
+                <Tag className="w-3.5 h-3.5" />
+                <span>Promoções ({promoCount})</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => setStockOnly(!stockOnly)}
@@ -204,11 +243,11 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
 
         {/* Product Count Header & Active Filter Indicators */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span>
-              Mostrando <strong>{filteredProducts.length}</strong> de {PRODUCTS.length} produtos
+              Mostrando <strong>{filteredProducts.length}</strong> de {catalogProducts.length} produtos
             </span>
-            {(selectedCategory !== 'todos' || selectedBrand !== 'todas' || searchQuery || stockOnly) && (
+            {(selectedCategory !== 'todos' || selectedBrand !== 'todas' || searchQuery || stockOnly || promoOnly) && (
               <button
                 type="button"
                 onClick={handleResetAllFilters}
@@ -229,7 +268,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
               <Info className="mx-auto w-8 h-8 text-slate-400 mb-2" />
               <p className="font-bold text-slate-800 text-sm">Nenhum produto encontrado com os filtros atuais</p>
               <p className="mt-1 text-xs text-slate-500 max-w-md mx-auto">
-                Tente limpar a pesquisa ou selecionar "Todo o Catálogo" para visualizar todos os {PRODUCTS.length} equipamentos disponíveis.
+                Tente limpar a pesquisa ou selecionar "Todo o Catálogo" para visualizar todos os {catalogProducts.length} equipamentos disponíveis.
               </p>
               <button
                 type="button"
@@ -237,7 +276,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                 className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-xs"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Ver Todo o Catálogo ({PRODUCTS.length} Itens)</span>
+                <span>Ver Todo o Catálogo ({catalogProducts.length} Itens)</span>
               </button>
             </div>
           ) : (
@@ -249,7 +288,11 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                 return (
                   <div
                     key={product.id}
-                    className="flex flex-col justify-between rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all p-3 sm:p-4 group"
+                    className={`flex flex-col justify-between rounded-2xl bg-white border transition-all p-3 sm:p-4 group ${
+                      product.isPromo
+                        ? 'border-red-300 hover:border-red-400 hover:shadow-md'
+                        : 'border-slate-200 hover:border-slate-300 hover:shadow-md'
+                    }`}
                   >
                     <div>
                       {/* Product Image */}
@@ -259,7 +302,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                       >
                         <img
                           src={itemImage}
-                          alt={product.name}
+                          alt={`${product.name} - ${product.brand} (${product.model})`}
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover object-center rounded-lg transition-transform duration-200 group-hover:scale-105"
                           onError={(e) => {
@@ -272,9 +315,14 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                         <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-white/95 border border-slate-200 text-[10px] font-mono font-bold text-slate-800 shadow-xs">
                           {product.brand}
                         </div>
+                        {product.isPromo && (
+                          <div className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-red-600 text-white text-[10px] font-extrabold uppercase tracking-wide shadow-sm">
+                            {product.promoLabel || 'PROMO'}
+                          </div>
+                        )}
                         <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-white/95 border border-slate-200 text-[9px] font-semibold text-emerald-700 shadow-xs flex items-center gap-1">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                          <span>Disponível</span>
+                          <span>{product.inStock ? 'Disponível' : 'Sob Encomenda'}</span>
                         </div>
                       </div>
 
@@ -299,7 +347,16 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                     {/* Price and Stepper */}
                     <div className="mt-3 pt-3 border-t border-slate-100">
                       <div className="mb-2">
-                        <div className="text-[10px] uppercase font-semibold text-slate-400">Preço de Venda</div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] uppercase font-semibold text-slate-400">
+                            {product.isPromo ? 'Preço Promocional' : 'Preço de Venda'}
+                          </span>
+                          {product.isPromo && product.originalPriceMZN && (
+                            <span className="text-[11px] font-mono text-slate-400 line-through">
+                              {new Intl.NumberFormat('pt-MZ').format(product.originalPriceMZN)} MT
+                            </span>
+                          )}
+                        </div>
                         <div className="text-base sm:text-lg font-extrabold text-slate-900 font-mono leading-none">
                           {new Intl.NumberFormat('pt-MZ').format(product.priceMZN)} <span className="text-xs text-red-600">MT</span>
                         </div>

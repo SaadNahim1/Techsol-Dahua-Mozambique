@@ -109,7 +109,7 @@ export const SecurityKitBuilder: React.FC<SecurityKitBuilderProps> = ({
             Monte Seu Kit de Segurança
           </h2>
           <p className="mt-1 text-sm text-slate-600">
-            Escolha entre tecnologia <strong>IP PoE de alta resolução</strong> ou <strong>Analógica HDCVI econômica</strong> e solicite orçamento consolidado no WhatsApp.
+            Escolha entre tecnologia <strong>IP PoE de alta resolução</strong> ou <strong>Analógica HDCVI económica</strong> e solicite orçamento consolidado no WhatsApp.
           </p>
         </div>
 
@@ -136,7 +136,7 @@ export const SecurityKitBuilder: React.FC<SecurityKitBuilderProps> = ({
             }`}
           >
             <Tv className="w-4 h-4" />
-            <span>Kits Analógicos HDCVI (Econômico 1.700 MT/câm + XVR)</span>
+            <span>Kits Analógicos HDCVI (Económico 1.700 MT/câm + XVR)</span>
           </button>
         </div>
 

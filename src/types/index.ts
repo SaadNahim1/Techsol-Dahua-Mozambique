@@ -14,7 +14,10 @@ export interface Product {
   subcategory: string;
   brand: string;
   sku: string;
-  priceMZN: number; // Preço de venda em Meticais (MT)
+  priceMZN: number; // Preço de venda atual em Meticais (MT)
+  originalPriceMZN?: number; // Preço anterior (riscado) quando em promoção
+  isPromo?: boolean; // Indica se o produto está em promoção ativa
+  promoLabel?: string; // Ex: "PROMO -15%", "OFERTA"
   stockQty: number; // Quantidade física em stock
   description: string;
   highlights: string[];

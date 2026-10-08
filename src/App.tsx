@@ -15,6 +15,7 @@ import { TrustAndTestimonialsSection } from './components/TrustAndTestimonialsSe
 import { QuoteFormSection } from './components/QuoteFormSection';
 import { ProductModal } from './components/ProductModal';
 import { QuoteDrawer } from './components/QuoteDrawer';
+import { AdminPanelModal } from './components/AdminPanelModal';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { StickyCartBar } from './components/StickyCartBar';
 import { Footer } from './components/Footer';
@@ -26,6 +27,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeProductModal, setActiveProductModal] = useState<Product | null>(null);
   const [isQuoteDrawerOpen, setIsQuoteDrawerOpen] = useState(false);
+  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
 
   // Dedicated, robust cart persistence layer
   const {
@@ -89,6 +91,7 @@ export default function App() {
         onOpenQuoteDrawer={() => setIsQuoteDrawerOpen(true)}
         onOpenQuoteForm={handleScrollToQuoteForm}
         onSelectCategory={handleSelectCategory}
+        onOpenAdminPanel={() => setIsAdminPanelOpen(true)}
       />
 
       {/* Main Content */}
@@ -158,6 +161,12 @@ export default function App() {
         onGoToQuoteForm={handleScrollToQuoteForm}
       />
 
+      {/* PIN-Protected Admin Panel (Triggered by triple-clicking the logo) */}
+      <AdminPanelModal
+        isOpen={isAdminPanelOpen}
+        onClose={() => setIsAdminPanelOpen(false)}
+      />
+
       {/* Sticky Bottom Cart Bar (Appears when items are in cart) */}
       <StickyCartBar
         items={quoteItems}
@@ -169,7 +178,10 @@ export default function App() {
       <WhatsAppFloatingButton />
 
       {/* Footer */}
-      <Footer onSelectCategory={handleSelectCategory} />
+      <Footer
+        onSelectCategory={handleSelectCategory}
+        onOpenAdminPanel={() => setIsAdminPanelOpen(true)}
+      />
     </div>
   );
 }

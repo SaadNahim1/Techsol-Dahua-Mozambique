@@ -129,7 +129,7 @@ export const QuoteFormSection: React.FC<QuoteFormSectionProps> = ({
               </div>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed mt-2">
-              Obrigado, <strong>{formData.name}</strong>. Nossa equipe técnica da TECHSOL SU LDA responderá em breve pelo WhatsApp <strong>{formData.phone}</strong> ou e-mail.
+              Obrigado, <strong>{formData.name}</strong>. A nossa equipa técnica da TECHSOL SU LDA responderá em breve pelo WhatsApp <strong>{formData.phone}</strong> ou e-mail.
             </p>
             <div className="mt-4 flex gap-2">
               <button
