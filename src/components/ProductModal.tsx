@@ -92,9 +92,8 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 referrerPolicy="no-referrer"
                 onError={(e) => {
                   const target = e.currentTarget;
-                  target.style.display = 'none';
-                  if (target.parentElement) {
-                    target.parentElement.classList.add('bg-slate-200');
+                  if (target.src !== '/images/cam_hfw1439.jpg') {
+                    target.src = '/images/cam_hfw1439.jpg';
                   }
                 }}
                 className="w-full h-full object-cover object-center"
@@ -171,8 +170,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 <ShieldCheck className="w-4 h-4 text-red-600" />
                 <span>{product.warranty}</span>
               </div>
-              <div className="font-mono text-emerald-700 font-bold">
-                {product.stockQty > 0 ? `${product.stockQty} un. em armazém` : 'Disponível sob encomenda'}
+              <div className="text-emerald-700 font-bold flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Disponível para Levantamento & Despacho</span>
               </div>
             </div>
           </div>

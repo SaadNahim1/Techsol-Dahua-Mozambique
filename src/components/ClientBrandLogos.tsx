@@ -62,65 +62,7 @@ export const MozaBancoLogo: React.FC<{ className?: string }> = ({ className = 'h
   </svg>
 );
 
-// 2. BURGLAR ALERT MOÇAMBIQUE (Security & Armed Response Identity)
-export const BurglarAlertLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => (
-  <svg
-    viewBox="0 0 260 60"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    role="img"
-    aria-label="Burglar Alert Moçambique"
-  >
-    {/* Shield Icon with Alarm Radar Waves */}
-    <g transform="translate(6, 6)">
-      {/* Outer Armor Shield */}
-      <path
-        d="M24 2 L44 10 V26 C44 38 24 47 24 47 C24 47 4 38 4 26 V10 Z"
-        fill="#b91c1c"
-        stroke="#ef4444"
-        strokeWidth="2"
-      />
-      {/* Inner Alert Core */}
-      <path
-        d="M24 10 L36 15 V25 C36 33 24 39 24 39 C24 39 12 33 12 25 V15 Z"
-        fill="#1e293b"
-      />
-      {/* Flashing Bell / Siren Icon */}
-      <circle cx="24" cy="22" r="4.5" fill="#facc15" />
-      <path d="M20 28 Q24 25 28 28" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="24" cy="32" r="1.5" fill="#facc15" />
-    </g>
-
-    {/* BURGLAR ALERT Wordmark */}
-    <text
-      x="62"
-      y="30"
-      fill="#ffffff"
-      fontFamily="system-ui, -apple-system, sans-serif"
-      fontWeight="900"
-      fontSize="19"
-      letterSpacing="0.5px"
-    >
-      BURGLAR <tspan fill="#ef4444">ALERT</tspan>
-    </text>
-
-    {/* MOÇAMBIQUE · 24H MONITORING Subtitle */}
-    <text
-      x="63"
-      y="47"
-      fill="#94a3b8"
-      fontFamily="system-ui, -apple-system, sans-serif"
-      fontWeight="700"
-      fontSize="9.5"
-      letterSpacing="2px"
-    >
-      MOÇAMBIQUE · SEGURANÇA 24H
-    </text>
-  </svg>
-);
-
-// 3. MAPUTO PADEL CLUB (Sports & Lifestyle Club Identity)
+// 2. MAPUTO PADEL CLUB (Sports & Lifestyle Club Identity)
 export const MaputoPadelClubLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => (
   <svg
     viewBox="0 0 250 60"

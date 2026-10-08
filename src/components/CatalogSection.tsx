@@ -229,7 +229,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
               <Info className="mx-auto w-8 h-8 text-slate-400 mb-2" />
               <p className="font-bold text-slate-800 text-sm">Nenhum produto encontrado com os filtros atuais</p>
               <p className="mt-1 text-xs text-slate-500 max-w-md mx-auto">
-                Tente limpar a pesquisa ou selecionar "Todo o Estoque" para visualizar todos os 44 equipamentos disponíveis.
+                Tente limpar a pesquisa ou selecionar "Todo o Catálogo" para visualizar todos os {PRODUCTS.length} equipamentos disponíveis.
               </p>
               <button
                 type="button"
@@ -237,7 +237,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                 className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-xs"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Ver Todo o Catálogo (44 Itens)</span>
+                <span>Ver Todo o Catálogo ({PRODUCTS.length} Itens)</span>
               </button>
             </div>
           ) : (
@@ -264,17 +264,18 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
                           className="w-full h-full object-cover object-center rounded-lg transition-transform duration-200 group-hover:scale-105"
                           onError={(e) => {
                             const target = e.currentTarget;
-                            target.style.display = 'none';
+                            if (target.src !== '/images/cam_hfw1439.jpg') {
+                              target.src = '/images/cam_hfw1439.jpg';
+                            }
                           }}
                         />
                         <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-white/95 border border-slate-200 text-[10px] font-mono font-bold text-slate-800 shadow-xs">
                           {product.brand}
                         </div>
-                        {product.stockQty > 0 && (
-                          <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-white/95 border border-slate-200 text-[9px] font-semibold text-emerald-700 shadow-xs">
-                            {product.stockQty} em stock
-                          </div>
-                        )}
+                        <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-white/95 border border-slate-200 text-[9px] font-semibold text-emerald-700 shadow-xs flex items-center gap-1">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                          <span>Disponível</span>
+                        </div>
                       </div>
 
                       {/* Model & Name */}

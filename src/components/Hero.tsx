@@ -159,8 +159,8 @@ export const Hero: React.FC<HeroProps> = ({
               {/* Quick Trust Statistics */}
               <div className="grid grid-cols-3 gap-2 text-center pt-1">
                 <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60">
-                  <div className="text-lg font-black text-white font-mono leading-none">44+</div>
-                  <div className="text-[10px] text-slate-400 mt-1 uppercase font-semibold">Modelos Físicos</div>
+                  <div className="text-lg font-black text-white font-mono leading-none">180+</div>
+                  <div className="text-[10px] text-slate-400 mt-1 uppercase font-semibold">Modelos em Loja</div>
                 </div>
                 <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60">
                   <div className="text-lg font-black text-red-400 font-mono leading-none">B2B & B2C</div>
