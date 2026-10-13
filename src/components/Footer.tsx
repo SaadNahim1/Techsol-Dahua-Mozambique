@@ -45,7 +45,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory, onOpenAdminPan
               <TechsolLogo className="h-12" />
             </a>
             <p className="text-xs leading-relaxed text-slate-600">
-              Distribuidor oficial autorizado Dahua Technology em Moçambique. Fornecimento de CFTV, cercas elétricas Nemtek, alarmes sem fios e controlo de acesso.
+              Distribuidor oficial autorizado Dahua Technology em Moçambique. Fornecimento de CFTV, cercas eléctricas Nemtek, alarmes sem fios e controlo de acesso.
             </p>
             <div className="flex items-center gap-1.5 text-slate-800 font-semibold text-xs">
               <ShieldCheck className="w-4 h-4 text-red-600 shrink-0" />
@@ -56,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory, onOpenAdminPan
           {/* Quick Categories */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-              Produtos em Estoque
+              Produtos em Stock
             </h4>
             <ul className="space-y-1.5">
               <li>

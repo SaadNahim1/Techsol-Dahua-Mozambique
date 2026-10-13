@@ -47,7 +47,7 @@ export const Hero: React.FC<HeroProps> = ({
         {/* Centered Brand Hero Block (hero__inner from hero.html) */}
         <div className="mx-auto max-w-[1000px] flex flex-col items-center text-center gap-6 sm:gap-8">
           {/* Top Credibility Tag */}
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-red-400">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-red-950/40 border border-red-500/30 text-xs font-bold uppercase tracking-wider text-red-300 shadow-inner">
             <span className="h-2 w-2 rounded-full bg-[#d3121a] animate-pulse" />
             <span>100% Nossa · 100% Feliz · 100% Moçambicana</span>
           </div>
@@ -55,59 +55,59 @@ export const Hero: React.FC<HeroProps> = ({
           {/* H1 with Full Dark-Mode TECHSOL + Dahua Partner Logo */}
           <h1 className="w-full flex flex-col items-center">
             <span className="sr-only">
-              TECHSOL SU LDA – Segurança Inteligente. Futuro Garantido. | Distribuidor Oficial Dahua Technology em Moçambique (100% Nossa, 100% Feliz, 100% Moçambicana)
+              TECHSOL SU LDA – Distribuidor Oficial Dahua em Moçambique | Segurança Inteligente. Futuro Garantido. (100% Nossa, 100% Feliz, 100% Moçambicana)
             </span>
-            <div className="w-full max-w-[880px] px-2 sm:px-6 py-3 sm:py-4 transition-transform duration-300 animate-hero-logo-enter">
+            <div className="w-full max-w-[920px] px-2 sm:px-4 py-2 transition-transform duration-300 animate-hero-logo-enter">
               <TechsolLogo
                 variant="dark"
-                className="w-full h-auto max-h-[130px] sm:max-h-[190px] lg:max-h-[225px] justify-center drop-shadow-[0_10px_40px_rgba(0,0,0,0.65)]"
+                className="w-full h-auto max-h-[140px] sm:max-h-[195px] lg:max-h-[220px] justify-center drop-shadow-[0_12px_45px_rgba(0,0,0,0.7)]"
               />
             </div>
           </h1>
 
           {/* Hero Sub-headline (from hero.html + local authority) */}
-          <p className="max-w-[54ch] text-base sm:text-lg lg:text-xl leading-relaxed text-[#c9cbd3] font-medium">
-            Câmaras IP, gravação NVR/DVR, cercas elétricas <strong className="text-white">Nemtek</strong>, automação <strong className="text-white">Centurion</strong> e redes WiFi profissionais — fornecimento oficial <strong className="text-white">Dahua Technology</strong> com suporte técnico certificado em Maputo.
+          <p className="max-w-[58ch] text-base sm:text-lg lg:text-xl leading-relaxed text-[#c9cbd3] font-medium">
+            Câmaras IP, gravação NVR/DVR, cercas eléctricas <strong className="text-white">Nemtek</strong>, motores de portão <strong className="text-white">Centurion</strong> e redes WiFi profissionais — fornecimento oficial <strong className="text-white">Dahua Technology</strong> com suporte técnico certificado em Maputo.
           </p>
 
-          {/* Primary & Ghost CTA Buttons (matching .btn--primary and .btn--ghost) */}
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
+          {/* Primary & Secondary CTA Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1 w-full max-w-2xl">
             <a
               href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
                 'Olá TECHSOL! Gostaria de pedir um orçamento de equipamentos de segurança.'
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-[10px] font-bold text-base bg-[#d3121a] hover:bg-[#a80d14] text-white shadow-lg shadow-red-950/50 transition-all hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-[10px] font-bold text-base bg-[#d3121a] hover:bg-[#a80d14] text-white shadow-lg shadow-red-950/60 transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="w-5 h-5 shrink-0" />
               <span>Pedir orçamento</span>
             </a>
 
             <button
               type="button"
               onClick={onExploreCatalog}
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[10px] font-bold text-base border-2 border-white/35 hover:border-white text-white transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] font-bold text-base border-2 border-white/35 hover:border-white text-white hover:bg-white/5 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
-              <span>Ver soluções & catálogo</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Ver soluções &amp; catálogo</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
 
             <button
               type="button"
               onClick={onOpenQuoteForm}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-[10px] font-semibold text-sm bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-[10px] font-semibold text-sm bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 transition-all cursor-pointer"
             >
-              <Zap className="w-4 h-4 text-amber-400" />
+              <Zap className="w-4 h-4 text-amber-400 shrink-0" />
               <span>Cotação Formal (NUIT)</span>
             </button>
           </div>
 
-          {/* Hero Tags List (exact match to .hero__tags from hero.html) */}
+          {/* Hero Tags List */}
           <ul className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 pt-2 text-xs sm:text-[13px] tracking-[0.08em] uppercase text-[#9a9dab] font-semibold list-none">
             <li className="flex items-center">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#d3121a] mr-2.5" />
-              Videovigilância
+              Videovigilância CFTV
             </li>
             <li className="flex items-center">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#d3121a] mr-2.5" />
@@ -119,24 +119,24 @@ export const Hero: React.FC<HeroProps> = ({
             </li>
             <li className="flex items-center">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#d3121a] mr-2.5" />
-              Suporte técnico
+              Suporte técnico certificado
             </li>
           </ul>
 
           {/* Unboxed Trust & Location Strip */}
           <div className="pt-4 border-t border-white/10 w-full max-w-3xl flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
             <span className="inline-flex items-center gap-1.5 text-slate-300 font-medium">
-              <MapPin className="w-3.5 h-3.5 text-[#d3121a]" />
+              <MapPin className="w-3.5 h-3.5 text-[#d3121a] shrink-0" />
               Av. Josina Machel, 923 · Baixa de Maputo
             </span>
             <span aria-hidden="true" className="hidden sm:inline text-slate-700">·</span>
-            <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="inline-flex items-center gap-1.5 text-slate-300">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               Garantia Oficial 3 Anos
             </span>
             <span aria-hidden="true" className="hidden sm:inline text-slate-700">·</span>
-            <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="inline-flex items-center gap-1.5 text-slate-300">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               Envio para todas as Províncias
             </span>
           </div>
@@ -197,14 +197,14 @@ export const Hero: React.FC<HeroProps> = ({
                   <span className="text-[11px] font-mono font-bold text-slate-400">Nemtek</span>
                 </div>
                 <h3 className="text-sm font-bold text-white group-hover:text-amber-400 transition-colors">
-                  Cercas Elétricas Perimetrais
+                  Cercas Eléctricas Perimetrais
                 </h3>
                 <p className="mt-1.5 text-xs text-slate-400 leading-relaxed">
-                  Eletrificadores Wizord 4i, Merlin e Druid com ecrã LCD, arames de alumínio e sirenes.
+                  Electrificadores Wizord 4i, Merlin e Druid com ecrã LCD, arames de alumínio e sirenes.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-bold text-amber-400 group-hover:translate-x-0.5 transition-transform">
-                <span>Ver Eletrificadores</span>
+                <span>Ver Electrificadores</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </div>
