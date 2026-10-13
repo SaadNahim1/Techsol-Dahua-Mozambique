@@ -42,6 +42,8 @@ export default function App() {
     clearCart: handleClearQuote,
   } = useCart();
 
+  const [isFullCatalogMode, setIsFullCatalogMode] = useState(false);
+
   const handleSelectCategory = (category: string) => {
     setSelectedCategory(category as ProductCategory);
     const elem = document.getElementById('catalogo');
@@ -58,6 +60,7 @@ export default function App() {
   };
 
   const handleExploreCatalog = () => {
+    setIsFullCatalogMode(true);
     const elem = document.getElementById('catalogo');
     if (elem) {
       elem.scrollIntoView({ behavior: 'smooth' });
@@ -116,6 +119,8 @@ export default function App() {
           getItemQuantity={getItemQuantity}
           onOpenProductModal={(product) => setActiveProductModal(product)}
           onOpenQuoteForm={handleScrollToQuoteForm}
+          isFullCatalogMode={isFullCatalogMode}
+          onToggleFullCatalog={setIsFullCatalogMode}
         />
 
         {/* Quick Kits */}

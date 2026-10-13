@@ -12,7 +12,10 @@ import {
   Info,
   Sparkles,
   RotateCcw,
-  Tag
+  Tag,
+  ChevronDown,
+  ChevronUp,
+  Grid
 } from 'lucide-react';
 
 interface CatalogSectionProps {
@@ -25,6 +28,8 @@ interface CatalogSectionProps {
   getItemQuantity: (productId: string) => number;
   onOpenProductModal: (product: Product) => void;
   onOpenQuoteForm: () => void;
+  isFullCatalogMode?: boolean;
+  onToggleFullCatalog?: (full: boolean) => void;
 }
 
 const normalizeText = (text: string) => {
@@ -44,12 +49,36 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
   onUpdateQuantity,
   getItemQuantity,
   onOpenProductModal,
+  isFullCatalogMode,
+  onToggleFullCatalog,
 }) => {
+  const INITIAL_COUNT = 8;
+  const LOAD_MORE_STEP = 8;
+
   const [stockOnly, setStockOnly] = useState(false);
   const [promoOnly, setPromoOnly] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<string>('todas');
   const [customImages, setCustomImages] = useState<Record<string, string>>(() => getCustomProductImages());
   const [catalogProducts, setCatalogProducts] = useState<Product[]>(() => getActiveCatalogProducts());
+
+  // Progressive loading & full catalog mode
+  const [internalFullCatalog, setInternalFullCatalog] = useState(false);
+  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_COUNT);
+
+  const showFullCatalog = isFullCatalogMode !== undefined ? isFullCatalogMode : internalFullCatalog;
+  const setShowFullCatalog = (val: boolean) => {
+    setInternalFullCatalog(val);
+    if (onToggleFullCatalog) {
+      onToggleFullCatalog(val);
+    }
+  };
+
+  // Reset pagination when category, brand, promo, or search query changes
+  useEffect(() => {
+    if (!showFullCatalog) {
+      setVisibleCount(INITIAL_COUNT);
+    }
+  }, [selectedCategory, selectedBrand, promoOnly, stockOnly, searchQuery, showFullCatalog]);
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -107,6 +136,8 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
     setPromoOnly(false);
     onSearchChange('');
     onSelectCategory('todos');
+    setShowFullCatalog(false);
+    setVisibleCount(INITIAL_COUNT);
   };
 
   const filteredProducts = useMemo(() => {
@@ -141,6 +172,14 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
       return true;
     });
   }, [catalogProducts, selectedCategory, selectedBrand, stockOnly, promoOnly, searchQuery]);
+
+  // Sliced items for clean homepage rendering
+  const displayedProducts = useMemo(() => {
+    if (showFullCatalog) {
+      return filteredProducts;
+    }
+    return filteredProducts.slice(0, visibleCount);
+  }, [filteredProducts, showFullCatalog, visibleCount]);
 
   return (
     <section id="catalogo" className="py-8 sm:py-12 bg-white border-b border-slate-200 scroll-mt-20">
@@ -245,20 +284,50 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
         <div className="mt-6 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
           <div className="flex items-center gap-2 flex-wrap">
             <span>
-              Mostrando <strong>{filteredProducts.length}</strong> de {catalogProducts.length} produtos
+              Mostrando <strong>{displayedProducts.length}</strong> de <strong>{filteredProducts.length}</strong> produtos
+              {!showFullCatalog && filteredProducts.length > displayedProducts.length && (
+                <span className="ml-1 text-slate-400 font-normal hidden sm:inline">
+                  (Destaques da Página Inicial)
+                </span>
+              )}
             </span>
             {(selectedCategory !== 'todos' || selectedBrand !== 'todas' || searchQuery || stockOnly || promoOnly) && (
               <button
                 type="button"
                 onClick={handleResetAllFilters}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] font-medium transition-colors"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] font-medium transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>Limpar filtros</span>
               </button>
             )}
           </div>
-          <span className="text-slate-400 hidden sm:inline">Preços em Meticais (MT) · Pronta Entrega</span>
+
+          <div className="flex items-center gap-2">
+            {!showFullCatalog && filteredProducts.length > displayedProducts.length ? (
+              <button
+                type="button"
+                onClick={() => setShowFullCatalog(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold transition-colors cursor-pointer"
+              >
+                <Grid className="w-3.5 h-3.5" />
+                <span>Ver Catálogo Completo ({filteredProducts.length})</span>
+              </button>
+            ) : showFullCatalog && filteredProducts.length > INITIAL_COUNT ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setShowFullCatalog(false);
+                  setVisibleCount(INITIAL_COUNT);
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs font-semibold transition-colors cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>Modo Destaques ({INITIAL_COUNT})</span>
+              </button>
+            ) : null}
+            <span className="text-slate-400 hidden sm:inline">Preços em Meticais (MT) · Pronta Entrega</span>
+          </div>
         </div>
 
         {/* Product Grid */}
@@ -272,7 +341,10 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
               </p>
               <button
                 type="button"
-                onClick={handleResetAllFilters}
+                onClick={() => {
+                  handleResetAllFilters();
+                  setShowFullCatalog(true);
+                }}
                 className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-xs"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -281,7 +353,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-              {filteredProducts.map((product) => {
+              {displayedProducts.map((product) => {
                 const qty = getItemQuantity(product.id);
                 const itemImage = customImages[product.id] || product.image;
 
@@ -404,6 +476,79 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
             </div>
           )}
         </div>
+
+        {/* Progressive Loading & Full Catalog Action Bar */}
+        {filteredProducts.length > displayedProducts.length && (
+          <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col items-center justify-center gap-4 text-center">
+            <div className="space-y-1.5">
+              <p className="text-xs sm:text-sm font-semibold text-slate-700">
+                A exibir <strong className="text-slate-900">{displayedProducts.length}</strong> de <strong className="text-slate-900">{filteredProducts.length}</strong> produtos
+              </p>
+              <div className="w-56 sm:w-72 h-2 bg-slate-100 rounded-full mx-auto overflow-hidden border border-slate-200/80">
+                <div
+                  className="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full transition-all duration-300"
+                  style={{
+                    width: `${Math.min(100, Math.round((displayedProducts.length / filteredProducts.length) * 100))}%`,
+                  }}
+                />
+              </div>
+              <p className="text-[11px] text-slate-400">
+                Mais {filteredProducts.length - displayedProducts.length} equipamentos disponíveis no catálogo
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => {
+                  setVisibleCount((prev) => Math.min(prev + LOAD_MORE_STEP, filteredProducts.length));
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-slate-300 text-slate-900 font-bold text-xs sm:text-sm shadow-xs transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              >
+                <ChevronDown className="w-4 h-4 text-red-600" />
+                <span>
+                  Mostrar Mais Produtos (+{Math.min(LOAD_MORE_STEP, filteredProducts.length - displayedProducts.length)})
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowFullCatalog(true);
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              >
+                <Grid className="w-4 h-4" />
+                <span>Ver Catálogo Todo ({filteredProducts.length} Produtos)</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* When showing all items and list is long, allow collapsing back to initial view */}
+        {(showFullCatalog || displayedProducts.length >= filteredProducts.length) && filteredProducts.length > INITIAL_COUNT && (
+          <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col items-center justify-center gap-3 text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>Todos os <strong>{filteredProducts.length}</strong> produtos do catálogo estão visíveis</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setShowFullCatalog(false);
+                setVisibleCount(INITIAL_COUNT);
+                const elem = document.getElementById('catalogo');
+                if (elem) {
+                  elem.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+            >
+              <ChevronUp className="w-4 h-4 text-slate-600" />
+              <span>Mostrar Menos (Voltar aos Destaques da Página Inicial)</span>
+            </button>
+          </div>
+        )}
 
         {/* WhatsApp Assistance Banner */}
         <div className="mt-8 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
