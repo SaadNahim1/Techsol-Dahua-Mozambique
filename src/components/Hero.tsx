@@ -57,10 +57,13 @@ export const Hero: React.FC<HeroProps> = ({
             <span className="sr-only">
               TECHSOL SU LDA – Distribuidor Oficial Dahua em Moçambique | Segurança Inteligente. Futuro Garantido. (100% Nossa, 100% Feliz, 100% Moçambicana)
             </span>
-            <div className="w-full max-w-[920px] px-2 sm:px-4 py-2 transition-transform duration-300 animate-hero-logo-enter">
+            <div
+              id="hero-logo-container"
+              className="w-full max-w-[920px] px-2 sm:px-4 py-2 animate-hero-logo-enter group cursor-pointer transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.015]"
+            >
               <TechsolLogo
                 variant="dark"
-                className="w-full h-auto max-h-[140px] sm:max-h-[195px] lg:max-h-[220px] justify-center drop-shadow-[0_12px_45px_rgba(0,0,0,0.7)]"
+                className="w-full h-auto max-h-[140px] sm:max-h-[195px] lg:max-h-[220px] justify-center drop-shadow-[0_12px_45px_rgba(0,0,0,0.7)] transition-all duration-300 group-hover:drop-shadow-[0_20px_50px_rgba(211,18,26,0.28)]"
               />
             </div>
           </h1>

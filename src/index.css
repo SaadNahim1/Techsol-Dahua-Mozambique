@@ -28,6 +28,27 @@
   animation: heroLogoSlideDown 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Subtle interactive hover effect for hero logo container */
+#hero-logo-container {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+  will-change: transform, filter;
+}
+
+#hero-logo-container:hover {
+  transform: translateY(-4px) scale(1.015) !important;
+  filter: drop-shadow(0 16px 36px rgba(211, 18, 26, 0.22));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hero-logo-container {
+    transition: none !important;
+  }
+  #hero-logo-container:hover {
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
 /* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
