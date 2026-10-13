@@ -115,6 +115,30 @@ export const ShowroomLocationSection: React.FC = () => {
           {/* Right: Store Details, Provinces & Payment */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
             
+            {/* Official Store & Showroom Image Card */}
+            <div className="relative rounded-3xl overflow-hidden border border-slate-200 bg-slate-900 aspect-16/9 shadow-xs">
+              <img
+                src="/images/hero_dahua_security_1791138982019.jpg"
+                alt="Showroom e Loja Oficial TECHSOL SU LDA na Avenida Josina Machel 923 em Maputo, Moçambique"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
+              <div className="absolute bottom-3.5 inset-x-4 flex items-end justify-between gap-2">
+                <div>
+                  <div className="text-[10px] font-bold text-red-400 uppercase tracking-wider">
+                    Loja & Bancada Técnica Oficial
+                  </div>
+                  <div className="text-sm font-extrabold text-white">
+                    TECHSOL SU LDA · Maputo
+                  </div>
+                </div>
+                <span className="text-[11px] font-mono font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
+                  Stock Pronta Entrega
+                </span>
+              </div>
+            </div>
+
             {/* Address & Hours Card */}
             <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-4">
               <div className="flex items-start gap-3">

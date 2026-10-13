@@ -7,6 +7,27 @@
   }
 }
 
+@keyframes heroLogoSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-logo-enter {
+    animation: none !important;
+  }
+}
+
+.animate-hero-logo-enter {
+  animation: heroLogoSlideDown 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 8px;

@@ -14,6 +14,7 @@ export const PRODUCT_IMAGE_MAP = {
   xvr_wizsense: '/images/xvr_wizsense.jpg',
   cam_hfw1439: '/images/cam_hfw1439.jpg',
   cam_hdbw1439: '/images/cam_hdbw1439.jpg',
+  cam_hdbw5441f: '/images/cam_hdbw5441f.jpg',
   cam_ptz: '/images/cam_ptz.jpg',
   wifi_smart_cam: '/images/wifi_smart_cam.jpg',
   solar_cam: '/images/solar_cam.jpg',
@@ -169,6 +170,9 @@ export function getProductReferenceImage(p: { id: string; model: string; name: s
   }
 
   // 21. Dome / Eyeball / Turret Cameras
+  if (m.includes('hdbw5441f') || n.includes('hdbw5441f') || n.includes('dual-directional')) {
+    return PRODUCT_IMAGE_MAP.cam_hdbw5441f;
+  }
   if (['dome', 'eyeball', 'turret', 'hdbw', 'hdw'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
     if (m.includes('hdw') && !m.includes('hdbw')) {
       return PRODUCT_IMAGE_MAP.eyeball_dome;
@@ -786,7 +790,7 @@ export const PRODUCTS: Product[] = [
     "popular": false,
     "warranty": "Garantia Oficial Dahua",
     "datasheetAvailable": true,
-    "image": "/images/cam_hdbw1439.jpg"
+    "image": "/images/cam_hdbw5441f.jpg"
   },
   {
     "id": "dc80120l",
@@ -2561,7 +2565,7 @@ export const PRODUCTS: Product[] = [
     "id": "ezviz-nvr-cs-x5s-r100-8w",
     "sku": "EZVIZ NVR CS-X5S-R100-8W",
     "model": "EZVIZ NVR CS-X5S-R100-8W",
-    "name": "8CH WIRELESS NVR WITH HDMI &amp; VGA OUTPUT",
+    "name": "8CH WIRELESS NVR WITH HDMI & VGA OUTPUT",
     "category": "cctv",
     "subcategory": "NVR IP",
     "brand": "EZVIZ",
@@ -2569,7 +2573,7 @@ export const PRODUCTS: Product[] = [
     "stockQty": 10,
     "inStock": true,
     "stockStatus": "Em Stock",
-    "description": "Equipamento profissional de alta performance 8CH WIRELESS NVR WITH HDMI &amp; VGA OUTPUT. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
+    "description": "Equipamento profissional de alta performance 8CH WIRELESS NVR WITH HDMI & VGA OUTPUT. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
     "highlights": [
       "Pronta Entrega em Maputo",
       "100% Original Homologado",
@@ -3663,7 +3667,7 @@ export const PRODUCTS: Product[] = [
     "id": "dhi-lm22-l200n",
     "sku": "DHI-LM22-L200N",
     "model": "DHI-LM22-L200N",
-    "name": "DAHUA 22&quot; MONITOR",
+    "name": "DAHUA 22\" MONITOR",
     "category": "cctv",
     "subcategory": "Monitor",
     "brand": "Dahua",
@@ -3671,7 +3675,7 @@ export const PRODUCTS: Product[] = [
     "stockQty": 10,
     "inStock": true,
     "stockStatus": "Em Stock",
-    "description": "Equipamento profissional de alta performance DAHUA 22&quot; MONITOR. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
+    "description": "Equipamento profissional de alta performance DAHUA 22\" MONITOR. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
     "highlights": [
       "Pronta Entrega em Maputo",
       "100% Original Homologado",
@@ -3837,7 +3841,7 @@ export const PRODUCTS: Product[] = [
     "id": "dh-h3d-3f",
     "sku": "DH-H3D-3F",
     "model": "DH-H3D-3F",
-    "name": "Dahua 3+3MP indoor Wi-Fi Dual-Lens Pan &amp; Tilt Camera DH-IPC-H3DP-3F-0360B",
+    "name": "Dahua 3+3MP indoor Wi-Fi Dual-Lens Pan & Tilt Camera DH-IPC-H3DP-3F-0360B",
     "category": "cctv",
     "subcategory": "Camera Wi-Fi",
     "brand": "Dahua",
@@ -3845,7 +3849,7 @@ export const PRODUCTS: Product[] = [
     "stockQty": 10,
     "inStock": true,
     "stockStatus": "Em Stock",
-    "description": "Equipamento profissional de alta performance Dahua 3+3MP indoor Wi-Fi Dual-Lens Pan &amp; Tilt Camera DH-IPC-H3DP-3F-0360B. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
+    "description": "Equipamento profissional de alta performance Dahua 3+3MP indoor Wi-Fi Dual-Lens Pan & Tilt Camera DH-IPC-H3DP-3F-0360B. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
     "highlights": [
       "Pronta Entrega em Maputo",
       "100% Original Homologado",
@@ -3895,7 +3899,7 @@ export const PRODUCTS: Product[] = [
     "id": "dh-h3a",
     "sku": "DH-H3A",
     "model": "DH-H3A",
-    "name": "Dahua 3MP indoor Wi-Fi Pan &amp; Tilt Camera DH-IPC-H3AP-0360B",
+    "name": "Dahua 3MP indoor Wi-Fi Pan & Tilt Camera DH-IPC-H3AP-0360B",
     "category": "cctv",
     "subcategory": "Camera Wi-Fi",
     "brand": "Dahua",
@@ -3903,7 +3907,7 @@ export const PRODUCTS: Product[] = [
     "stockQty": 10,
     "inStock": true,
     "stockStatus": "Em Stock",
-    "description": "Equipamento profissional de alta performance Dahua 3MP indoor Wi-Fi Pan &amp; Tilt Camera DH-IPC-H3AP-0360B. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
+    "description": "Equipamento profissional de alta performance Dahua 3MP indoor Wi-Fi Pan & Tilt Camera DH-IPC-H3AP-0360B. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
     "highlights": [
       "Pronta Entrega em Maputo",
       "100% Original Homologado",
@@ -4678,7 +4682,7 @@ export const PRODUCTS: Product[] = [
     "id": "dhi-lm19-l200n",
     "sku": "DHI-LM19-L200N",
     "model": "DHI-LM19-L200N",
-    "name": "Dahua Monitor 19.5&quot; VGA×1, HDMI×1 DHI-LM19-L200-V1",
+    "name": "Dahua Monitor 19.5\" VGA×1, HDMI×1 DHI-LM19-L200-V1",
     "category": "cctv",
     "subcategory": "Monitor",
     "brand": "Dahua",
@@ -4686,7 +4690,7 @@ export const PRODUCTS: Product[] = [
     "stockQty": 10,
     "inStock": true,
     "stockStatus": "Em Stock",
-    "description": "Equipamento profissional de alta performance Dahua Monitor 19.5&quot; VGA×1, HDMI×1 DHI-LM19-L200-V1. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
+    "description": "Equipamento profissional de alta performance Dahua Monitor 19.5\" VGA×1, HDMI×1 DHI-LM19-L200-V1. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
     "highlights": [
       "Pronta Entrega em Maputo",
       "100% Original Homologado",
@@ -4707,7 +4711,7 @@ export const PRODUCTS: Product[] = [
     "id": "dhi-lm32-f200",
     "sku": "DHI-LM32-F200",
     "model": "DHI-LM32-F200",
-    "name": "Dahua Monitor 32&quot; VGA×1, HDMI×1 DHI-LM32-L200-V2",
+    "name": "Dahua Monitor 32\" VGA×1, HDMI×1 DHI-LM32-L200-V2",
     "category": "cctv",
     "subcategory": "Monitor",
     "brand": "Dahua",
@@ -4715,7 +4719,7 @@ export const PRODUCTS: Product[] = [
     "stockQty": 10,
     "inStock": true,
     "stockStatus": "Em Stock",
-    "description": "Equipamento profissional de alta performance Dahua Monitor 32&quot; VGA×1, HDMI×1 DHI-LM32-L200-V2. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
+    "description": "Equipamento profissional de alta performance Dahua Monitor 32\" VGA×1, HDMI×1 DHI-LM32-L200-V2. Disponível na TECHSOL SU LDA com faturação fiscal e suporte de engenharia.",
     "highlights": [
       "Pronta Entrega em Maputo",
       "100% Original Homologado",

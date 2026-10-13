@@ -107,6 +107,8 @@ def get_product_image(name, model, subcategory):
         return '/images/cam_ptz.jpg'
 
     # 21. Dome / Eyeball / Turret Cameras
+    if 'hdbw5441f' in m or 'hdbw5441f' in n or 'dual-directional' in n:
+        return '/images/cam_hdbw5441f.jpg'
     if any(k in n or k in m or k in s for k in ['dome', 'eyeball', 'turret', 'hdbw', 'hdw']):
         if 'hdw' in m and 'hdbw' not in m:
             return '/images/dome.jpg'
@@ -186,7 +188,7 @@ products = []
 with open('techsol_inventory.csv', 'r', encoding='utf-8') as f:
     reader = csv.reader(f)
     header = [h.strip().lower() for h in next(reader, [])]
-    is_six_col = 'product' in header and ('selling price' in header or 'sku' in header or len(header) <= 8)
+    is_six_col = len(header) > 0 and header[0] == 'product' and len(header) <= 8
     seen_ids = set()
     for row in reader:
         if not row:
@@ -291,6 +293,7 @@ export const PRODUCT_IMAGE_MAP = {
   xvr_wizsense: '/images/xvr_wizsense.jpg',
   cam_hfw1439: '/images/cam_hfw1439.jpg',
   cam_hdbw1439: '/images/cam_hdbw1439.jpg',
+  cam_hdbw5441f: '/images/cam_hdbw5441f.jpg',
   cam_ptz: '/images/cam_ptz.jpg',
   wifi_smart_cam: '/images/wifi_smart_cam.jpg',
   solar_cam: '/images/solar_cam.jpg',
@@ -446,6 +449,9 @@ export function getProductReferenceImage(p: { id: string; model: string; name: s
   }
 
   // 21. Dome / Eyeball / Turret Cameras
+  if (m.includes('hdbw5441f') || n.includes('hdbw5441f') || n.includes('dual-directional')) {
+    return PRODUCT_IMAGE_MAP.cam_hdbw5441f;
+  }
   if (['dome', 'eyeball', 'turret', 'hdbw', 'hdw'].some(k => n.includes(k) || m.includes(k) || s.includes(k))) {
     if (m.includes('hdw') && !m.includes('hdbw')) {
       return PRODUCT_IMAGE_MAP.eyeball_dome;

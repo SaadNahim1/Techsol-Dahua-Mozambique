@@ -3,20 +3,31 @@ import React from 'react';
 interface TechsolLogoProps {
   className?: string;
   compact?: boolean;
+  variant?: 'light' | 'dark';
 }
 
-export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', compact = false }) => {
+export const TechsolLogo: React.FC<TechsolLogoProps> = ({
+  className = 'h-11',
+  compact = false,
+  variant = 'light',
+}) => {
+  const isDark = variant === 'dark';
+  const primaryFill = isDark ? '#FFFFFF' : '#0A0A0A';
+  const subTextFill = isDark ? '#F8FAFC' : '#111827';
+  const partnerBlue = isDark ? '#38BDF8' : '#0B5FA5';
+  const dividerColor = isDark ? '#64748B' : '#0A0A0A';
+
   return (
     <div className={`inline-flex items-center select-none ${className}`}>
       <svg
         viewBox={compact ? '0 0 580 245' : '0 0 920 245'}
-        className="h-full w-auto"
+        className="h-full w-full"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
-        aria-label="TECHSOL - Segurança Inteligente. Futuro Garantido. | Dahua Technology Mozambique Partner"
+        aria-label="TECHSOL – Segurança Inteligente. Futuro Garantido. | Dahua Technology, Parceiro em Moçambique"
       >
-        {/* Left Emblem: Red Shield + Black Eagle Profile + Security Camera Lens Eye */}
+        {/* Left Emblem: Red Shield + Eagle Profile + Security Camera Lens Eye */}
         <g transform="translate(10, 12)">
           {/* Top-Right Red Shield Outline */}
           <path
@@ -37,22 +48,22 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
             fill="none"
           />
 
-          {/* Black Eagle Upper Wing / Brow Sweep */}
+          {/* Eagle Upper Wing / Brow Sweep */}
           <path
             d="M22 2 C48 28, 108 42, 144 68 C164 83, 170 105, 166 130 C154 106, 126 88, 88 74 C54 61, 32 48, 20 26 C16 16, 18 7, 22 2 Z"
-            fill="#0A0A0A"
+            fill={primaryFill}
           />
 
-          {/* Black Eagle Lower Head & Hooked Beak */}
+          {/* Eagle Lower Head & Hooked Beak */}
           <path
             d="M50 68 C72 78, 102 88, 128 104 C156 121, 174 146, 172 178 C170 186, 167 193, 163 198 C161 182, 150 168, 132 162 C116 157, 98 156, 82 146 C60 132, 52 104, 50 68 Z"
-            fill="#0A0A0A"
+            fill={primaryFill}
           />
 
           {/* Camera Eye Cutout & Red Lens Pupil */}
-          <circle cx="118" cy="122" r="24" fill="#FFFFFF" />
-          <circle cx="118" cy="122" r="17" fill="#0A0A0A" />
-          <circle cx="118" cy="122" r="12" fill="#FFFFFF" />
+          <circle cx="118" cy="122" r="24" fill={isDark ? '#0F172A' : '#FFFFFF'} />
+          <circle cx="118" cy="122" r="17" fill={primaryFill} />
+          <circle cx="118" cy="122" r="12" fill={isDark ? '#0F172A' : '#FFFFFF'} />
           <circle cx="118" cy="122" r="9.5" fill="#D31118" />
           <circle cx="121" cy="119" r="2.5" fill="#FFFFFF" />
         </g>
@@ -61,7 +72,7 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
         <text
           x="222"
           y="146"
-          fill="#0A0A0A"
+          fill={primaryFill}
           fontFamily="'Impact', 'Arial Black', 'Plus Jakarta Sans', sans-serif"
           fontWeight="900"
           fontSize="110"
@@ -78,8 +89,8 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
           fontWeight="700"
           fontSize="21.5"
         >
-          <tspan fill="#0A0A0A">Segurança Inteligente. </tspan>
-          <tspan fill="#D31118">Futuro Garantido.</tspan>
+          <tspan fill={primaryFill}>Segurança Inteligente. </tspan>
+          <tspan fill="#EF4444">Futuro Garantido.</tspan>
         </text>
 
         {!compact && (
@@ -90,7 +101,7 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
               y1="28"
               x2="584"
               y2="212"
-              stroke="#0A0A0A"
+              stroke={dividerColor}
               strokeWidth="4.5"
               strokeLinecap="round"
             />
@@ -105,11 +116,11 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
                 strokeLinecap="round"
                 fill="none"
               />
-              {/* Black italic 'a' */}
+              {/* Italic 'a' */}
               <text
                 x="26"
                 y="82"
-                fill="#0A0A0A"
+                fill={primaryFill}
                 fontFamily="'Plus Jakarta Sans', 'Arial Black', sans-serif"
                 fontWeight="900"
                 fontStyle="italic"
@@ -119,11 +130,11 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
               </text>
               {/* Red italic 'l' */}
               <path d="M96 82 L114 20 L132 20 L114 82 Z" fill="#D31118" />
-              {/* Black italic 'hua' */}
+              {/* Italic 'hua' */}
               <text
                 x="132"
                 y="82"
-                fill="#0A0A0A"
+                fill={primaryFill}
                 fontFamily="'Plus Jakarta Sans', 'Arial Black', sans-serif"
                 fontWeight="900"
                 fontStyle="italic"
@@ -137,7 +148,7 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
               <text
                 x="78"
                 y="104"
-                fill="#0A0A0A"
+                fill={primaryFill}
                 fontFamily="'Plus Jakarta Sans', 'Arial', sans-serif"
                 fontWeight="800"
                 fontSize="16.5"
@@ -158,8 +169,8 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({ className = 'h-11', co
                 fontSize="20"
                 letterSpacing="0.6"
               >
-                <tspan fill="#111827">MOZAMBIQUE </tspan>
-                <tspan fill="#0B5FA5">PARTNER</tspan>
+                <tspan fill={subTextFill}>MOZAMBIQUE </tspan>
+                <tspan fill={partnerBlue}>PARTNER</tspan>
               </text>
 
               {/* Mozambique Flag */}

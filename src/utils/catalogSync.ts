@@ -163,9 +163,7 @@ export function parseTechsolCSV(csvText: string): Product[] {
   if (rows.length <= 1) return [];
 
   const header = rows[0].map((h) => h.trim().toLowerCase());
-  const isSixCol =
-    header.includes('product') &&
-    (header.includes('selling price') || header.includes('sku') || rows[0].length <= 8);
+  const isSixCol = header.length > 0 && header[0] === 'product' && header.length <= 8;
 
   const products: Product[] = [];
   const seenIds = new Set<string>();
