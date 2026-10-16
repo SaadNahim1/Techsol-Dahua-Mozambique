@@ -137,41 +137,15 @@ export const DahuaLogo: React.FC<{ className?: string }> = ({ className = 'h-8' 
   </div>
 );
 
-// 5. NEMTEK ELECTRIC FENCING LOGO
-export const NemtekLogo: React.FC<{ className?: string }> = ({ className = 'h-7' }) => (
-  <svg
-    viewBox="0 0 170 45"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    role="img"
-    aria-label="Nemtek Electric Fencing"
-  >
-    {/* High Voltage Lightning Flash */}
-    <path d="M14 6 L4 23 H15 L11 39 L24 20 H13 Z" fill="#f59e0b" stroke="#d97706" strokeWidth="1" />
-    <text
-      x="30"
-      y="24"
-      fill="#ffffff"
-      fontFamily="system-ui, -apple-system, sans-serif"
-      fontWeight="900"
-      fontSize="20"
-      letterSpacing="1px"
-    >
-      NEMTEK
-    </text>
-    <text
-      x="31"
-      y="37"
-      fill="#93c5fd"
-      fontFamily="system-ui, -apple-system, sans-serif"
-      fontWeight="700"
-      fontSize="7.5"
-      letterSpacing="1.5px"
-    >
-      ELECTRIC FENCING
-    </text>
-  </svg>
+// 5. NEMTEK ELECTRIC FENCING LOGO (Official Manufacturer Asset)
+export const NemtekLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => (
+  <div className="inline-flex items-center bg-white rounded-lg px-2.5 py-1.5 shadow-sm">
+    <img
+      src="/images/nemtek-logo.svg"
+      alt="Nemtek Electric Fencing Products"
+      className={`${className} w-auto object-contain`}
+    />
+  </div>
 );
 
 // 6. CENTURION SYSTEMS LOGO
@@ -250,29 +224,13 @@ export const WDPurpleLogo: React.FC<{ className?: string }> = ({ className = 'h-
   </svg>
 );
 
-// 8. ZKTECO LOGO
-export const ZKTecoLogo: React.FC<{ className?: string }> = ({ className = 'h-7' }) => (
-  <svg
-    viewBox="0 0 150 45"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    role="img"
-    aria-label="ZKTeco"
-  >
-    {/* Biometric Green Square Accent */}
-    <rect x="5" y="8" width="26" height="26" rx="6" fill="#047857" stroke="#10b981" strokeWidth="1.5" />
-    <path d="M12 16 H24 M12 21 H24 M12 26 H20" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
-    <text
-      x="38"
-      y="26"
-      fill="#ffffff"
-      fontFamily="system-ui, -apple-system, sans-serif"
-      fontWeight="900"
-      fontSize="20"
-      letterSpacing="0.5px"
-    >
-      ZK<tspan fill="#34d399">Teco</tspan>
-    </text>
-  </svg>
+// 8. ZKTECO LOGO (Official Manufacturer Asset)
+export const ZKTecoLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => (
+  <div className="inline-flex items-center bg-white rounded-lg px-2.5 py-1.5 shadow-sm">
+    <img
+      src="/images/zkteco-seeklogo.png"
+      alt="ZKTeco"
+      className={`${className} w-auto object-contain`}
+    />
+  </div>
 );

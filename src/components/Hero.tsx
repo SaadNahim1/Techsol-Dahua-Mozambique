@@ -164,6 +164,41 @@ export const Hero: React.FC<HeroProps> = ({
               Envio para todas as Províncias
             </span>
           </div>
+
+          {/* Official Authorized Brands Strip */}
+          <div className="pt-4 border-t border-white/10 w-full max-w-3xl flex flex-col items-center gap-2.5">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400">
+              Marcas Oficiais Homologadas com Garantia de Fábrica
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+              {/* Dahua */}
+              <div className="flex items-center px-1 opacity-90 hover:opacity-100 transition-opacity">
+                <img
+                  src="/images/dahua-seeklogo-white.png"
+                  alt="Dahua Technology"
+                  className="h-6 sm:h-7 w-auto object-contain"
+                />
+              </div>
+              <span className="text-slate-700 hidden sm:inline" aria-hidden="true">|</span>
+              {/* Nemtek */}
+              <div className="flex items-center bg-white rounded-lg px-2.5 py-1 shadow-xs hover:bg-white transition-colors">
+                <img
+                  src="/images/nemtek-logo.svg"
+                  alt="Nemtek Electric Fencing"
+                  className="h-5 sm:h-6 w-auto object-contain"
+                />
+              </div>
+              <span className="text-slate-700 hidden sm:inline" aria-hidden="true">|</span>
+              {/* ZKTeco */}
+              <div className="flex items-center bg-white rounded-lg px-2.5 py-1 shadow-xs hover:bg-white transition-colors">
+                <img
+                  src="/images/zkteco-seeklogo.png"
+                  alt="ZKTeco"
+                  className="h-5 sm:h-6 w-auto object-contain"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Four Core Solutions Showcase (Direct Pathways into the Store) */}
