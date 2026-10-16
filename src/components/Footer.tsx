@@ -41,8 +41,16 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory, onOpenAdminPan
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-3">
-            <a href="#" onClick={handleLogoClick} className="inline-block select-none">
-              <TechsolLogo className="h-12" />
+            <a href="#" onClick={handleLogoClick} className="flex items-center gap-3 select-none">
+              <TechsolLogo className="h-10 w-auto" />
+              <div className="h-7 w-px bg-slate-300" aria-hidden="true" />
+              <div className="bg-white rounded-md px-2 py-1 shadow-2xs border border-slate-200">
+                <img
+                  src="/images/dahua-seeklogo.png"
+                  alt="Dahua Technology"
+                  className="h-6 w-auto object-contain"
+                />
+              </div>
             </a>
             <p className="text-xs leading-relaxed text-slate-600">
               Distribuidor oficial autorizado Dahua Technology em Moçambique. Fornecimento de CFTV, cercas eléctricas Nemtek, alarmes sem fios e controlo de acesso.

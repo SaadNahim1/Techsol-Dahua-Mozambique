@@ -126,43 +126,15 @@ export const MaputoPadelClubLogo: React.FC<{ className?: string }> = ({ classNam
   </svg>
 );
 
-// 4. DAHUA TECHNOLOGY OFFICIAL LOGO
-export const DahuaLogo: React.FC<{ className?: string }> = ({ className = 'h-7' }) => (
-  <svg
-    viewBox="0 0 170 45"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    role="img"
-    aria-label="Dahua Technology"
-  >
-    {/* Dahua Wordmark in Authentic Lowercase Geometric Styling */}
-    <text
-      x="5"
-      y="27"
-      fill="#ffffff"
-      fontFamily="system-ui, -apple-system, sans-serif"
-      fontWeight="900"
-      fontSize="24"
-      letterSpacing="-0.5px"
-    >
-      dahua
-    </text>
-    {/* Iconic Red Accent Dot */}
-    <circle cx="106" cy="12" r="3.5" fill="#ef4444" />
-    {/* Technology Subtitle */}
-    <text
-      x="6"
-      y="39"
-      fill="#ef4444"
-      fontFamily="system-ui, -apple-system, sans-serif"
-      fontWeight="800"
-      fontSize="8.5"
-      letterSpacing="3.5px"
-    >
-      TECHNOLOGY
-    </text>
-  </svg>
+// 4. DAHUA TECHNOLOGY OFFICIAL LOGO (Exact Official Asset)
+export const DahuaLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => (
+  <div className="inline-flex items-center bg-white rounded-lg px-2 py-1 shadow-sm">
+    <img
+      src="/images/dahua-seeklogo.png"
+      alt="Dahua Technology"
+      className={`${className} w-auto object-contain`}
+    />
+  </div>
 );
 
 // 5. NEMTEK ELECTRIC FENCING LOGO

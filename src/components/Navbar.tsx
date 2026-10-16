@@ -63,10 +63,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           <a
             href="#"
             onClick={handleLogoClick}
-            className="flex items-center py-1 select-none"
+            className="flex items-center gap-2.5 sm:gap-3.5 py-1 select-none"
             aria-label="TECHSOL SU LDA - Início"
           >
-            <TechsolLogo className="h-11 sm:h-12" />
+            <TechsolLogo className="h-9 sm:h-10 w-auto" />
+            <div className="h-6 w-px bg-slate-300" aria-hidden="true" />
+            <div className="flex items-center">
+              <img
+                src="/images/dahua-seeklogo.png"
+                alt="Dahua Technology"
+                className="h-6 sm:h-7.5 w-auto object-contain"
+              />
+            </div>
           </a>
         </div>
 

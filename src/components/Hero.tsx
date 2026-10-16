@@ -52,19 +52,40 @@ export const Hero: React.FC<HeroProps> = ({
             <span>100% Nossa · 100% Feliz · 100% Moçambicana</span>
           </div>
 
-          {/* H1 with Full Dark-Mode TECHSOL + Dahua Partner Logo */}
+          {/* H1 with Full Dark-Mode TECHSOL + Official Dahua Partner Logo */}
           <h1 className="w-full flex flex-col items-center">
             <span className="sr-only">
               TECHSOL SU LDA – Distribuidor Oficial Dahua em Moçambique | Segurança Inteligente. Futuro Garantido. (100% Nossa, 100% Feliz, 100% Moçambicana)
             </span>
             <div
               id="hero-logo-container"
-              className="w-full max-w-[920px] px-2 sm:px-4 py-2 animate-hero-logo-enter group cursor-pointer transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.015]"
+              className="w-full max-w-[920px] px-2 sm:px-4 py-2 animate-hero-logo-enter flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 group transition-all duration-300 ease-out"
             >
-              <TechsolLogo
-                variant="dark"
-                className="w-full h-auto max-h-[140px] sm:max-h-[195px] lg:max-h-[220px] justify-center drop-shadow-[0_12px_45px_rgba(0,0,0,0.7)] transition-all duration-300 group-hover:drop-shadow-[0_20px_50px_rgba(211,18,26,0.28)]"
-              />
+              {/* Primary TECHSOL Brand Emblem */}
+              <div className="flex-1 flex justify-center md:justify-end">
+                <TechsolLogo
+                  variant="dark"
+                  className="w-full max-w-[320px] sm:max-w-[400px] h-auto drop-shadow-[0_12px_45px_rgba(0,0,0,0.7)]"
+                />
+              </div>
+
+              {/* Vertical Divider Bar */}
+              <div className="hidden md:block h-20 w-px bg-white/20" aria-hidden="true" />
+
+              {/* Official Dahua Technology Logo Asset */}
+              <div className="flex flex-col items-center md:items-start gap-1.5">
+                <div className="bg-transparent flex items-center justify-center py-1">
+                  <img
+                    src="/images/dahua-seeklogo-white.png"
+                    alt="Dahua Technology"
+                    className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
+                  />
+                </div>
+                <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span>Distribuidor Oficial Moçambique</span>
+                </div>
+              </div>
             </div>
           </h1>
 

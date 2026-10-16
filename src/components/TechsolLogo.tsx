@@ -2,30 +2,25 @@ import React from 'react';
 
 interface TechsolLogoProps {
   className?: string;
-  compact?: boolean;
   variant?: 'light' | 'dark';
 }
 
 export const TechsolLogo: React.FC<TechsolLogoProps> = ({
   className = 'h-11',
-  compact = false,
   variant = 'light',
 }) => {
   const isDark = variant === 'dark';
   const primaryFill = isDark ? '#FFFFFF' : '#0A0A0A';
-  const subTextFill = isDark ? '#F8FAFC' : '#111827';
-  const partnerBlue = isDark ? '#38BDF8' : '#0B5FA5';
-  const dividerColor = isDark ? '#64748B' : '#0A0A0A';
 
   return (
     <div className={`inline-flex items-center select-none ${className}`}>
       <svg
-        viewBox={compact ? '0 0 560 210' : '0 0 1060 210'}
+        viewBox="0 0 560 210"
         className="h-full w-full"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
-        aria-label="TECHSOL – Segurança Inteligente. Futuro Garantido. | Dahua Technology, Parceiro Oficial em Moçambique"
+        aria-label="TECHSOL – Segurança Inteligente. Futuro Garantido."
       >
         {/* Left Emblem: Red Shield + Eagle Profile + Security Camera Lens Eye */}
         <g transform="translate(15, 12)">
@@ -95,103 +90,6 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({
           <tspan fill={primaryFill}>Segurança Inteligente. </tspan>
           <tspan fill="#EF4444">Futuro Garantido.</tspan>
         </text>
-
-        {!compact && (
-          <>
-            {/* Vertical Divider Bar */}
-            <line
-              x1="575"
-              y1="28"
-              x2="575"
-              y2="182"
-              stroke={dividerColor}
-              strokeWidth="3.5"
-              strokeLinecap="round"
-            />
-
-            {/* Right Partner Block: Dahua Technology + Mozambique Partner */}
-            <g transform="translate(615, 26)">
-              {/* Red 'd' / '@' outer arc of Dahua logo */}
-              <path
-                d="M54 70 C34 78, 12 74, 6 56 C0 36, 18 10, 46 8 C68 7, 80 20, 78 40 L90 8 L106 8 L90 56 C88 62, 84 64, 74 64"
-                stroke="#D31118"
-                strokeWidth="6.5"
-                strokeLinecap="round"
-                fill="none"
-              />
-              {/* Italic 'a' */}
-              <text
-                x="20"
-                y="58"
-                fill={primaryFill}
-                fontFamily="'Plus Jakarta Sans', 'Arial Black', sans-serif"
-                fontWeight="900"
-                fontStyle="italic"
-                fontSize="50"
-              >
-                a
-              </text>
-              {/* Red italic 'l' */}
-              <path d="M76 58 L90 8 L104 8 L90 58 Z" fill="#D31118" />
-              {/* Italic 'hua' */}
-              <text
-                x="106"
-                y="58"
-                fill={primaryFill}
-                fontFamily="'Plus Jakarta Sans', 'Arial Black', sans-serif"
-                fontWeight="900"
-                fontStyle="italic"
-                fontSize="50"
-                letterSpacing="-0.5"
-              >
-                hua
-              </text>
-
-              {/* TECHNOLOGY */}
-              <text
-                x="58"
-                y="80"
-                fill={primaryFill}
-                fontFamily="'Plus Jakarta Sans', 'Arial', sans-serif"
-                fontWeight="800"
-                fontSize="13.5"
-                letterSpacing="3"
-              >
-                TECHNOLOGY
-              </text>
-
-              {/* Red Horizontal Line */}
-              <line x1="0" y1="96" x2="385" y2="96" stroke="#D31118" strokeWidth="2.5" strokeLinecap="round" />
-
-              {/* MOZAMBIQUE PARTNER */}
-              <text
-                x="0"
-                y="130"
-                fontFamily="'Plus Jakarta Sans', 'Arial', sans-serif"
-                fontWeight="800"
-                fontSize="17.5"
-                letterSpacing="0.8"
-              >
-                <tspan fill={subTextFill}>MOZAMBIQUE </tspan>
-                <tspan fill={partnerBlue}>PARTNER</tspan>
-              </text>
-
-              {/* Mozambique Flag */}
-              <g transform="translate(240, 112)">
-                <rect x="0" y="0" width="44" height="8" fill="#00966E" />
-                <rect x="0" y="8" width="44" height="1.5" fill="#FFFFFF" />
-                <rect x="0" y="9.5" width="44" height="7" fill="#0A0A0A" />
-                <rect x="0" y="16.5" width="44" height="1.5" fill="#FFFFFF" />
-                <rect x="0" y="18" width="44" height="8" fill="#FCE100" />
-                <polygon points="0,0 20,13 0,26" fill="#D21034" />
-                <polygon
-                  points="7,8.5 8.2,11.5 11.5,11.5 8.8,13.4 9.8,16.5 7,14.6 4.2,16.5 5.2,13.4 2.5,11.5 5.8,11.5"
-                  fill="#FCE100"
-                />
-              </g>
-            </g>
-          </>
-        )}
       </svg>
     </div>
   );
