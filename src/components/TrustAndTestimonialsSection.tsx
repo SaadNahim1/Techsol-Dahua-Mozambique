@@ -18,7 +18,9 @@ import {
   NemtekLogo,
   CenturionLogo,
   WDPurpleLogo,
-  ZKTecoLogo
+  ZKTecoLogo,
+  CudyLogo,
+  TendaLogo
 } from './ClientBrandLogos';
 
 interface TrustAndTestimonialsSectionProps {
@@ -88,6 +90,20 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
       desc: 'Racks 6U e 9U de parede com chave e terminais biométricos',
       badge: 'Padrão 19 Polegadas',
       logo: ZKTecoLogo,
+    },
+    {
+      name: 'Cudy Networks',
+      role: 'Redes Wi-Fi 6 & Acessos',
+      desc: 'Roteadores Gigabit Wi-Fi 6, Access Points de Teto e Switches Mesh',
+      badge: 'Redes de Alta Performance',
+      logo: CudyLogo,
+    },
+    {
+      name: 'Tenda Technology',
+      role: 'Roteadores & Câmeras 4G',
+      desc: 'Roteadores 4G/5G SIM card, câmeras Wi-Fi Pan & Tilt e switches de rede',
+      badge: 'Soluções de Rede Confiáveis',
+      logo: TendaLogo,
     },
   ];
 
@@ -236,7 +252,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
             <span>Fabricantes Oficiais com Distribuição e Garantia de Fábrica</span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
             {technologyPartners.map((item) => {
               const PartnerLogo = item.logo;
 

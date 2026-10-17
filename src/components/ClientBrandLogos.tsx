@@ -234,3 +234,25 @@ export const ZKTecoLogo: React.FC<{ className?: string }> = ({ className = 'h-8'
     />
   </div>
 );
+
+// 9. CUDY NETWORKING LOGO (Official Manufacturer Asset)
+export const CudyLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => (
+  <div className="inline-flex items-center bg-white rounded-lg px-2.5 py-1.5 shadow-sm">
+    <img
+      src="/images/cudy-seeklogo.png"
+      alt="Cudy Networks"
+      className={`${className} w-auto object-contain`}
+    />
+  </div>
+);
+
+// 10. TENDA NETWORKING LOGO (Official Manufacturer Asset)
+export const TendaLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => (
+  <div className="inline-flex items-center bg-white rounded-lg px-2.5 py-1.5 shadow-sm">
+    <img
+      src="/images/tenda-seeklogo.png"
+      alt="Tenda"
+      className={`${className} w-auto object-contain`}
+    />
+  </div>
+);

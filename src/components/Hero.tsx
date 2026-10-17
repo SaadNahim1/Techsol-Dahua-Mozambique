@@ -49,13 +49,13 @@ export const Hero: React.FC<HeroProps> = ({
           {/* Top Credibility Tag */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-red-950/40 border border-red-500/30 text-xs font-bold uppercase tracking-wider text-red-300 shadow-inner">
             <span className="h-2 w-2 rounded-full bg-[#d3121a] animate-pulse" />
-            <span>100% Nossa · 100% Feliz · 100% Moçambicana</span>
+            <span>100% Nossa · 100% Local · 100% Moçambicana</span>
           </div>
 
           {/* H1 with Full Dark-Mode TECHSOL + Official Dahua Partner Logo */}
           <h1 className="w-full flex flex-col items-center">
             <span className="sr-only">
-              TECHSOL SU LDA – Distribuidor Oficial Dahua em Moçambique | Segurança Inteligente. Futuro Garantido. (100% Nossa, 100% Feliz, 100% Moçambicana)
+              TECHSOL SU LDA – Distribuidor Oficial Dahua em Moçambique | Segurança Inteligente. Futuro Garantido. (100% Nossa, 100% Local, 100% Moçambicana)
             </span>
             <div
               id="hero-logo-container"
@@ -166,11 +166,11 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Official Authorized Brands Strip */}
-          <div className="pt-4 border-t border-white/10 w-full max-w-3xl flex flex-col items-center gap-2.5">
+          <div className="pt-4 border-t border-white/10 w-full max-w-4xl flex flex-col items-center gap-2.5">
             <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Marcas Oficiais Homologadas com Garantia de Fábrica
             </span>
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+            <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4">
               {/* Dahua */}
               <div className="flex items-center px-1 opacity-90 hover:opacity-100 transition-opacity">
                 <img
@@ -194,6 +194,24 @@ export const Hero: React.FC<HeroProps> = ({
                 <img
                   src="/images/zkteco-seeklogo.png"
                   alt="ZKTeco"
+                  className="h-5 sm:h-6 w-auto object-contain"
+                />
+              </div>
+              <span className="text-slate-700 hidden sm:inline" aria-hidden="true">|</span>
+              {/* Cudy */}
+              <div className="flex items-center bg-white rounded-lg px-2.5 py-1 shadow-xs hover:bg-white transition-colors">
+                <img
+                  src="/images/cudy-seeklogo.png"
+                  alt="Cudy Networks"
+                  className="h-5 sm:h-6 w-auto object-contain"
+                />
+              </div>
+              <span className="text-slate-700 hidden sm:inline" aria-hidden="true">|</span>
+              {/* Tenda */}
+              <div className="flex items-center bg-white rounded-lg px-2.5 py-1 shadow-xs hover:bg-white transition-colors">
+                <img
+                  src="/images/tenda-seeklogo.png"
+                  alt="Tenda"
                   className="h-5 sm:h-6 w-auto object-contain"
                 />
               </div>
