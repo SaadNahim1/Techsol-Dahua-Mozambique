@@ -29,7 +29,7 @@ export const AboutSection: React.FC = () => {
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs">
             <ShieldCheck className="w-6 h-6 text-red-600 mb-2" />
-            <h3 className="text-sm font-bold text-slate-900">3 Anos de Garantia Oficial</h3>
+            <h3 className="text-sm font-bold text-slate-900">1 Ano de Garantia Oficial</h3>
             <p className="text-xs text-slate-600 mt-1">
               Todos os gravadores e câmeras Dahua possuem garantia genuína com reposição e suporte oficial.
             </p>

@@ -60,7 +60,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
       name: 'Dahua Technology',
       role: 'Distribuidor Oficial Moçambique',
       desc: 'CFTV IP, Inteligência Artificial WizSense, Terminais Faciais e Alarmes',
-      badge: 'Garantia Oficial 3 Anos',
+      badge: 'Garantia Oficial 1 Ano',
       logo: DahuaLogo,
     },
     {
@@ -116,7 +116,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
       city: 'Maputo (Rede Nacional de Agências)',
       avatar: 'MB',
       rating: 5,
-      text: 'A TECHSOL é fornecedora chave de equipamentos Dahua para os nossos projetos de videovigilância e controlo de acessos em Moçambique. Câmeras com inteligência artificial, gravação contínua sem falhas em discos WD Purple e pronta entrega de equipamentos homologados com faturação fiscal e 3 anos de garantia oficial.',
+      text: 'A TECHSOL é fornecedora chave de equipamentos Dahua para os nossos projetos de videovigilância e controlo de acessos em Moçambique. Câmeras com inteligência artificial, gravação contínua sem falhas em discos WD Purple e pronta entrega de equipamentos homologados com faturação fiscal e 1 ano de garantia oficial.',
       verified: 'Instituição Bancária Verificada',
       highlight: 'Segurança Bancária de Alta Confiança',
     },
@@ -149,7 +149,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
       city: 'Matola · Fomento',
       avatar: 'AC',
       rating: 5,
-      text: 'Trabalho como instalador autónomo há 8 anos. O desconto que a TECHSOL pratica no balcão da Av. Josina Machel 923 para técnicos credenciados é imbatível. Sempre que preciso de assistência ou troca imediata com a garantia oficial de 3 anos, o atendimento é direto e sem burocracia.',
+      text: 'Trabalho como instalador autónomo há 8 anos. O desconto que a TECHSOL pratica no balcão da Av. Josina Machel 923 para técnicos credenciados é imbatível. Sempre que preciso de assistência ou troca imediata com a garantia oficial de 1 ano, o atendimento é direto e sem burocracia.',
       verified: 'Instalador Certificado',
       highlight: 'Margem Real para Técnicos Parceiros',
     },
@@ -157,7 +157,7 @@ export const TrustAndTestimonialsSection: React.FC<TrustAndTestimonialsSectionPr
 
   const stats = [
     { value: '450+', label: 'Instaladores e Empresas Atendidas', sub: 'Em Maputo, Matola e províncias' },
-    { value: '3 ANOS', label: 'Garantia Oficial Dahua', sub: 'Com substituição no showroom' },
+    { value: '1 ANO', label: 'Garantia Oficial Dahua', sub: 'Com substituição no showroom' },
     { value: '10 Províncias', label: 'Despacho Rápido Diário', sub: 'Beira, Tete, Nampula, Pemba, etc.' },
     { value: '100% NUIT', label: 'Conformidade Fiscal', sub: 'Faturas formais e cotações proforma' },
   ];

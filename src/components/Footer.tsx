@@ -57,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory, onOpenAdminPan
             </p>
             <div className="flex items-center gap-1.5 text-slate-800 font-semibold text-xs">
               <ShieldCheck className="w-4 h-4 text-red-600 shrink-0" />
-              <span>Garantia Oficial de 3 Anos</span>
+              <span>Garantia Oficial de 1 Ano</span>
             </div>
           </div>
 

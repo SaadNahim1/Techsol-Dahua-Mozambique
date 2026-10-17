@@ -36,45 +36,45 @@ export const Hero: React.FC<HeroProps> = ({
   return (
     <section
       aria-label="TECHSOL"
-      className="relative isolate overflow-hidden bg-[#0b0c10] text-white border-b border-slate-800/80 bg-[radial-gradient(60%_55%_at_50%_42%,rgba(211,18,26,0.28),transparent_70%),linear-gradient(180deg,#12131a_0%,#0b0c10_100%)]"
+      className="relative isolate overflow-hidden bg-[#0b0c10] text-white border-b border-slate-800/80 bg-[radial-gradient(60%_55%_at_50%_42%,rgba(211,18,26,0.24),transparent_70%),linear-gradient(180deg,#12131a_0%,#0b0c10_100%)] min-h-[calc(100vh-4.5rem)] flex flex-col justify-center"
     >
-      {/* Subtle Technical Grid Background (exact match to hero.html) */}
+      {/* Subtle Technical Grid Background */}
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-50 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_75%)]"
       />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-        {/* Centered Brand Hero Block (hero__inner from hero.html) */}
-        <div className="mx-auto max-w-[1000px] flex flex-col items-center text-center gap-6 sm:gap-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 w-full flex flex-col items-center justify-center">
+        {/* Centered Master Hero Composition */}
+        <div className="mx-auto max-w-[960px] w-full flex flex-col items-center text-center">
           {/* Top Credibility Tag */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-red-950/40 border border-red-500/30 text-xs font-bold uppercase tracking-wider text-red-300 shadow-inner">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-red-950/40 border border-red-500/30 text-xs font-bold uppercase tracking-wider text-red-300 shadow-inner mb-6 sm:mb-8">
             <span className="h-2 w-2 rounded-full bg-[#d3121a] animate-pulse" />
-            <span>100% Nossa · 100% Local · 100% Moçambicana</span>
+            <span>100% NOSSA · 100% LOCAL · 100% MOÇAMBICANA</span>
           </div>
 
           {/* H1 with Full Dark-Mode TECHSOL + Official Dahua Partner Logo */}
-          <h1 className="w-full flex flex-col items-center">
+          <h1 className="w-full flex flex-col items-center mb-6 sm:mb-8">
             <span className="sr-only">
               TECHSOL SU LDA – Distribuidor Oficial Dahua em Moçambique | Segurança Inteligente. Futuro Garantido. (100% Nossa, 100% Local, 100% Moçambicana)
             </span>
             <div
               id="hero-logo-container"
-              className="w-full max-w-[920px] px-2 sm:px-4 py-2 animate-hero-logo-enter flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 group transition-all duration-300 ease-out"
+              className="w-full max-w-[860px] flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-10 group"
             >
               {/* Primary TECHSOL Brand Emblem */}
-              <div className="flex-1 flex justify-center md:justify-end">
+              <div className="flex items-center justify-center">
                 <TechsolLogo
                   variant="dark"
-                  className="w-full max-w-[320px] sm:max-w-[400px] h-auto drop-shadow-[0_12px_45px_rgba(0,0,0,0.7)]"
+                  className="w-full max-w-[280px] sm:max-w-[340px] md:max-w-[390px] h-auto drop-shadow-[0_12px_45px_rgba(0,0,0,0.7)]"
                 />
               </div>
 
-              {/* Vertical Divider Bar */}
-              <div className="hidden md:block h-20 w-px bg-white/20" aria-hidden="true" />
+              {/* Symmetrical Vertical Divider Bar */}
+              <div className="hidden sm:block h-16 md:h-20 w-px bg-white/20 shrink-0" aria-hidden="true" />
 
               {/* Official Dahua Technology Logo Asset */}
-              <div className="flex flex-col items-center md:items-start gap-1.5">
-                <div className="bg-transparent flex items-center justify-center py-1">
+              <div className="flex flex-col items-center sm:items-start gap-1.5 shrink-0">
+                <div className="flex items-center justify-center py-1">
                   <img
                     src="/images/dahua-seeklogo-white.png"
                     alt="Dahua Technology"
@@ -89,20 +89,20 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
           </h1>
 
-          {/* Hero Sub-headline (from hero.html + local authority) */}
-          <p className="max-w-[58ch] text-base sm:text-lg lg:text-xl leading-relaxed text-[#c9cbd3] font-medium">
-            Câmaras IP, gravação NVR/DVR, cercas eléctricas <strong className="text-white">Nemtek</strong>, motores de portão <strong className="text-white">Centurion</strong> e redes WiFi profissionais — fornecimento oficial <strong className="text-white">Dahua Technology</strong> com suporte técnico certificado em Maputo.
+          {/* Hero Sub-headline with Controlled Width & Comfortable Leading */}
+          <p className="max-w-[62ch] text-base sm:text-lg md:text-xl leading-relaxed text-[#c9cbd3] font-normal mb-8 sm:mb-9">
+            Câmaras IP, gravação NVR/DVR, cercas eléctricas <strong className="text-white font-semibold">Nemtek</strong>, motores de portão <strong className="text-white font-semibold">Centurion</strong> e redes WiFi profissionais — fornecimento oficial <strong className="text-white font-semibold">Dahua Technology</strong> com suporte técnico certificado em Maputo.
           </p>
 
           {/* Primary & Secondary CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1 w-full max-w-2xl">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 w-full max-w-2xl mb-8 sm:mb-9">
             <a
               href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
                 'Olá TECHSOL! Gostaria de pedir um orçamento de equipamentos de segurança.'
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-[10px] font-bold text-base bg-[#d3121a] hover:bg-[#a80d14] text-white shadow-lg shadow-red-950/60 transition-all hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-[10px] font-bold text-sm sm:text-base bg-[#d3121a] hover:bg-[#a80d14] text-white shadow-lg shadow-red-950/60 transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
               <MessageCircle className="w-5 h-5 shrink-0" />
               <span>Pedir orçamento</span>
@@ -111,7 +111,7 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={onExploreCatalog}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] font-bold text-base border-2 border-white/35 hover:border-white text-white hover:bg-white/5 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] font-bold text-sm sm:text-base border-2 border-white/35 hover:border-white text-white hover:bg-white/5 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <span>Ver soluções &amp; catálogo</span>
               <ArrowRight className="w-4 h-4 shrink-0" />
@@ -120,7 +120,7 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={onOpenQuoteForm}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-[10px] font-semibold text-sm bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-[10px] font-semibold text-xs sm:text-sm bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 transition-all cursor-pointer"
             >
               <Zap className="w-4 h-4 text-amber-400 shrink-0" />
               <span>Cotação Formal (NUIT)</span>
@@ -128,7 +128,7 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Hero Tags List */}
-          <ul className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 pt-2 text-xs sm:text-[13px] tracking-[0.08em] uppercase text-[#9a9dab] font-semibold list-none">
+          <ul className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs sm:text-[13px] tracking-[0.08em] uppercase text-[#9a9dab] font-semibold list-none mb-6">
             <li className="flex items-center">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#d3121a] mr-2.5" />
               Videovigilância CFTV
@@ -148,7 +148,7 @@ export const Hero: React.FC<HeroProps> = ({
           </ul>
 
           {/* Unboxed Trust & Location Strip */}
-          <div className="pt-4 border-t border-white/10 w-full max-w-3xl flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
+          <div className="pt-4 border-t border-white/10 w-full max-w-3xl flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400 mb-6">
             <span className="inline-flex items-center gap-1.5 text-slate-300 font-medium">
               <MapPin className="w-3.5 h-3.5 text-[#d3121a] shrink-0" />
               Av. Josina Machel, 923 · Baixa de Maputo
@@ -156,7 +156,7 @@ export const Hero: React.FC<HeroProps> = ({
             <span aria-hidden="true" className="hidden sm:inline text-slate-700">·</span>
             <span className="inline-flex items-center gap-1.5 text-slate-300">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              Garantia Oficial 3 Anos
+              Garantia Oficial 1 Ano
             </span>
             <span aria-hidden="true" className="hidden sm:inline text-slate-700">·</span>
             <span className="inline-flex items-center gap-1.5 text-slate-300">

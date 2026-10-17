@@ -70,8 +70,8 @@ export const TechsolLogo: React.FC<TechsolLogoProps> = ({
           fill={primaryFill}
           fontFamily="'Impact', 'Arial Black', 'Plus Jakarta Sans', sans-serif"
           fontWeight="900"
-          fontSize="94"
-          letterSpacing="1.5"
+          fontSize="98"
+          letterSpacing="1"
           textLength="310"
           lengthAdjust="spacingAndGlyphs"
         >
